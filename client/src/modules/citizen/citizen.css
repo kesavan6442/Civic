@@ -1,0 +1,1207 @@
+/* ==========================================================================
+   Citizen Portal Styles - Government of Jharkhand Civic Connect
+   Color Palette: #024D24, #036D33, #059669, #EAF5EC, #F0FDF4, #DCFCE7, #FFFFFF
+   Seamless Landscape Hero matching Image 2
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap');
+
+.citizen-portal-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #F8FAF9;
+  color: #1F2937;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ==========================================================================
+   TOP OFFICIAL HEADER BAR
+   ========================================================================== */
+.citizen-top-header {
+  background-color: #024D24;
+  color: #FFFFFF;
+  padding: 10px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.citizen-top-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.citizen-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.citizen-header-brand-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  line-height: 1.1;
+  letter-spacing: -0.2px;
+}
+
+.citizen-header-brand-sub {
+  font-size: 0.68rem;
+  color: #86EFAC;
+  font-weight: 600;
+}
+
+.citizen-header-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.25);
+  margin: 0 6px;
+}
+
+.citizen-header-dept {
+  display: flex;
+  flex-direction: column;
+}
+
+.citizen-header-dept-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.citizen-header-dept-sub {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.citizen-top-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.citizen-nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #FFFFFF;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.citizen-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.citizen-nav-btn.active {
+  background: #01381A;
+  border-color: #059669;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.citizen-nav-badge-red {
+  background: #EF4444;
+  color: #FFFFFF;
+  font-size: 0.68rem;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   MAIN BODY & LAYOUT
+   ========================================================================== */
+.citizen-body-wrapper {
+  flex: 1;
+  max-width: 1340px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 22px 24px 60px;
+}
+
+/* ==========================================================================
+   1. HERO BANNER — Compact, clean, no icons
+   ========================================================================== */
+.citizen-hero-banner {
+  border: 1px solid #C6E8D4;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 210px;
+  box-shadow: 0 2px 10px rgba(2, 77, 36, 0.07);
+}
+
+/* ---- LEFT CONTENT PANEL (57%) ---- */
+.citizen-hero-content {
+  flex: 0 0 57%;
+  min-width: 0;
+  padding: 18px 22px 16px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  background: linear-gradient(108deg, #F4FBF6 0%, #EDF8F1 70%, #E8F5EC 100%);
+  position: relative;
+  z-index: 5;
+}
+
+.citizen-hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #D1FAE5;
+  color: #065F46;
+  border: 1px solid #6EE7B7;
+  padding: 3px 11px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  width: fit-content;
+  margin-bottom: 8px;
+}
+
+.citizen-hero-main-title {
+  color: #024D24;
+  font-size: 1.85rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.4px;
+}
+
+.citizen-hero-title-highlight {
+  color: #059669;
+  display: block;
+}
+
+.citizen-hero-description {
+  color: #4B5563;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  margin: 0 0 10px 0;
+  max-width: 100%;
+}
+
+/* CORE DOMAINS row */
+.citizen-domains-section {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.citizen-domains-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #024D24;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.citizen-domains-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.citizen-domain-pill {
+  background: #FFFFFF;
+  border: 1px solid #D1FAE5;
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  line-height: 1.7;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.citizen-hero-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.citizen-primary-hero-btn {
+  background: #024D24;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 22px;
+  padding: 9px 20px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 8px rgba(2, 77, 36, 0.30);
+  white-space: nowrap;
+}
+
+.citizen-primary-hero-btn:hover {
+  background: #036D33;
+  transform: translateY(-1px);
+}
+
+.citizen-secondary-hero-btn {
+  background: #FFFFFF;
+  color: #024D24;
+  border: 1.5px solid #059669;
+  border-radius: 22px;
+  padding: 8px 18px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.citizen-secondary-hero-btn:hover {
+  background: #F0FDF4;
+  border-color: #024D24;
+}
+
+.citizen-hero-ai-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 0.73rem;
+  color: #2D5A3D;
+  line-height: 1.4;
+  max-width: 100%;
+}
+
+.citizen-ai-shield {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---- RIGHT IMAGE PANEL (43%) ---- */
+.citizen-hero-image-panel {
+  position: relative;
+  flex: 0 0 43%;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0 16px 16px 0;
+}
+
+.citizen-hero-landscape-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% center;
+  display: block;
+}
+
+/* Gentle fade: transparent by 30% of image panel width.
+   Waterfall shows clearly from ~67% of total card width. */
+.citizen-hero-img-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(to right,
+    #EDF8F1 0%,
+    rgba(237, 248, 241, 0.82) 12%,
+    rgba(237, 248, 241, 0.40) 22%,
+    rgba(237, 248, 241, 0.12) 30%,
+    transparent 40%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Handwritten script: upper-center of image, in the light-green transitional area */
+.citizen-hero-script-text {
+  position: absolute;
+  top: 8%;
+  left: 18%;
+  z-index: 3;
+  font-family: 'Caveat', cursive;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #024D24;
+  line-height: 1.32;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.85), 0 0 20px rgba(255,255,255,0.6);
+  pointer-events: none;
+}
+
+
+
+
+/* ==========================================================================
+   2. HOW YOUR CIVIC CHALLENGE GETS SOLVED (5 Stage Cards)
+   ========================================================================== */
+.citizen-stages-section {
+  margin-bottom: 24px;
+}
+
+.citizen-section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.citizen-target-icon {
+  font-size: 1.8rem;
+}
+
+.citizen-section-main-heading {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0 0 2px 0;
+}
+
+.citizen-section-sub-heading {
+  font-size: 0.85rem;
+  color: #6B7280;
+  margin: 0;
+}
+
+.citizen-five-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.citizen-stage-box {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 18px 16px;
+  border: 1.5px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.citizen-stage-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.citizen-stage-top-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.citizen-badge-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.citizen-badge-icon {
+  font-size: 1.4rem;
+}
+
+/* Themes */
+.theme-green {
+  border-color: #BBF7D0;
+  background: #FAFCF9;
+}
+.theme-green .citizen-badge-num {
+  background: #DCFCE7;
+  color: #065F46;
+}
+.theme-green .citizen-stage-box-link {
+  color: #059669;
+}
+
+.theme-blue {
+  border-color: #BFDBFE;
+  background: #F8FAFD;
+}
+.theme-blue .citizen-badge-num {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+.theme-blue .citizen-stage-box-link {
+  color: #2563EB;
+}
+
+.theme-purple {
+  border-color: #E9D5FF;
+  background: #FAF8FD;
+}
+.theme-purple .citizen-badge-num {
+  background: #F3E8FF;
+  color: #6B21A8;
+}
+.theme-purple .citizen-stage-box-link {
+  color: #7C3AED;
+}
+
+.theme-amber {
+  border-color: #FDE68A;
+  background: #FDFCF7;
+}
+.theme-amber .citizen-badge-num {
+  background: #FEF3C7;
+  color: #92400E;
+}
+.theme-amber .citizen-stage-box-link {
+  color: #D97706;
+}
+
+.theme-teal {
+  border-color: #A5F3FC;
+  background: #F7FCFD;
+}
+.theme-teal .citizen-badge-num {
+  background: #CFFAFE;
+  color: #155E75;
+}
+.theme-teal .citizen-stage-box-link {
+  color: #0D9488;
+}
+
+.citizen-stage-box-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 6px 0;
+  line-height: 1.25;
+}
+
+.citizen-stage-box-desc {
+  font-size: 0.78rem;
+  color: #4B5563;
+  line-height: 1.4;
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+
+.citizen-stage-box-link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.citizen-stage-box-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   3. 8-STAGE LIFECYCLE FLOW
+   ========================================================================== */
+.citizen-lifecycle-section {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 18px 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.citizen-lifecycle-header {
+  margin-bottom: 14px;
+}
+
+.citizen-lifecycle-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #024D24;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.citizen-lifecycle-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow-x: auto;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+
+.citizen-lifecycle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  min-width: 90px;
+}
+
+.citizen-lifecycle-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+  font-weight: 800;
+  background: #FFFFFF;
+}
+
+.citizen-lifecycle-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #374151;
+  line-height: 1.2;
+}
+
+.citizen-lifecycle-connector {
+  flex: 1;
+  height: 2px;
+  background: #E5E7EB;
+  min-width: 14px;
+  margin-top: -18px;
+}
+
+/* ==========================================================================
+   FORM & WIZARD STYLES
+   ========================================================================== */
+.citizen-submit-view-container {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.citizen-wizard-steps-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.citizen-wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.citizen-wizard-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.citizen-wizard-circle.active {
+  background: #024D24;
+  color: #FFFFFF;
+}
+
+.citizen-wizard-circle.completed {
+  background: #DCFCE7;
+  color: #065F46;
+}
+
+.citizen-wizard-circle.inactive {
+  background: #F3F4F6;
+  color: #9CA3AF;
+}
+
+.citizen-wizard-label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+.citizen-wizard-label.active {
+  color: #024D24;
+  font-weight: 800;
+}
+
+.citizen-wizard-line {
+  flex: 1;
+  height: 2px;
+  background: #E5E7EB;
+  margin: 0 12px;
+}
+
+.citizen-wizard-line.completed {
+  background: #059669;
+}
+
+.citizen-form-layout-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  gap: 24px;
+}
+
+.citizen-main-form-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.citizen-form-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  border-bottom: 1.5px solid #E8F5EC;
+  padding-bottom: 8px;
+}
+
+.citizen-form-section-heading h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0;
+}
+
+.citizen-form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.citizen-input-group {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.citizen-input-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+}
+
+.citizen-input-group .req {
+  color: #DC2626;
+}
+
+.citizen-form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #111827;
+  outline: none;
+  transition: all 0.2s;
+  background: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.citizen-form-control:focus {
+  border-color: #036D33;
+  box-shadow: 0 0 0 3px rgba(3, 109, 51, 0.1);
+}
+
+.error-msg {
+  color: #DC2626;
+  font-size: 0.74rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.citizen-dropzone {
+  border: 2px dashed #059669;
+  background: #F0FDF4;
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.citizen-dropzone:hover {
+  background: #DCFCE7;
+}
+
+.citizen-dropzone-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.citizen-dropzone-text {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #024D24;
+}
+
+.citizen-dropzone-sub {
+  font-size: 0.74rem;
+  color: #6B7280;
+  margin-top: 2px;
+}
+
+.citizen-uploaded-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.citizen-preview-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.citizen-preview-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.citizen-remove-btn {
+  background: none;
+  border: none;
+  color: #DC2626;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.citizen-form-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.citizen-btn-primary {
+  background: #024D24;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.citizen-btn-primary:hover {
+  background: #036D33;
+}
+
+.citizen-btn-secondary {
+  background: #F3F4F6;
+  color: #374151;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.citizen-form-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.citizen-sidebar-card {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.citizen-sidebar-card h4 {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0 0 4px 0;
+}
+
+.citizen-sidebar-card p {
+  font-size: 0.78rem;
+  color: #4B5563;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Review Summary Card */
+.citizen-review-summary-card {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 20px;
+}
+
+.citizen-review-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0 0 12px 0;
+}
+
+.citizen-review-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.82rem;
+  margin-bottom: 12px;
+}
+
+.citizen-review-desc {
+  font-size: 0.82rem;
+  color: #4B5563;
+  line-height: 1.45;
+  border-top: 1px solid #E5E7EB;
+  padding-top: 10px;
+}
+
+/* ==========================================================================
+   CHALLENGES LIST & MODALS
+   ========================================================================== */
+.citizen-challenges-view-wrapper {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.citizen-challenges-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.citizen-challenges-header-row h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0 0 4px 0;
+}
+
+.citizen-challenges-header-row p {
+  font-size: 0.84rem;
+  color: #6B7280;
+  margin: 0;
+}
+
+.citizen-challenges-list-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.citizen-problem-item-card {
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: all 0.2s;
+}
+
+.citizen-problem-item-card:hover {
+  border-color: #059669;
+  box-shadow: 0 4px 12px rgba(2, 77, 36, 0.05);
+}
+
+.citizen-problem-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.citizen-problem-id-pill {
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: #024D24;
+  background: #E8F5EC;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.citizen-status-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.citizen-status-badge.resolved {
+  background: #DCFCE7;
+  color: #065F46;
+}
+
+.citizen-status-badge.pending {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.citizen-problem-item-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.citizen-problem-item-desc {
+  font-size: 0.82rem;
+  color: #4B5563;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.citizen-problem-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.78rem;
+  color: #374151;
+  background: #F9FAFB;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.citizen-empty-state-card {
+  text-align: center;
+  padding: 48px 20px;
+  color: #6B7280;
+}
+
+.citizen-empty-state-card h3 {
+  font-size: 1.15rem;
+  color: #111827;
+  margin: 0 0 6px 0;
+}
+
+.citizen-empty-state-card p {
+  font-size: 0.85rem;
+  margin: 0 0 16px 0;
+}
+
+/* Modal */
+.citizen-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.citizen-modal-box {
+  background: #FFFFFF;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.citizen-modal-check {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #DCFCE7;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  font-size: 1.8rem;
+  font-weight: 900;
+}
+
+.citizen-modal-box h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #024D24;
+  margin: 0 0 8px 0;
+}
+
+.citizen-modal-box p {
+  font-size: 0.86rem;
+  color: #4B5563;
+  margin: 0 0 18px 0;
+}
+
+.citizen-tracking-pill {
+  background: #F0FDF4;
+  border: 1.5px solid #A7F3D0;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.citizen-tracking-pill span {
+  font-size: 0.72rem;
+  color: #036D33;
+  font-weight: 700;
+  display: block;
+}
+
+.citizen-tracking-pill strong {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #024D24;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .citizen-hero-content {
+    flex: 0 0 62%;
+    padding: 18px 20px 16px 22px;
+  }
+  .citizen-hero-image-panel {
+    flex: 0 0 38%;
+  }
+  .citizen-hero-script-text {
+    font-size: 1.05rem;
+    left: 22%;
+  }
+  .citizen-five-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .citizen-form-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Hero collapses: content on top, image below */
+  .citizen-hero-banner {
+    flex-direction: column;
+    max-height: none;
+    min-height: auto;
+  }
+  .citizen-hero-content {
+    flex: none;
+    width: 100%;
+    padding: 18px 18px 14px;
+    background: #F0FDF4;
+  }
+  .citizen-hero-image-panel {
+    flex: none;
+    width: 100%;
+    height: 160px;
+    border-radius: 0 0 18px 18px;
+  }
+  .citizen-hero-img-fade {
+    width: 100%;
+    height: 55%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom,
+      #F0FDF4 0%,
+      rgba(240, 253, 244, 0.7) 35%,
+      transparent 100%
+    );
+  }
+  .citizen-hero-script-text {
+    font-size: 1rem;
+    top: 8%;
+    left: 5%;
+  }
+  .citizen-hero-btn-row {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 640px) {
+  .citizen-five-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .citizen-top-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .citizen-hero-main-title {
+    font-size: 1.3rem;
+  }
+  .citizen-domains-list {
+    gap: 3px;
+  }
+  .citizen-hero-image-panel {
+    height: 140px;
+  }
+  .citizen-hero-script-text {
+    font-size: 0.9rem;
+    top: 6%;
+    left: 5%;
+  }
+}

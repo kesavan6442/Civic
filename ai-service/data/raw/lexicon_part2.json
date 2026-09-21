@@ -1,0 +1,306 @@
+{
+  "Solid Waste & Sanitation|||Municipal Dump Encroachment": {
+    "domain": "Solid Waste & Sanitation",
+    "category": "Municipal Dump Encroachment",
+    "urgency": "Medium",
+    "en": [
+      "massive illegal municipal garbage dumping encroaching upon residential colony",
+      "overflowing open trash dump emitting hazardous stench and attracting rodents",
+      "unregulated solid waste landfill expanding dangerously near school boundary",
+      "garbage truck dumping mixed unsegregated waste directly on riverbank",
+      "residents protesting against uncontrolled burning of open garbage dump"
+    ],
+    "hi": [
+      "आवासीय कालोनी के पास कचरे का अवैध डंपिंग यार्ड बना दिया गया है",
+      "कचरे के खुले ढेर से भयंकर दुर्गंध आ रही है और मक्खी-मच्छर पनप रहे हैं",
+      "स्कूल के पास कचरा फेंके जाने से बच्चों के स्वास्थ्य पर असर पड़ रहा है",
+      "कचरे के ढेर में आग लगा देने से जहरीला धुआं फैल रहा है",
+      "कचरा डंप को हटाया जाए और नियमित कूड़ा उठाने की व्यवस्था की जाए"
+    ]
+  },
+  "Solid Waste & Sanitation|||Plastic Waste Accumulation": {
+    "domain": "Solid Waste & Sanitation",
+    "category": "Plastic Waste Accumulation",
+    "urgency": "Medium",
+    "en": [
+      "single-use plastic waste choking underground drains and riverbed",
+      "massive plastic debris accumulation in public park and market streets",
+      "uncollected plastic bottles and polythene bags burning in open trenches",
+      "plastic waste ingestion killing stray cattle grazing on road dumps",
+      "need plastic shredding and collection recycling facility in municipal ward"
+    ],
+    "hi": [
+      "प्रतिबंधित प्लास्टिक और थैलियों से नालियां और नदियां चोक हो गई हैं",
+      "बाजार और पार्कों में प्लास्टिक कचरे का अंबार लगा हुआ है",
+      "प्लास्टिक जलाने से वायु प्रदूषण बढ़ रहा है और सांस लेना मुश्किल है",
+      "सड़क पर पड़ी प्लास्टिक खाने से लावारिस पशु बीमार हो रहे हैं",
+      "प्लास्टिक कचरा प्रबंधन और पुनर्चक्रण की सख्त व्यवस्था की जाए"
+    ]
+  },
+  "Solid Waste & Sanitation|||Community Toilet Maintenance": {
+    "domain": "Solid Waste & Sanitation",
+    "category": "Community Toilet Maintenance",
+    "urgency": "High",
+    "en": [
+      "public community toilet complex choked, broken doors and no water supply",
+      "sanitation complex left filthy without cleaning staff, forcing open defecation",
+      "community latrine septic tank overflowing with raw sewage into alley",
+      "broken flush cisterns and unhygienic conditions in slum community toilet",
+      "urgent restoration and continuous water connection needed for public toilet"
+    ],
+    "hi": [
+      "सामुदायिक शौचालय में पानी नहीं है और गंदगी से बदहाली का आलम है",
+      "शौचालय के दरवाजे टूटे हैं और सीवर चोक है, लोग खुले में जाने को मजबूर हैं",
+      "शौचालय का सेप्टिक टैंक ओवरफ्लो होकर गली में बह रहा है",
+      "सफाई कर्मचारी न आने से सार्वजनिक शौचालय इस्तेमाल के लायक नहीं बचा",
+      "शौचालय की तत्काल सफाई और पानी की व्यवस्था कराई जाए"
+    ]
+  },
+  "Solid Waste & Sanitation|||Bio-medical Waste": {
+    "domain": "Solid Waste & Sanitation",
+    "category": "Bio-medical Waste",
+    "urgency": "Critical",
+    "en": [
+      "hazardous biomedical waste and syringes dumped openly outside hospital",
+      "unsegregated hospital surgical waste mixed with municipal household garbage",
+      "used PPE kits, needles, and blood bags discarded near public water drain",
+      "illegal burning of hospital medical waste creating toxic dioxin fumes",
+      "strict biomedical waste segregation and incinerator disposal enforcement needed"
+    ],
+    "hi": [
+      "अस्पताल के बाहर इस्तेमाल की गई सुइयां और मेडिकल कचरा खुले में फेंका है",
+      "अस्पताल का बायोमेडिकल कचरा नगर निगम के कूड़े में मिलाया जा रहा है",
+      "खून से सने बैंडेज और सिरिंज नाले के पास पड़े हैं, संक्रमण का भारी खतरा है",
+      "अस्पताल के पीछे जहरीला मेडिकल कचरा जलाया जा रहा है",
+      "बायोमेडिकल कचरा प्रबंधन नियमों का कड़ाई से पालन कराया जाए"
+    ]
+  },
+  "Agriculture & Cold Storage|||Post-Harvest Spoilage": {
+    "domain": "Agriculture & Cold Storage",
+    "category": "Post-Harvest Spoilage",
+    "urgency": "High",
+    "en": [
+      "tomato and green vegetable farmers facing massive produce rot without cold storage",
+      "lack of cold chain facility causing 40% post-harvest loss of perishable fruits",
+      "harvested potato crop decaying in open yards due to non-availability of warehouse",
+      "distress sale of cauliflower and leafy vegetables due to rapid spoilage",
+      "need refrigerated storage facility at block level to prevent farmer losses"
+    ],
+    "hi": [
+      "कोल्ड स्टोरेज न होने से किसानों की टमाटर और हरी सब्जियां सड़ रही हैं",
+      "फसल सुरक्षित रखने की व्यवस्था न होने से 40% पैदावार खराब हो जाती है",
+      "आलू और प्याज खुले में सड़ने से किसानों को भारी आर्थिक नुकसान हो रहा है",
+      "सब्जियां खराब होने के डर से किसान औने-पौने दाम पर बेचने को विवश हैं",
+      "प्रखंड स्तर पर सौर ऊर्जा संचालित कोल्ड स्टोरेज की स्थापना की जाए"
+    ]
+  },
+  "Agriculture & Cold Storage|||Solar Cold Storage Outage": {
+    "domain": "Agriculture & Cold Storage",
+    "category": "Solar Cold Storage Outage",
+    "urgency": "High",
+    "en": [
+      "solar powered farm cold storage breakdown causing spoilage of stored vaccines and produce",
+      "refrigerant gas leak in community solar cold room halting cooling compressors",
+      "microgrid failure shutting down agricultural produce cold storage unit",
+      "thermal battery backup failure in solar cold storage risking farmer produce",
+      "urgent technical maintenance team required for solar refrigeration unit"
+    ],
+    "hi": [
+      "सौर ऊर्जा संचालित कोल्ड स्टोरेज खराब होने से रखी हुई सब्जियां सड़ने लगी हैं",
+      "कोल्ड रूम का कंप्रेसर बंद हो गया है, तापमान बढ़ने से माल खराब हो रहा है",
+      "सोलर कोल्ड स्टोरेज की बैटरी बैकअप काम नहीं कर रही है",
+      "किसानों का माल सुरक्षित रखने के लिए कोल्ड स्टोरेज की तत्काल मरम्मत हो",
+      "तकनीकी खराबी के कारण कृषि प्रशीतन इकाई पूरी तरह बंद पड़ी है"
+    ]
+  },
+  "Agriculture & Cold Storage|||Soil Moisture Telemetry": {
+    "domain": "Agriculture & Cold Storage",
+    "category": "Soil Moisture Telemetry",
+    "urgency": "Low",
+    "en": [
+      "agricultural IoT soil moisture telemetry sensors defunct in research block",
+      "damaged soil sensor telemetry cables preventing precision drip irrigation control",
+      "inaccurate soil moisture reporting causing crop under-watering during dry spell",
+      "need replacement of wireless soil sensor nodes across agricultural cluster",
+      "smart soil monitoring telemetry network offline due to lightning surge"
+    ],
+    "hi": [
+      "खेतों में लगे मिट्टी नमी सेंसर खराब हो जाने से सिंचाई का पता नहीं चल रहा",
+      "सेंसर के तार कट जाने से ड्रिप सिंचाई प्रणाली काम नहीं कर रही है",
+      "मिट्टी में नमी की सही जानकारी न मिलने से फसल सूखने की कगार पर है",
+      "स्मार्ट कृषि के तहत नए वायरलेस मृदा नमी सेंसर लगाए जाएं",
+      "कृषि अनुसंधान क्षेत्र में सॉइल टेलीमेट्री सिस्टम बंद पड़ा है"
+    ]
+  },
+  "Agriculture & Cold Storage|||Irrigation Canal Deficit": {
+    "domain": "Agriculture & Cold Storage",
+    "category": "Irrigation Canal Deficit",
+    "urgency": "High",
+    "en": [
+      "major irrigation canal breached and dry, leaving paddy fields parched",
+      "silt and wild weeds choking irrigation canal, blocking water flow to tail fields",
+      "broken canal sluice gate preventing seasonal water release for agricultural land",
+      "cracked concrete lining of irrigation distributary causing massive water seepage",
+      "urgent canal desilting and water release needed to save standing kharif crops"
+    ],
+    "hi": [
+      "सिंचाई नहर टूटी होने के कारण खेतों तक पानी नहीं पहुंच रहा है",
+      "नहर में गाद और झाड़ियां उगने से पानी का बहाव अवरुद्ध हो गया है",
+      "नहर का फाटक खराब होने से किसानों को समय पर पानी नहीं मिल रहा",
+      "नहर की पक्की दीवारें टूट गई हैं जिससे सारा पानी रास्ते में रिस जाता है",
+      "धान की फसल सूख रही है, नहर में तुरंत पानी छोड़ा जाए और मरम्मत हो"
+    ]
+  },
+  "Urban Traffic & Smart Mobility|||Traffic Signal Synchronization": {
+    "domain": "Urban Traffic & Smart Mobility",
+    "category": "Traffic Signal Synchronization",
+    "urgency": "Medium",
+    "en": [
+      "traffic signals at busy intersection out of sync, causing massive bottlenecks",
+      "smart traffic signal timer stuck on red light on all directions",
+      "power failure disabled automated traffic lights at major junction",
+      "asymmetrical signal timing creating 2 km long vehicle queues during peak hours",
+      "traffic light control box damaged, needing urgent electronic recalibration"
+    ],
+    "hi": [
+      "मुख्य चौराहे की ट्रैफिक लाइट खराब होने से भयंकर जाम लगा हुआ है",
+      "ट्रैफिक सिग्नल का टाइमर खराब हो गया है, चारों तरफ लाल बत्ती जल रही है",
+      "ट्रैफिक लाइट बंद होने से चौराहे पर गाड़ियां आपस में उलझ रही हैं",
+      "सिग्नल का समय सही न होने से पीक आवर्स में लंबा जाम लग जाता है",
+      "स्मार्ट ट्रैफिक सिग्नल कंट्रोल पैनल की तुरंत मरम्मत कराई जाए"
+    ]
+  },
+  "Urban Traffic & Smart Mobility|||Junction Bottleneck": {
+    "domain": "Urban Traffic & Smart Mobility",
+    "category": "Junction Bottleneck",
+    "urgency": "Medium",
+    "en": [
+      "severe bottleneck congestion at major roundabout due to illegal parking",
+      "narrow junction neck constricting traffic flow and delaying emergency ambulances",
+      "encroachment by street vendors narrowing main traffic intersection",
+      "unregulated autorickshaw stands blocking turning lanes at city junction",
+      "road widening and geometric junction redesign needed to ease gridlock"
+    ],
+    "hi": [
+      "चौराहे पर अवैध पार्किंग और अतिक्रमण के कारण भीषण जाम लग रहा है",
+      "चौराहे की सड़क संकरी होने से एंबुलेंस और गाड़ियां घंटों फंसी रहती हैं",
+      "दुकानदारों के अतिक्रमण से सड़क की चौड़ाई आधी रह गई है",
+      "ऑटो रिक्शा चालकों द्वारा मनमाने ढंग से गाड़ी खड़ी करने से रास्ता बंद है",
+      "चौराहे का चौड़ीकरण और ट्रैफिक का उचित प्रबंधन किया जाए"
+    ]
+  },
+  "Urban Traffic & Smart Mobility|||Pedestrian Crossing Safety": {
+    "domain": "Urban Traffic & Smart Mobility",
+    "category": "Pedestrian Crossing Safety",
+    "urgency": "High",
+    "en": [
+      "missing pedestrian zebra crossing and traffic signals on high-speed arterial road",
+      "pedestrians and school children risking lives crossing 6-lane highway",
+      "foot overbridge elevator broken, forcing elderly people across speeding traffic",
+      "damaged pedestrian safety barricades allowing jaywalking across busy road",
+      "urgent pedestrian refuge island and pelican crossing signals required"
+    ],
+    "hi": [
+      "तेज रफ्तार सड़क पर पैदल यात्रियों के लिए जेब्रा क्रॉसिंग और सिग्नल नहीं है",
+      "सड़क पार करते समय आए दिन पैदल यात्री दुर्घटना के शिकार हो रहे हैं",
+      "पैदल ओवरब्रिज की लिफ्ट खराब है, बुजुर्गों को सड़क पार करने में खतरा है",
+      "सड़क के बीच की रेलिंग टूटी होने से लोग जान जोखिम में डालकर पार करते हैं",
+      "स्कूल के सामने सुरक्षित पेडेस्ट्रियन क्रॉसिंग और स्पीड ब्रेकर बनाए जाएं"
+    ]
+  },
+  "Urban Traffic & Smart Mobility|||Public Transit Tracking": {
+    "domain": "Urban Traffic & Smart Mobility",
+    "category": "Public Transit Tracking",
+    "urgency": "Low",
+    "en": [
+      "city bus GPS tracking telemetry offline, passenger digital displays blank",
+      "public transit mobile tracker showing inaccurate live bus arrival times",
+      "bus stop electronic passenger information system defunct for weeks",
+      "missing GPS transponders on rural transport feeder buses",
+      "transit telemetry server downtime preventing bus route optimization"
+    ],
+    "hi": [
+      "सिटी बस का जीपीएस ट्रैकिंग सिस्टम बंद है, डिस्प्ले पर समय नहीं दिखता",
+      "बस ट्रैकिंग ऐप में बसों की सही लोकेशन नहीं मिल पा रही है",
+      "बस स्टैंड पर लगा डिजिटल सूचना बोर्ड हफ्तों से बंद पड़ा है",
+      "ग्रामीण बस सेवा में जीपीएस न होने से यात्रियों को भारी असुविधा है",
+      "स्मार्ट बस ट्रैकिंग सिस्टम को तुरंत दुरुस्त किया जाए"
+    ]
+  },
+  "Education & Rural E-Learning|||Digital Classroom Hardware": {
+    "domain": "Education & Rural E-Learning",
+    "category": "Digital Classroom Hardware",
+    "urgency": "Low",
+    "en": [
+      "smart classroom interactive digital screen broken in government high school",
+      "projector bulb burnt and audio system non-functional in e-learning lab",
+      "tablet computers provided for students damaged and lacking charging stations",
+      "digital whiteboard touch sensors dead, halting digital syllabus delivery",
+      "need replacement hardware for rural school smart classroom project"
+    ],
+    "hi": [
+      "सरकारी स्कूल में स्मार्ट क्लास की डिजिटल स्क्रीन खराब पड़ी है",
+      "ई-लर्निंग लैब का प्रोजेक्टर और साउंड सिस्टम काम नहीं कर रहा है",
+      "बच्चों की पढ़ाई के लिए दिए गए टैबलेट खराब हो गए हैं",
+      "डिजिटल बोर्ड खराब होने से स्मार्ट क्लास की पढ़ाई ठप हो गई है",
+      "स्कूल में नई कंप्यूटर स्क्रीन और हार्डवेयर उपकरण उपलब्ध कराए जाएं"
+    ]
+  },
+  "Education & Rural E-Learning|||School Infrastructure Deficit": {
+    "domain": "Education & Rural E-Learning",
+    "category": "School Infrastructure Deficit",
+    "urgency": "Medium",
+    "en": [
+      "dilapidated school building roof leaking water during rains, endangering pupils",
+      "school lacks functional separate toilets for girl students, causing dropouts",
+      "cracked boundary wall and broken classroom windows in primary school",
+      "no electricity connection or ceiling fans in rural government school",
+      "urgent structural civil repair needed for cracked school classroom ceiling"
+    ],
+    "hi": [
+      "स्कूल की छत जर्जर है और बारिश में टपकती है, बच्चों के ऊपर प्लास्टर गिर रहा है",
+      "छात्राओं के लिए अलग शौचालय न होने से पढ़ाई छोड़ने को मजबूर हैं",
+      "स्कूल की चहारदीवारी टूटी है और खिड़कियों के शीशे फूटे हुए हैं",
+      "स्कूल में बिजली का पंखा और वायरिंग नहीं है, गर्मी में बच्चे परेशान हैं",
+      "जर्जर स्कूल भवन की तुरंत मरम्मत और नए कमरों का निर्माण कराया जाए"
+    ]
+  },
+  "Education & Rural E-Learning|||Offline Mesh Content Server": {
+    "domain": "Education & Rural E-Learning",
+    "category": "Offline Mesh Content Server",
+    "urgency": "Low",
+    "en": [
+      "offline educational mesh server offline in remote tribal school without internet",
+      "Wi-Fi mesh local content broadcaster storage drive crashed",
+      "curriculum video database inaccessible on local school intranet server",
+      "power supply adapter burnt for rural offline e-learning mesh router",
+      "need firmware update and educational content sync on mesh server node"
+    ],
+    "hi": [
+      "इंटरनेट रहित गांव के स्कूल में ऑफलाइन मेश सर्वर बंद पड़ा है",
+      "लोकल वाई-फाई मेश नेटवर्क क्रैश होने से बच्चे वीडियो पाठ नहीं देख पा रहे",
+      "ऑफलाइन डिजिटल पाठ्यक्रम का सर्वर काम नहीं कर रहा है",
+      "मेश राउटर का एडाप्टर जल जाने से लोकल नेटवर्क बंद हो गया है",
+      "ऑफलाइन लर्निंग सर्वर में नया पाठ्यक्रम लोड किया जाए"
+    ]
+  },
+  "Education & Rural E-Learning|||Library Resources": {
+    "domain": "Education & Rural E-Learning",
+    "category": "Library Resources",
+    "urgency": "Low",
+    "en": [
+      "panchayat community library lacks textbooks and digital catalogue computers",
+      "damaged and termite-infested books in rural public library room",
+      "shortage of competitive exam preparation books for rural youth in library",
+      "library room unventilated and lacking study tables and chairs",
+      "need grant for updated science encyclopedia and bilingual reference books"
+    ],
+    "hi": [
+      "पंचायत पुस्तकालय में जरूरी किताबों और संदर्भ ग्रंथों की भारी कमी है",
+      "लाइब्रेरी में रखी किताबों में दीमक लग रही है और रैक टूटे पड़े हैं",
+      "प्रतियोगी परीक्षाओं की तैयारी के लिए नई किताबें उपलब्ध कराई जाएं",
+      "पुस्तकालय में पढ़ाई के लिए मेज, कुर्सी और पंखों की व्यवस्था नहीं है",
+      "ग्रामीण पुस्तकालय में नई पुस्तकें और डिजिटल कैटलॉग की सुविधा दी जाए"
+    ]
+  }
+}

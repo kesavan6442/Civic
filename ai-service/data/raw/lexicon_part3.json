@@ -1,0 +1,306 @@
+{
+  "Forest & Wildlife Preservation|||Human-Elephant Conflict Alert": {
+    "domain": "Forest & Wildlife Preservation",
+    "category": "Human-Elephant Conflict Alert",
+    "urgency": "Critical",
+    "en": [
+      "wild elephant herd entered village crops, urgent acoustic warning siren needed",
+      "wild elephants destroyed tribal huts and grain stores, risking human lives",
+      "early warning elephant tracker geofence offline near village forest fringe",
+      "elephant corridor blocked by illegal construction, forcing herd toward schools",
+      "forest department emergency response team needed to drive herd safely to forest"
+    ],
+    "hi": [
+      "जंगली हाथियों का झुंड गांव में घुसकर फसल और मकानों को बर्बाद कर रहा है",
+      "हाथियों के हमले से ग्रामीणों की जान पर खतरा बना हुआ है, सायरन बजाया जाए",
+      "हाथी ट्रैकिंग सिस्टम बंद होने से गांव में अचानक हाथियों का प्रवेश हो रहा है",
+      "हाथियों का कॉरिडोर बंद होने से हाथी रिहायशी इलाकों में आ रहे हैं",
+      "वन विभाग की टीम तुरंत हाथी भगाने के लिए मशाल और पटाखे लेकर पहुंचे"
+    ]
+  },
+  "Forest & Wildlife Preservation|||Forest Fire Early Warning": {
+    "domain": "Forest & Wildlife Preservation",
+    "category": "Forest Fire Early Warning",
+    "urgency": "Critical",
+    "en": [
+      "wildfire spreading rapidly through dry Sal forest reserve, threatening biodiversity",
+      "satellite fire alert detected active uncontrolled blaze in forest ridge",
+      "dry leaf litter fire approaching wildlife sanctuary perimeter",
+      "forest department fire-fighting blowers and water tankers needed urgently",
+      "smoke from forest fire choking adjacent tribal hamlets and burning rare flora"
+    ],
+    "hi": [
+      "रिजर्व फॉरेस्ट में भीषण दावानल (जंगल की आग) फैल रही है, पेड़-पौधे जल रहे हैं",
+      "जंगल की आग तेजी से वन्यजीव अभयारण्य और गांव की ओर बढ़ रही है",
+      "सूखे पत्तों में लगी आग पर काबू पाने के लिए फायर ब्रिगेड भेजी जाए",
+      "जंगल की आग से उठने वाले घने धुएं से वन्यजीवों का दम घुट रहा है",
+      "वन विभाग तुरंत फायर लाइन काटकर आग को आगे बढ़ने से रोके"
+    ]
+  },
+  "Forest & Wildlife Preservation|||Illegal Deforestation": {
+    "domain": "Forest & Wildlife Preservation",
+    "category": "Illegal Deforestation",
+    "urgency": "High",
+    "en": [
+      "illegal timber mafia chopping ancient Teak and Sal trees in protected forest",
+      "unauthorized clearing of green forest cover for illegal mining operations",
+      "heavy logging trucks caught transporting unregistered wood logs at night",
+      "forest boundary encroachment by land grabbers destroying indigenous flora",
+      "need increased forest guard patrolling and drone surveillance against timber mafia"
+    ],
+    "hi": [
+      "लकड़ी माफिया द्वारा संरक्षित जंगल से कीमती सागवान और साल के पेड़ काटे जा रहे हैं",
+      "अवैध खनन के लिए हरे-भरे जंगल को काटकर उजाड़ा जा रहा है",
+      "रात के अंधेरे में बिना परमिट के लकड़ी लदे ट्रक निकाले जा रहे हैं",
+      "जंगल की जमीन पर अवैध कब्जा करके पेड़ों की अंधाधुंध कटाई हो रही है",
+      "वन सुरक्षा समिति और ड्रोन से जंगल की निगरानी बढ़ाई जाए"
+    ]
+  },
+  "Forest & Wildlife Preservation|||Corridor Encroachment": {
+    "domain": "Forest & Wildlife Preservation",
+    "category": "Corridor Encroachment",
+    "urgency": "High",
+    "en": [
+      "illegal commercial resorts constructed right in traditional wildlife migratory corridor",
+      "fencing erected along elephant corridor causing animal agitation and crop raids",
+      "heavy vehicular traffic on highway cutting through designated animal corridor",
+      "infrastructure project cutting off tiger and deer seasonal movement path",
+      "immediate demolition of illegal boundary walls in reserved wildlife corridor"
+    ],
+    "hi": [
+      "वन्यजीवों के पारंपरिक आवागमन गलियारे (कॉरिडोर) में अवैध निर्माण हो गया है",
+      "हाथी कॉरिडोर पर तारबंदी करने से हाथी गांवों में घुसकर हमला कर रहे हैं",
+      "जंगली जानवरों के रास्ते के बीच में होटल और रिसॉर्ट बना दिए गए हैं",
+      "हाईवे पर तेज रफ्तार गाड़ियों से वन्यजीवों के टकराने का खतरा रहता है",
+      "वन्यजीव गलियारे से सभी अवैध अतिक्रमण तुरंत हटाए जाएं"
+    ]
+  },
+  "Mining Safety & Environmental Monitoring|||Coal Dust Particulate Pollution": {
+    "domain": "Mining Safety & Environmental Monitoring",
+    "category": "Coal Dust Particulate Pollution",
+    "urgency": "Critical",
+    "en": [
+      "severe coal dust PM2.5 levels exceeding 500 ug/m3 near opencast mining pit",
+      "uncovered coal transport trucks spreading thick black dust over residential houses",
+      "coal washery releasing untreated coal slurry dust, causing chronic bronchitis",
+      "open coal dust clouds coating school buildings and agricultural fields",
+      "urgent installation of high-pressure water mist dust suppression cannons"
+    ],
+    "hi": [
+      "कोयला खदान से उड़ने वाली धूल से वायु प्रदूषण खतरनाक स्तर पर पहुंच गया है",
+      "बिना ढके कोयला ढोने वाले ट्रकों से उड़ती धूल से घरों में रहना मुश्किल है",
+      "कोयले के धुएं और धूल से लोगों को सांस और फेफड़ों की गंभीर बीमारी हो रही है",
+      "स्कूलों और खेतों पर कोयले की काली परत जम गई है, फॉग कैनन चलाए जाएं",
+      "सड़क पर पानी का नियमित छिड़काव और खदान में डस्ट सप्रेशन सिस्टम लगाया जाए"
+    ]
+  },
+  "Mining Safety & Environmental Monitoring|||Mine Subsidence Telemetry": {
+    "domain": "Mining Safety & Environmental Monitoring",
+    "category": "Mine Subsidence Telemetry",
+    "urgency": "Critical",
+    "en": [
+      "ground subsidence cracks appearing on residential floors near abandoned coal mine",
+      "mine slope stability telemetry sensor triggers warning of impending wall collapse",
+      "underground mine voids causing surface sinking beneath railway tracks",
+      "massive sinkhole opened on village outskirts due to un-sandfilled coal gallery",
+      "immediate geotechnical evacuation and void grouting required in subsidence zone"
+    ],
+    "hi": [
+      "कोयला खदान के ऊपर बसे गांव के घरों में जमीन धंसने से दरारें आ गई हैं",
+      "खदान की दीवार खिसकने का सेंसर अलर्ट आया है, बड़ा भू-धंसाव हो सकता है",
+      "भूमिगत खदान में बालू भराई न होने से जमीन नीचे धंस रही है",
+      "सड़क के बीच में अचानक बड़ा गड्ढा बन गया है, जमीन के नीचे आग और दरार है",
+      "प्रभावित परिवारों को तुरंत सुरक्षित स्थान पर पुनर्वासित किया जाए"
+    ]
+  },
+  "Mining Safety & Environmental Monitoring|||Acid Mine Drainage": {
+    "domain": "Mining Safety & Environmental Monitoring",
+    "category": "Acid Mine Drainage",
+    "urgency": "Critical",
+    "en": [
+      "toxic acidic red water runoff from opencast mine contaminating local river stream",
+      "acid mine drainage with heavy metal leachate destroying agricultural soil fertility",
+      "highly acidic discharge (pH 3.2) from abandoned coal pit poisoning village well",
+      "mine drainage runoff turning watercourse orange and killing aquatic life",
+      "need neutralization and passive wetland treatment for acid mine drainage effluent"
+    ],
+    "hi": [
+      "खदान से निकलने वाला जहरीला लाल तेजाबी पानी नदी में मिलकर पानी को विषैला बना रहा है",
+      "एसिड माइन ड्रेनेज से खेतों की मिट्टी बंजर हो रही है और फसलें सूख रही हैं",
+      "बंद पड़ी खदान से निकल रहे अम्लीय पानी से कुओं का पानी जहरीला हो गया है",
+      "खदान के दूषित पानी से मछलियां और जलीय जीव मर रहे हैं",
+      "खनन कंपनी तेजाबी पानी को शुद्ध करने के लिए ट्रीटमेंट प्लांट लगाए"
+    ]
+  },
+  "Mining Safety & Environmental Monitoring|||Blasting Vibration": {
+    "domain": "Mining Safety & Environmental Monitoring",
+    "category": "Blasting Vibration",
+    "urgency": "High",
+    "en": [
+      "heavy opencast mine blasting causing severe structural cracks in village houses",
+      "deep underground blasting tremors triggering panic and breaking window panes",
+      "flying rock fragments from mining blast landed inside residential courtyard",
+      "unannounced blasting during school hours causing structural vibration hazard",
+      "strict compliance with blasting vibration velocity limits and warning sirens needed"
+    ],
+    "hi": [
+      "खदान में भारी बारूदी ब्लास्टिंग से गांव के पक्के मकानों में दरारें आ गई हैं",
+      "ब्लास्टिंग के तेज झटकों से घर हिलते हैं और कांच टूटकर गिर रहे हैं",
+      "ब्लास्टिंग के दौरान उड़कर आए भारी पत्थर रिहायशी घरों पर गिरे हैं",
+      "बिना पूर्व सूचना के तेज आवाज में ब्लास्टिंग से बच्चों और बुजुर्गों में दहशत है",
+      "खनन क्षेत्र में ब्लास्टिंग की तीव्रता कम की जाए और मानक नियमों का पालन हो"
+    ]
+  },
+  "Disaster Management & Flood Warning|||Flash Flood Warning": {
+    "domain": "Disaster Management & Flood Warning",
+    "category": "Flash Flood Warning",
+    "urgency": "Critical",
+    "en": [
+      "sudden river surge and flash flood inundating low-lying riverbank tribal settlements",
+      "cloudburst upstream caused flash flood wave, stranding villagers on rooftops",
+      "flash flood water entered main hospital basement and damaged power generators",
+      "urgent NDRF evacuation and life raft deployment needed for flash flood victims",
+      "early warning siren sounded as river level crosses danger mark by 2 meters"
+    ],
+    "hi": [
+      "नदी का जलस्तर अचानक बढ़ने से निचले इलाकों में अचानक बाढ़ आ गई है",
+      "पहाड़ी इलाके में भारी बारिश के बाद बस्तियों में पानी भर गया है, लोग छतों पर फंसे हैं",
+      "अचानक आई बाढ़ से अस्पताल और सरकारी दफ्तरों में पानी घुस गया है",
+      "एनडीआरएफ और बोट की मदद से बाढ़ में फंसे लोगों को तुरंत निकाला जाए",
+      "खतरे के निशान से ऊपर पानी बहने से तुरंत सायरन बजाकर अलर्ट जारी किया जाए"
+    ]
+  },
+  "Disaster Management & Flood Warning|||Landslide Risk Zone": {
+    "domain": "Disaster Management & Flood Warning",
+    "category": "Landslide Risk Zone",
+    "urgency": "Critical",
+    "en": [
+      "active mudslide and boulder fall blocked national highway in hilly ghat section",
+      "hill slope failure threatens to bury rural dwellings along foothill road",
+      "geotechnical radar detected rapid slope displacement in landslide prone zone",
+      "cracks widening on mountain road verge after continuous torrential downpour",
+      "immediate slope netting and retaining wall construction required on unstable slope"
+    ],
+    "hi": [
+      "पहाड़ी घाट में भूस्खलन होने से भारी पत्थर गिरकर सड़क पर आ गए हैं, रास्ता बंद है",
+      "पहाड़ का मलबा खिसकने से नीचे बसी बस्तियों के दबने का खतरा पैदा हो गया है",
+      "लगातार बारिश के बाद पहाड़ी ढलान पर गहरी दरारें आ गई हैं, अलर्ट जारी है",
+      "सड़क किनारे की जमीन खिसकने से गाड़ियां खाई में गिरने का खतरा है",
+      "भूस्खलन संभावित क्षेत्र में रिटेनिंग वॉल और सुरक्षा जाली लगाई जाए"
+    ]
+  },
+  "Disaster Management & Flood Warning|||Embankment Breach": {
+    "domain": "Disaster Management & Flood Warning",
+    "category": "Embankment Breach",
+    "urgency": "Critical",
+    "en": [
+      "river protection embankment breached at 30-meter section, flooding farm fields",
+      "critical soil erosion scouring river dyke, imminent risk of total embankment collapse",
+      "sandbag reinforcement urgently needed to plug leaking river embankment breach",
+      "surging river current broke safety dam bund, inundating 5 neighboring villages",
+      "emergency civil engineering repairs needed for damaged flood control embankment"
+    ],
+    "hi": [
+      "नदी का सुरक्षा बांध 30 मीटर तक टूट गया है, गांवों में तेजी से पानी घुस रहा है",
+      "नदी के तेज बहाव से तटबंध कट रहा है, कभी भी पूरा बांध ढह सकता है",
+      "बांध की दरार को भरने के लिए तुरंत बालू की बोरियां और बोल्डर डाले जाएं",
+      "सुरक्षा बांध टूटने से सैकड़ों एकड़ खेत जलमग्न हो गए हैं",
+      "बाढ़ नियंत्रण विभाग आपातकालीन स्तर पर बांध की मरम्मत कराए"
+    ]
+  },
+  "Disaster Management & Flood Warning|||Emergency Cyclone Shelter": {
+    "domain": "Disaster Management & Flood Warning",
+    "category": "Emergency Cyclone Shelter",
+    "urgency": "High",
+    "en": [
+      "designated cyclone storm shelter building has broken roof and no drinking water",
+      "emergency disaster shelter lacks emergency power generator and medical stockpile",
+      "cyclone shelter access road submerged, preventing evacuees from reaching safely",
+      "damaged storm shutters and broken sanitary facilities in disaster evacuation hall",
+      "immediate provisioning of dry rations and hygiene kits at community cyclone shelter"
+    ],
+    "hi": [
+      "तूफान आश्रय स्थल (साइक्लोन शेल्टर) की छत टूटी है और पानी की कोई सुविधा नहीं है",
+      "आपदा राहत केंद्र में जनरेटर और जरूरी दवाइयों का कोई इंतजाम नहीं है",
+      "तूफान से बचाव के लिए बने भवन तक पहुंचने का रास्ता पानी में डूबा है",
+      "राहत शिविर में साफ-सफाई, महिलाओं के लिए अलग कमरे और भोजन की व्यवस्था हो",
+      "आपदा प्रबंधन केंद्र को तत्काल प्रभाव से सुसज्जित किया जाए"
+    ]
+  },
+  "Women & Child Welfare Safety|||Dark Spot Solar Lighting": {
+    "domain": "Women & Child Welfare Safety",
+    "category": "Dark Spot Solar Lighting",
+    "urgency": "High",
+    "en": [
+      "unlit dark street corridor near women hostel creates extreme safety hazard at night",
+      "streetlights non-functional along transit route, encouraging anti-social elements",
+      "need installation of high-lumen solar street lighting poles on vulnerable pathway",
+      "women commuters terrified walking through 1 km pitch dark stretch from bus stop",
+      "defunct street lighting near girls college road requiring immediate LED installation"
+    ],
+    "hi": [
+      "महिला छात्रावास के पास रात में स्ट्रीट लाइट बंद रहती है, सुरक्षा का बड़ा खतरा है",
+      "अंधेरे रास्ते पर असामाजिक तत्वों का जमावड़ा रहता है, महिलाएं भयभीत हैं",
+      "कॉलेज और बस स्टैंड के बीच के रास्ते पर तुरंत सोलर स्ट्रीट लाइटें लगाई जाएं",
+      "अंधेरा होने के कारण शाम के बाद छात्राओं का अकेले निकलना मुश्किल है",
+      "कालोनी की खराब स्ट्रीट लाइटों को बदलकर नई एलईडी लाइटें लगाई जाएं"
+    ]
+  },
+  "Women & Child Welfare Safety|||Emergency Panic Pole Telemetry": {
+    "domain": "Women & Child Welfare Safety",
+    "category": "Emergency Panic Pole Telemetry",
+    "urgency": "Critical",
+    "en": [
+      "emergency SOS panic button pole near bus terminal is broken and non-responsive",
+      "smart safety panic pole siren and direct police link telemetry failed during test",
+      "damaged emergency help button post leaves women without distress communication",
+      "need installation of AI integrated SOS panic poles with two-way audio in market",
+      "telemetry connection lost on women safety emergency alert kiosk"
+    ],
+    "hi": [
+      "बस स्टैंड के पास लगा आपातकालीन पैनिक बटन (एसओएस पोल) खराब पड़ा है",
+      "मुसीबत के समय पुलिस से जुड़ने वाला इमरजेंसी सायरन बटन काम नहीं कर रहा",
+      "बाजार और सुनसान इलाकों में नए स्मार्ट एसओएस पैनिक पोल लगाए जाएं",
+      "महिला सुरक्षा अलर्ट पोल का कैमरा और माइक बंद है, तुरंत ठीक किया जाए",
+      "आपातकालीन सहायता बूथ पर पुलिस रिस्पांस सिस्टम को चालू रखा जाए"
+    ]
+  },
+  "Women & Child Welfare Safety|||Public Safe Corridor": {
+    "domain": "Women & Child Welfare Safety",
+    "category": "Public Safe Corridor",
+    "urgency": "High",
+    "en": [
+      "public pedestrian route to transit hub lacks CCTV surveillance and active policing",
+      "women commuters demand designated safe corridor with continuous lighting and patrol",
+      "dense wild overgrowth and lack of visibility along pedestrian path to railway station",
+      "harassment reported in unmonitored subway; need smart CCTV safe corridor integration",
+      "establishment of well-lit women safety transit corridor with police checkpoint needed"
+    ],
+    "hi": [
+      "पैदल रास्ते पर सीसीटीवी कैमरे और पुलिस गश्त न होने से सुरक्षा की कमी है",
+      "छात्राओं और कामकाजी महिलाओं के लिए सुरक्षित मार्ग (सेफ कॉरिडोर) बनाया जाए",
+      "रेलवे स्टेशन जाने वाले रास्ते पर झाड़ियां और अंधेरा है, गश्त बढ़ाई जाए",
+      "सबवे में मनचलों द्वारा छेड़खानी की शिकायत, तुरंत सीसीटीवी लगाए जाएं",
+      "महिला सुरक्षा के लिए पिंक बूथ और सुरक्षित आवागमन की व्यवस्था की जाए"
+    ]
+  },
+  "Women & Child Welfare Safety|||Child Daycare Infrastructure": {
+    "domain": "Women & Child Welfare Safety",
+    "category": "Child Daycare Infrastructure",
+    "urgency": "Medium",
+    "en": [
+      "rural Anganwadi child daycare building is crumbling with cracked roof and no toilet",
+      "child daycare center lacks clean drinking water filter and nutrition storage shelf",
+      "Anganwadi center operating in unhygienic shed without electricity or learning toys",
+      "lack of basic growth monitoring digital scale and medical first aid at child daycare",
+      "urgent civil renovation and clean sanitation facilities needed for rural child center"
+    ],
+    "hi": [
+      "आंगनबाड़ी केंद्र का भवन जर्जर है, छत टपकती है और बच्चों के लिए शौचालय नहीं है",
+      "बाल विकास केंद्र में बच्चों के पीने के लिए साफ पानी और पंखे नहीं हैं",
+      "आंगनबाड़ी केंद्र में बच्चों के पोषण आहार और वजन जांचने की मशीन नहीं है",
+      "छोटे बच्चों के बैठने के लिए दरी और खेल-खिलौनों की व्यवस्था कराई जाए",
+      "जर्जर आंगनबाड़ी केंद्र की मरम्मत कराकर सुरक्षित वातावरण बनाया जाए"
+    ]
+  }
+}

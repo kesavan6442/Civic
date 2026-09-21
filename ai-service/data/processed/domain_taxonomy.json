@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "taxonomy_authority": "Government of Jharkhand Civic Framework",
+  "domains": [
+    {
+      "id": "DOM-01",
+      "name": "Water Management & Drainage",
+      "hindi_name": "जल प्रबंधन एवं जल निकासी",
+      "categories": ["Drainage Siltation", "Drinking Water Contamination", "Pipeline Leakage", "Groundwater Fluoride"],
+      "default_urgency": "High",
+      "key_indicators": ["water", "drainage", "sewage", "siltation", "leakage", "pipeline", "fluorosis", "arsenic", "नाला", "पानी", "जल"]
+    },
+    {
+      "id": "DOM-02",
+      "name": "Roads, Potholes & Bridges",
+      "hindi_name": "सड़क, गड्ढे एवं पुल",
+      "categories": ["Potholes", "Asphalt Rutting", "Bridge Structural Anomaly", "Unpaved Rural Access"],
+      "default_urgency": "High",
+      "key_indicators": ["road", "pothole", "bridge", "culvert", "asphalt", "bitumen", "pavement", "गड्ढा", "सड़क", "पुल"]
+    },
+    {
+      "id": "DOM-03",
+      "name": "Public Healthcare & Disease Sensors",
+      "hindi_name": "सार्वजनिक स्वास्थ्य एवं रोग संवेदक",
+      "categories": ["Vector-Borne Outbreak", "Primary Health Centre Equipment", "Waterborne Disease Surveillance", "Maternal Health Clinic"],
+      "default_urgency": "Critical",
+      "key_indicators": ["health", "hospital", "clinic", "disease", "dengue", "malaria", "telemedicine", "sensor", "अस्पताल", "स्वास्थ्य", "बीमारी"]
+    },
+    {
+      "id": "DOM-04",
+      "name": "Renewable Energy & Solar Microgrids",
+      "hindi_name": "नवीकरणीय ऊर्जा एवं सौर माइक्रोग्रिड",
+      "categories": ["Solar Inverter Defect", "Rural Microgrid Outage", "Transformer Failure", "Off-grid Battery Storage"],
+      "default_urgency": "Medium",
+      "key_indicators": ["solar", "energy", "electricity", "microgrid", "transformer", "power cut", "battery", "बिजली", "सौर ऊर्जा"]
+    },
+    {
+      "id": "DOM-05",
+      "name": "Solid Waste & Sanitation",
+      "hindi_name": "ठोस अपशिष्ट एवं स्वच्छता",
+      "categories": ["Municipal Dump Encroachment", "Plastic Waste Accumulation", "Community Toilet Maintenance", "Bio-medical Waste"],
+      "default_urgency": "Medium",
+      "key_indicators": ["waste", "garbage", "dump", "sanitation", "trash", "plastic", "landfill", "कचरा", "सफाई"]
+    },
+    {
+      "id": "DOM-06",
+      "name": "Agriculture & Cold Storage",
+      "hindi_name": "कृषि एवं कोल्ड स्टोरेज",
+      "categories": ["Post-Harvest Spoilage", "Solar Cold Storage Outage", "Soil Moisture Telemetry", "Irrigation Canal Deficit"],
+      "default_urgency": "High",
+      "key_indicators": ["crop", "farmer", "storage", "agriculture", "irrigation", "spoilage", "produce", "किसान", "खेती", "फसल"]
+    },
+    {
+      "id": "DOM-07",
+      "name": "Urban Traffic & Smart Mobility",
+      "hindi_name": "शहरी यातायात एवं स्मार्ट गतिशीलता",
+      "categories": ["Traffic Signal Synchronization", "Junction Bottleneck", "Pedestrian Crossing Safety", "Public Transit Tracking"],
+      "default_urgency": "Medium",
+      "key_indicators": ["traffic", "congestion", "signal", "mobility", "pedestrian", "junction", "यातायात", "जाम"]
+    },
+    {
+      "id": "DOM-08",
+      "name": "Education & Rural E-Learning",
+      "hindi_name": "शिक्षा एवं ग्रामीण ई-लर्निंग",
+      "categories": ["Digital Classroom Hardware", "School Infrastructure Deficit", "Offline Mesh Content Server", "Library Resources"],
+      "default_urgency": "Low",
+      "key_indicators": ["school", "education", "classroom", "student", "digital lab", "internet", "शिक्षा", "स्कूल"]
+    },
+    {
+      "id": "DOM-09",
+      "name": "Forest & Wildlife Preservation",
+      "hindi_name": "वन एवं वन्यजीव संरक्षण",
+      "categories": ["Human-Elephant Conflict Alert", "Forest Fire Early Warning", "Illegal Deforestation", "Corridor Encroachment"],
+      "default_urgency": "Critical",
+      "key_indicators": ["forest", "wildlife", "elephant", "tree", "fire", "poaching", "biodiversity", "जंगल", "हाथी"]
+    },
+    {
+      "id": "DOM-10",
+      "name": "Mining Safety & Environmental Monitoring",
+      "hindi_name": "खनन सुरक्षा एवं पर्यावरण निगरानी",
+      "categories": ["Coal Dust Particulate Pollution", "Mine Subsidence Telemetry", "Acid Mine Drainage", "Blasting Vibration"],
+      "default_urgency": "High",
+      "key_indicators": ["mining", "coal", "dust", "subsidence", "slurry", "particulate", "pm2.5", "खदान", "खनन"]
+    },
+    {
+      "id": "DOM-11",
+      "name": "Disaster Management & Flood Warning",
+      "hindi_name": "आपदा प्रबंधन एवं बाढ़ चेतावनी",
+      "categories": ["Flash Flood Warning", "Landslide Risk Zone", "Embankment Breach", "Emergency Cyclone Shelter"],
+      "default_urgency": "Critical",
+      "key_indicators": ["flood", "disaster", "landslide", "cyclone", "warning", "siren", "emergency", "बाढ़", "आपदा"]
+    },
+    {
+      "id": "DOM-12",
+      "name": "Women & Child Welfare Safety",
+      "hindi_name": "महिला एवं बाल कल्याण सुरक्षा",
+      "categories": ["Dark Spot Solar Lighting", "Emergency Panic Pole Telemetry", "Public Safe Corridor", "Child Daycare Infrastructure"],
+      "default_urgency": "Critical",
+      "key_indicators": ["safety", "women", "child", "lighting", "cctv", "panic", "shelter", "सुरक्षा", "महिला"]
+    }
+  ]
+}

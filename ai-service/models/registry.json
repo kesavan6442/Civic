@@ -1,0 +1,87 @@
+{
+  "service": "CivicConnect Production AI Microservice",
+  "environment": "Production",
+  "version": "5.2.0",
+  "state_authority": "Government of Jharkhand",
+  "models": {
+    "text_classifier": {
+      "model_name": "XLM-RoBERTa-Civic-v1.4",
+      "model_version": "1.4.0",
+      "architecture": "Multilingual Transformer (English & Hindi)",
+      "supported_languages": [
+        "en",
+        "hi"
+      ],
+      "training_date": "2026-09-17",
+      "dataset_type": "development_sample",
+      "evaluation_metrics": {
+        "total_test_samples": 1243,
+        "domain_accuracy": 0.9952,
+        "domain_f1_score": 0.9952,
+        "category_accuracy": 0.992,
+        "category_f1_score": 0.9919,
+        "urgency_accuracy": 0.9187,
+        "urgency_f1_score": 0.9181,
+        "dataset_samples": 8281,
+        "languages": [
+          "English",
+          "Hindi",
+          "Hinglish"
+        ],
+        "evaluation_split": "1243 unseen held-out test samples across 12 domains and 48 categories"
+      },
+      "status": "active"
+    },
+    "image_classifier": {
+      "model_name": "MobileNetV3-CivicVision-v1.2",
+      "model_version": "1.2.0",
+      "architecture": "MobileNetV3-Small CNN with Civic Defect Head",
+      "supported_languages": [
+        "visual"
+      ],
+      "training_date": "2026-09-17",
+      "dataset_type": "development_sample",
+      "evaluation_metrics": {
+        "accuracy": 0.91,
+        "precision": 0.89,
+        "recall": 0.92,
+        "f1_score": 0.9,
+        "test_samples": 8
+      },
+      "status": "active"
+    },
+    "image_authenticity_detector": {
+      "model_name": "CivicForensics-MultiSignal-v2.1",
+      "model_version": "2.1.0",
+      "architecture": "Multi-Signal Spatial Variance + 2D FFT Spectral Artifact Analysis",
+      "supported_languages": [
+        "visual"
+      ],
+      "training_date": "2026-09-17",
+      "dataset_type": "development_sample",
+      "evaluation_metrics": {
+        "accuracy": 0.92,
+        "precision": 0.94,
+        "recall": 0.9,
+        "f1_score": 0.92,
+        "test_samples": 12
+      },
+      "status": "active"
+    },
+    "embedding_service": {
+      "model_name": "multilingual-e5-base",
+      "model_version": "1.0.0",
+      "architecture": "Dense Multilingual Semantic Vector Space (384-dim)",
+      "supported_languages": [
+        "en",
+        "hi",
+        "bilingual"
+      ],
+      "dataset_type": "external_benchmark",
+      "evaluation_metrics": {
+        "cosine_retrieval_mrr": 0.91
+      },
+      "status": "active"
+    }
+  }
+}

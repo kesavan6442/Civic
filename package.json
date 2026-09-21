@@ -1,0 +1,33 @@
+{
+  "name": "civicconnect",
+  "version": "1.0.0",
+  "description": "CivicConnect Enterprise Platform - Government of Jharkhand",
+  "main": "start.js",
+  "type": "module",
+  "scripts": {
+    "start": "node start.js",
+    "dev": "node start.js",
+    "dev:spring": "mvnw.cmd spring-boot:run --prefix server-spring",
+    "dev:client": "npm --prefix client run dev",
+    "dev:ai": "python ai-service/main.py",
+    "build:client": "npm --prefix client run build",
+    "build:spring": "mvnw.cmd clean package --prefix server-spring",
+    "test:spring": "mvnw.cmd test --prefix server-spring"
+  },
+  "keywords": [
+    "jharkhand",
+    "civic",
+    "java",
+    "spring-boot",
+    "react",
+    "bootstrap",
+    "fastapi",
+    "jwt",
+    "offline-sync"
+  ],
+  "author": "Government of Jharkhand Civic Innovation",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

@@ -1,0 +1,2329 @@
+[
+  {
+    "log_id": "AUDIT-01078A7C",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "High",
+      "confidence": 0.71,
+      "keywords": [
+        "heavy",
+        "drainage",
+        "kanke",
+        "road",
+        "water",
+        "waterlogging",
+        "broken",
+        "near"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 71% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T06:35:06.389855"
+    },
+    "confidence": 0.71,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T06:35:06.390863"
+  },
+  {
+    "log_id": "AUDIT-E6E55D36",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "contaminated",
+        "drinking",
+        "pipeline",
+        "doranda",
+        "ranchi",
+        "supply",
+        "coming"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T06:41:49.142430"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T06:41:49.142993"
+  },
+  {
+    "log_id": "AUDIT-92932D0A",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "High",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T06:52:14.046156"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T06:52:14.047418"
+  },
+  {
+    "log_id": "AUDIT-AE372091",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:17:15.693299"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:17:16.694872"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:17:16.697402"
+  },
+  {
+    "log_id": "AUDIT-DF537B58",
+    "problem_id": "JH-CHLG-2026-1001",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1001",
+      "domain": "Solid Waste & Sanitation",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.66,
+      "keywords": [
+        "harmu",
+        "river",
+        "siltation",
+        "wastewater",
+        "drainage",
+        "biological",
+        "treatment",
+        "catchment"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:18:07.312766"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:18:08.123238"
+    },
+    "confidence": 0.66,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:18:08.123238"
+  },
+  {
+    "log_id": "AUDIT-9ADAE69E",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:18:25.285904"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:18:26.126081"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:18:26.126081"
+  },
+  {
+    "log_id": "AUDIT-7D29D5FF",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:18:26.465687"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:18:27.300420"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:18:27.300420"
+  },
+  {
+    "log_id": "AUDIT-21CEA6E5",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Critical",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "UNCERTAIN",
+        "confidence": 0.5,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": false,
+        "rejection_reason": "Unable to load image for forensic analysis.",
+        "forensic_signals": {},
+        "checked_at": "2026-09-17T07:19:25.720372"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:19:25.721372"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:19:25.721372"
+  },
+  {
+    "log_id": "AUDIT-FCB8E7AC",
+    "problem_id": "JH-CHLG-2026-1001",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1001",
+      "domain": "Solid Waste & Sanitation",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.66,
+      "keywords": [
+        "harmu",
+        "river",
+        "siltation",
+        "wastewater",
+        "drainage",
+        "biological",
+        "treatment",
+        "catchment"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:19:37.407243"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:19:38.190030"
+    },
+    "confidence": 0.66,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:19:38.191327"
+  },
+  {
+    "log_id": "AUDIT-59E751E8",
+    "problem_id": "JH-CHLG-2026-1001",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1001",
+      "domain": "Solid Waste & Sanitation",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.66,
+      "keywords": [
+        "harmu",
+        "river",
+        "siltation",
+        "wastewater",
+        "drainage",
+        "biological",
+        "treatment",
+        "catchment"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:19:38.790933"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:19:39.552414"
+    },
+    "confidence": 0.66,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:19:39.552414"
+  },
+  {
+    "log_id": "AUDIT-149E4E73",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:22:46.723116"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:22:47.453900"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:22:47.453900"
+  },
+  {
+    "log_id": "AUDIT-68C3DBF4",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:22:49.737387"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:22:50.587739"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:22:50.587739"
+  },
+  {
+    "log_id": "AUDIT-F4A6D8A9",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:22:50.989357"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:22:51.802682"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:22:51.802682"
+  },
+  {
+    "log_id": "AUDIT-23E9D946",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:27:40.150397"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:27:40.993600"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:27:40.993600"
+  },
+  {
+    "log_id": "AUDIT-1DF4C7B6",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:27:41.391199"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:27:42.173375"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:27:42.173375"
+  },
+  {
+    "log_id": "AUDIT-B97BF632",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:29:24.711828"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:29:25.553548"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:29:25.553548"
+  },
+  {
+    "log_id": "AUDIT-29A2918B",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:29:44.437776"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:29:45.214900"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:29:45.214900"
+  },
+  {
+    "log_id": "AUDIT-B79E25C3",
+    "problem_id": "JH-CHLG-2026-6220",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-6220",
+      "domain": "Water Management & Drainage",
+      "category": "Drainage Siltation",
+      "urgency": "Critical",
+      "confidence": 0.93,
+      "keywords": [
+        "heavy",
+        "industrial",
+        "sludge",
+        "clogging",
+        "sewer",
+        "lines",
+        "adityapur",
+        "toxic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 93% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:29:46.156142"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:29:46.979327"
+    },
+    "confidence": 0.93,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:29:46.979327"
+  },
+  {
+    "log_id": "AUDIT-4B42E166",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:41:59.884956"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:42:00.660473"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:42:00.660473"
+  },
+  {
+    "log_id": "AUDIT-909A1BDA",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:43:00.736513"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:43:01.652358"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:43:01.652358"
+  },
+  {
+    "log_id": "AUDIT-AA358DE9",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:43:01.829344"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:43:02.685150"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:43:02.686150"
+  },
+  {
+    "log_id": "AUDIT-BFDAB2A9",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:43:43.043734"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:43:43.755675"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:43:43.755675"
+  },
+  {
+    "log_id": "AUDIT-41C24DB8",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:43:44.315436"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:43:45.109394"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:43:45.109394"
+  },
+  {
+    "log_id": "AUDIT-CE181F8B",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:48:58.574446"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:48:59.363024"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:48:59.363024"
+  },
+  {
+    "log_id": "AUDIT-A3364654",
+    "problem_id": "JH-CHLG-2026-3519",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-3519",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.95,
+      "keywords": [
+        "water",
+        "borewell",
+        "contaminated",
+        "groundwater",
+        "broken",
+        "dhurwa",
+        "sector",
+        "main"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-17T07:49:00.276769"
+      },
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:49:01.158534"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:49:01.158534"
+  },
+  {
+    "log_id": "AUDIT-4D1FB086",
+    "problem_id": "JH-CHLG-2026-1008",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1008",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "High",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:58:40.208600"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:58:40.209981"
+  },
+  {
+    "log_id": "AUDIT-8E9A1A58",
+    "problem_id": "JH-CHLG-2026-1009",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1009",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.86,
+      "keywords": [
+        "valid",
+        "description",
+        "without",
+        "title",
+        "water",
+        "supply",
+        "quality"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 86% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:58:40.488841"
+    },
+    "confidence": 0.86,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:58:40.489348"
+  },
+  {
+    "log_id": "AUDIT-6EF18ECF",
+    "problem_id": "JH-TEMP-6429",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-6429",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.97,
+      "keywords": [
+        "water",
+        "severely",
+        "contaminated",
+        "municipal",
+        "borehole",
+        "high",
+        "arsenic",
+        "iron"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Hazaribagh with 97% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T07:58:42.619111"
+    },
+    "confidence": 0.97,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T07:58:42.619111"
+  },
+  {
+    "log_id": "AUDIT-A8A4B5BF",
+    "problem_id": "JH-CHLG-2026-1010",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1010",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "High",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:01:09.234542"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:01:09.234542"
+  },
+  {
+    "log_id": "AUDIT-834A6F35",
+    "problem_id": "JH-TEMP-6429",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-6429",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.97,
+      "keywords": [
+        "water",
+        "severely",
+        "contaminated",
+        "municipal",
+        "borehole",
+        "high",
+        "arsenic",
+        "iron"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Hazaribagh with 97% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:01:11.320847"
+    },
+    "confidence": 0.97,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:01:11.320847"
+  },
+  {
+    "log_id": "AUDIT-DD2489CB",
+    "problem_id": "JH-TEMP-1777",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-1777",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "High",
+      "confidence": 0.91,
+      "keywords": [
+        "severe",
+        "road",
+        "subsidence",
+        "nh",
+        "33",
+        "near",
+        "ormanjhi",
+        "heavy"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 91% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:01:49.689376"
+    },
+    "confidence": 0.91,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:01:49.690393"
+  },
+  {
+    "log_id": "AUDIT-B8B32828",
+    "problem_id": "JH-TEMP-0159",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-0159",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "High",
+      "confidence": 0.98,
+      "keywords": [
+        "\u0930\u093e\u091c\u092e\u093e\u0930\u094d\u0917",
+        "\u0939\u094b",
+        "\u0913\u0930\u092e\u093e\u0902\u091d\u0940",
+        "\u092a\u093e\u0938",
+        "\u0930\u093e\u0937\u094d\u091f\u094d\u0930\u0940\u092f",
+        "33",
+        "\u0938\u0921\u093c\u0915",
+        "\u0927\u0902\u0938"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 98% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:01:51.792058"
+    },
+    "confidence": 0.98,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:01:51.792058"
+  },
+  {
+    "log_id": "AUDIT-DE7A11D6",
+    "problem_id": "JH-CHLG-2026-1011",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1011",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Medium",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.269005"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.269005"
+  },
+  {
+    "log_id": "AUDIT-36B66642",
+    "problem_id": "JH-CHLG-2026-1012",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1012",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Medium",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.302728"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.302728"
+  },
+  {
+    "log_id": "AUDIT-948DCE76",
+    "problem_id": "JH-CHLG-2026-1013",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1013",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Medium",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.349033"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.349033"
+  },
+  {
+    "log_id": "AUDIT-08AA9563",
+    "problem_id": "JH-CHLG-2026-1014",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1014",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Medium",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.396025"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.396025"
+  },
+  {
+    "log_id": "AUDIT-69428684",
+    "problem_id": "JH-CHLG-2026-1015",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1015",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Medium",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.443340"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.443340"
+  },
+  {
+    "log_id": "AUDIT-7854E4C3",
+    "problem_id": "JH-CHLG-2026-1016",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1016",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Critical",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:04.489253"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:04.489253"
+  },
+  {
+    "log_id": "AUDIT-815A1974",
+    "problem_id": "JH-TEMP-3844",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-3844",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "High",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:02:06.547634"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:02:06.547634"
+  },
+  {
+    "log_id": "AUDIT-92F7FF99",
+    "problem_id": "JH-TEMP-2501",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-2501",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "severe",
+        "pipe",
+        "rupture",
+        "continuous",
+        "drinking",
+        "leakage",
+        "flooding"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:05:59.416717"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:05:59.416717"
+  },
+  {
+    "log_id": "AUDIT-E7F76A75",
+    "problem_id": "JH-TEMP-2501",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-2501",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "severe",
+        "pipe",
+        "rupture",
+        "continuous",
+        "drinking",
+        "leakage",
+        "flooding"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:06:32.394729"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:06:32.394729"
+  },
+  {
+    "log_id": "AUDIT-E9A28648",
+    "problem_id": "JH-TEMP-2501",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-2501",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "severe",
+        "pipe",
+        "rupture",
+        "continuous",
+        "drinking",
+        "leakage",
+        "flooding"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:07:34.196339"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:07:34.196339"
+  },
+  {
+    "log_id": "AUDIT-FB6FD8C6",
+    "problem_id": "JH-CHLG-2026-1017",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1017",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "High",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:08:35.290197"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:08:35.290197"
+  },
+  {
+    "log_id": "AUDIT-695EFC29",
+    "problem_id": "JH-TEMP-6429",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-6429",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.97,
+      "keywords": [
+        "water",
+        "severely",
+        "contaminated",
+        "municipal",
+        "borehole",
+        "high",
+        "arsenic",
+        "iron"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Hazaribagh with 97% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T08:08:37.392244"
+    },
+    "confidence": 0.97,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T08:08:37.392244"
+  },
+  {
+    "log_id": "AUDIT-3D18A0DF",
+    "problem_id": "JH-TEMP-7302",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-7302",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.98,
+      "keywords": [
+        "water",
+        "pipeline",
+        "leakage",
+        "near",
+        "residential",
+        "area",
+        "residents",
+        "days"
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 98% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T09:13:22.038341"
+    },
+    "confidence": 0.98,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T09:13:22.040459"
+  },
+  {
+    "log_id": "AUDIT-6B8C529D",
+    "problem_id": "JH-CHLG-2026-1018",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1018",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.98,
+      "keywords": [
+        "water",
+        "pipeline",
+        "leakage",
+        "near",
+        "residential",
+        "area",
+        "severe",
+        "major"
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 98% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T09:13:48.035436"
+    },
+    "confidence": 0.98,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T09:13:48.035436"
+  },
+  {
+    "log_id": "AUDIT-C150B6C4",
+    "problem_id": "JH-TEMP-9867",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-9867",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "severe",
+        "pipe",
+        "rupture",
+        "continuous",
+        "drinking",
+        "leakage",
+        "flooding"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-17T17:50:24.431139"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-17T17:50:24.431139"
+  },
+  {
+    "log_id": "AUDIT-1BB8C5F9",
+    "problem_id": "JH-CHLG-2026-1019",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1019",
+      "domain": "Renewable Energy & Solar Microgrids",
+      "category": "Rural Microgrid Outage",
+      "urgency": "High",
+      "confidence": 0.95,
+      "keywords": [
+        "solar",
+        "netarhat",
+        "grid",
+        "optimization",
+        "renewable",
+        "energy",
+        "microgrids"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Latehar with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "analyzed_at": "2026-09-18T03:47:44.948304"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T03:47:44.949814"
+  },
+  {
+    "log_id": "AUDIT-3F212CD3",
+    "problem_id": "JH-CHLG-2026-1002",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1002",
+      "domain": "Agriculture & Cold Storage",
+      "category": "Post-Harvest Spoilage",
+      "urgency": "High",
+      "confidence": 0.98,
+      "keywords": [
+        "solar",
+        "cold",
+        "storage",
+        "tribal",
+        "organic",
+        "powered",
+        "microgrid",
+        "produce"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Latehar with 98% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "UNCERTAIN",
+        "confidence": 0.5,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": false,
+        "rejection_reason": "Unable to load image for forensic analysis.",
+        "forensic_signals": {},
+        "checked_at": "2026-09-18T04:32:51.652361"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:32:52.638743"
+    },
+    "confidence": 0.98,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:32:52.642743"
+  },
+  {
+    "log_id": "AUDIT-6E096A89",
+    "problem_id": "JH-CHLG-2026-1002",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1002",
+      "domain": "Agriculture & Cold Storage",
+      "category": "Post-Harvest Spoilage",
+      "urgency": "High",
+      "confidence": 0.98,
+      "keywords": [
+        "solar",
+        "cold",
+        "storage",
+        "tribal",
+        "organic",
+        "powered",
+        "microgrid",
+        "produce"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Latehar with 98% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "UNCERTAIN",
+        "confidence": 0.5,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": false,
+        "rejection_reason": "Unable to load image for forensic analysis.",
+        "forensic_signals": {},
+        "checked_at": "2026-09-18T04:32:52.587759"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:32:52.841969"
+    },
+    "confidence": 0.98,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:32:52.841969"
+  },
+  {
+    "log_id": "AUDIT-8EC88995",
+    "problem_id": "JH-CHLG-2026-1025",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1025",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "drinking",
+        "ward",
+        "severe",
+        "pipeline",
+        "rupture",
+        "causing",
+        "road"
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:38:33.150181"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:38:33.150181"
+  },
+  {
+    "log_id": "AUDIT-F8ED1235",
+    "problem_id": "JH-CHLG-2026-1026",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1026",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "drinking",
+        "ward",
+        "severe",
+        "pipeline",
+        "rupture",
+        "causing",
+        "road"
+      ],
+      "missing_information": [],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:39:04.652061"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:39:04.652061"
+  },
+  {
+    "log_id": "AUDIT-5AFC4512",
+    "problem_id": "JH-CHLG-2026-1027",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1027",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "Critical",
+      "confidence": 0.96,
+      "keywords": [
+        "road",
+        "crater",
+        "harmu",
+        "bypass",
+        "hazardous",
+        "open",
+        "manhole",
+        "deep"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 96% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 126.5751,
+          "mid_freq_energy": 141.8931,
+          "freq_ratio": 0.892,
+          "color_variance": 219.2439
+        },
+        "checked_at": "2026-09-18T04:39:05.669347"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:39:05.743625"
+    },
+    "confidence": 0.96,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:39:05.743625"
+  },
+  {
+    "log_id": "AUDIT-229B1273",
+    "problem_id": "JH-CHLG-2026-1028",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1028",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Bridge Structural Anomaly",
+      "urgency": "Critical",
+      "confidence": 0.96,
+      "keywords": [
+        "bridge",
+        "severe",
+        "fracture",
+        "subarnarekha",
+        "river",
+        "link",
+        "visible",
+        "cracking"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 96% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.55,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 128.2911,
+          "mid_freq_energy": 146.0839,
+          "freq_ratio": 0.8782,
+          "color_variance": 58.7211
+        },
+        "checked_at": "2026-09-18T04:39:05.900252"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-18T04:39:05.972160"
+    },
+    "confidence": 0.96,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-18T04:39:05.972160"
+  }
+]

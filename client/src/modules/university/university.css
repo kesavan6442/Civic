@@ -1,0 +1,1138 @@
+/* ==========================================================================
+   University Module Styles - Government of Jharkhand Civic Connect
+   Color Palette: #036D33, #024D24, #E8F5EC, #C62828, #FFFFFF, #1F2937
+   ========================================================================== */
+
+.univ-auth-wrapper {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 20px;
+  background: radial-gradient(circle at 10% 20%, rgba(3, 109, 51, 0.07) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(2, 77, 36, 0.08) 0%, transparent 45%),
+              #E8F5EC;
+}
+
+.univ-auth-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(2, 77, 36, 0.12);
+  border: 1.5px solid rgba(3, 109, 51, 0.15);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+}
+
+.univ-auth-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 50px rgba(2, 77, 36, 0.18);
+  border-color: rgba(3, 109, 51, 0.35);
+}
+
+.univ-auth-card.signup-mode {
+  max-width: 900px;
+}
+
+.univ-auth-header {
+  background: linear-gradient(135deg, #024D24 0%, #036D33 100%);
+  color: #FFFFFF;
+  padding: 26px 30px;
+  position: relative;
+  text-align: center;
+}
+
+.univ-auth-emblem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.univ-auth-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
+
+.univ-auth-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+}
+
+.univ-auth-body {
+  padding: 32px 30px;
+}
+
+@media (max-width: 640px) {
+  .univ-auth-body {
+    padding: 22px 18px;
+  }
+}
+
+/* ==========================================================================
+   Form Controls Design System - Unified & Professional
+   ========================================================================== */
+.univ-form-group {
+  margin-bottom: 20px;
+}
+
+.univ-form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin-bottom: 7px;
+  line-height: 1.3;
+}
+
+.univ-form-label .required {
+  color: #C62828;
+  font-weight: 800;
+  margin-left: 3px;
+}
+
+.univ-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.univ-form-input,
+.univ-form-select,
+.univ-form-textarea,
+.univ-input,
+.univ-select,
+.univ-textarea,
+.form-control {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 15px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  color: #1F2937;
+  background-color: #FFFFFF;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 10px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  line-height: 1.45;
+}
+
+.univ-form-input,
+.univ-form-select,
+.univ-input,
+.univ-select {
+  height: 44px;
+}
+
+.univ-form-select,
+.univ-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23036D33' stroke-width='2.2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+.univ-form-textarea,
+.univ-textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+  padding: 12px 15px;
+}
+
+.univ-form-input:focus,
+.univ-form-select:focus,
+.univ-form-textarea:focus,
+.univ-input:focus,
+.univ-select:focus,
+.univ-textarea:focus {
+  outline: none !important;
+  border-color: #036D33 !important;
+  box-shadow: 0 0 0 3.5px rgba(3, 109, 51, 0.16) !important;
+  background-color: #FFFFFF !important;
+}
+
+.univ-form-input:hover:not(:focus),
+.univ-form-select:hover:not(:focus),
+.univ-form-textarea:hover:not(:focus),
+.univ-input:hover:not(:focus),
+.univ-select:hover:not(:focus),
+.univ-textarea:hover:not(:focus) {
+  border-color: #9CA3AF;
+}
+
+.univ-form-input::placeholder,
+.univ-form-textarea::placeholder,
+.univ-input::placeholder,
+.univ-textarea::placeholder {
+  color: #9CA3AF;
+  font-weight: 400;
+}
+
+.univ-form-input.input-error,
+.univ-form-select.input-error,
+.univ-form-textarea.input-error,
+.univ-input.input-error,
+.univ-textarea.input-error {
+  border-color: #C62828 !important;
+  background-color: #FFF8F8 !important;
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.12) !important;
+}
+
+.error-text {
+  color: #C62828;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.univ-form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.univ-form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .univ-form-grid-2,
+  .univ-form-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.univ-btn-secondary {
+  padding: 11px 22px;
+  background: #FFFFFF;
+  color: #374151;
+  border: 1.5px solid #D1D5DB;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.univ-btn-secondary:hover {
+  background: #F3F4F6;
+  border-color: #9CA3AF;
+  color: #111827;
+}
+
+/* Links and actions */
+.univ-auth-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 8px;
+  margin-bottom: 22px;
+}
+
+.univ-forgot-link {
+  color: #C62828;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.univ-forgot-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.univ-btn-primary {
+  width: 100%;
+  padding: 13px 22px;
+  background: linear-gradient(135deg, #036D33 0%, #024D24 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(3, 109, 51, 0.24);
+}
+
+.univ-btn-primary:hover {
+  background: linear-gradient(135deg, #04823d 0%, #024D24 100%);
+  box-shadow: 0 6px 18px rgba(2, 77, 36, 0.32);
+  transform: translateY(-1px);
+}
+
+.univ-btn-primary:active {
+  transform: translateY(0);
+}
+
+.univ-btn-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.univ-toggle-row {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #E5E7EB;
+  font-size: 0.9rem;
+  color: #4B5563;
+}
+
+.univ-toggle-btn {
+  background: none;
+  border: none;
+  color: #036D33;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 6px;
+  text-decoration: none;
+}
+
+.univ-toggle-btn:hover {
+  text-decoration: underline;
+  color: #024D24;
+}
+
+/* Section Dividers for Signup & Complex Forms */
+.signup-section-divider {
+  margin: 32px 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #E8F5EC;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.signup-section-heading {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #024D24;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.signup-badge-count {
+  font-size: 0.78rem;
+  font-weight: 800;
+  background: #E8F5EC;
+  color: #036D33;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Area of Expertise Checkbox Grid */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+@media (max-width: 768px) {
+  .expertise-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .expertise-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkbox-pill-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FAFCFA;
+  border: 1.5px solid #E5E7EB;
+  padding: 11px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.checkbox-pill-card:hover {
+  border-color: #036D33;
+  background: #F0FDF4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(3, 109, 51, 0.1);
+}
+
+.checkbox-pill-card.checked {
+  border-color: #036D33;
+  background: #E8F5EC;
+  color: #024D24;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(3, 109, 51, 0.1);
+}
+
+.checkbox-pill-card input[type="checkbox"] {
+  accent-color: #036D33;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.checkbox-pill-card span {
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+/* University Capabilities Categorized Sections */
+.capabilities-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.capability-category-box {
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 18px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.capability-category-box:hover {
+  transform: translateY(-3px);
+  border-color: rgba(3, 109, 51, 0.5);
+  box-shadow: 0 8px 22px rgba(3, 109, 51, 0.1);
+}
+
+.capability-category-header {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #024D24;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #E8F5EC;
+  padding-bottom: 8px;
+}
+
+.capability-items-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .capability-items-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.capability-check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #FAFCFA;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.capability-check-item:hover {
+  background: #F0FDF4;
+  border-color: #036D33;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(3, 109, 51, 0.08);
+}
+
+.capability-check-item input[type="checkbox"] {
+  accent-color: #036D33;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.capability-check-item span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #1F2937;
+}
+
+/* ==========================================================================
+   University Dashboard Styles
+   ========================================================================== */
+
+.univ-dashboard-wrapper {
+  background-color: #E8F5EC;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.univ-navbar {
+  background: #FFFFFF;
+  border-bottom: 2.5px solid #036D33;
+  box-shadow: 0 2px 8px rgba(3, 109, 51, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.univ-navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.univ-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.univ-portal-badge {
+  background: #036D33;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.univ-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.univ-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1.5px solid transparent;
+}
+
+.univ-btn-logout {
+  background: #FFF1F1;
+  color: #C62828;
+  border-color: rgba(198, 40, 40, 0.2);
+}
+
+.univ-btn-logout:hover {
+  background: #C62828;
+  color: #FFFFFF;
+}
+
+.univ-btn-backhome {
+  background: #E8F5EC;
+  color: #024D24;
+  border-color: rgba(3, 109, 51, 0.2);
+}
+
+.univ-btn-backhome:hover {
+  background: #036D33;
+  color: #FFFFFF;
+}
+
+/* Dashboard Content Area */
+.univ-content-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  flex: 1;
+}
+
+.univ-welcome-banner {
+  background: linear-gradient(135deg, #024D24 0%, #036D33 100%);
+  color: #FFFFFF;
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 10px 28px rgba(2, 77, 36, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.univ-welcome-banner::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.univ-welcome-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+
+.univ-welcome-meta {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.univ-welcome-tag {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* SECTION HEADER */
+.univ-dashboard-heading {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.univ-heading-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #024D24;
+  letter-spacing: -0.3px;
+}
+
+.univ-heading-sub {
+  font-size: 0.86rem;
+  color: #4B5563;
+}
+
+/* ==========================================================================
+   THE SIX PROBLEM CARDS GRID
+   Specification:
+   - Medium & Large devices: Exactly 2 cards per row (repeat(2, 1fr))
+   - Mobile devices: Single card per row (1fr)
+   ========================================================================== */
+
+.problems-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 cards in medium and large devices */
+  gap: 22px;
+}
+
+@media (max-width: 768px) {
+  .problems-cards-grid {
+    grid-template-columns: 1fr; /* Single card in mobile */
+    gap: 16px;
+  }
+}
+
+/* Individual Problem Card */
+.problem-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1.5px solid rgba(2, 77, 36, 0.12);
+  padding: 24px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 16px rgba(2, 77, 36, 0.06);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.problem-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--card-border-color, #036D33);
+}
+
+.problem-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 32px rgba(2, 77, 36, 0.14), 0 4px 10px rgba(0, 0, 0, 0.04);
+  border-color: #036D33;
+}
+
+.problem-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.problem-card-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4B5563;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.problem-card-title-hi {
+  font-size: 0.8rem;
+  color: #036D33;
+  font-weight: 600;
+}
+
+/* Big prominent Count */
+.problem-card-count {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1F2937;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-top: 6px;
+}
+
+.problem-card-icon-wrapper {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--icon-bg, #E8F5EC);
+  color: var(--icon-color, #036D33);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.problem-card:hover .problem-card-icon-wrapper {
+  transform: scale(1.1);
+}
+
+/* Card Theme Accents */
+.card-total-problems {
+  --card-border-color: #024D24;
+  --icon-bg: #E8F5EC;
+  --icon-color: #024D24;
+}
+
+.card-new-problems {
+  --card-border-color: #036D33;
+  --icon-bg: #E8F5EC;
+  --icon-color: #036D33;
+}
+
+.card-currently-working {
+  --card-border-color: #1E40AF;
+  --icon-bg: #EFF6FF;
+  --icon-color: #1E40AF;
+}
+
+.card-submitted-problems {
+  --card-border-color: #D97706;
+  --icon-bg: #FEF3C7;
+  --icon-color: #D97706;
+}
+
+.card-funding-approved {
+  --card-border-color: #059669;
+  --icon-bg: #ECFDF5;
+  --icon-color: #059669;
+}
+
+.card-submitted-to-government {
+  --card-border-color: #C62828;
+  --icon-bg: #FFF1F1;
+  --icon-color: #C62828;
+}
+
+/* ==========================================================================
+   Advanced Form Controls & Component Utilities
+   ========================================================================== */
+
+/* Filter Bar for Problems */
+.univ-filter-bar {
+  background: #FFFFFF;
+  border-radius: 14px;
+  border: 1.5px solid rgba(3, 109, 51, 0.15);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.univ-filter-bar:hover {
+  transform: translateY(-2px);
+  border-color: rgba(3, 109, 51, 0.4);
+  box-shadow: 0 6px 18px rgba(3, 109, 51, 0.08);
+}
+
+.univ-filter-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 14px;
+  align-items: flex-end;
+}
+
+@media (max-width: 960px) {
+  .univ-filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .univ-filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.univ-filter-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.univ-filter-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Upload Dropzone */
+.univ-upload-dropzone {
+  display: block;
+  border: 2px dashed #036D33;
+  padding: 24px 18px;
+  border-radius: 14px;
+  text-align: center;
+  background: #FAFCFA;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+
+.univ-upload-dropzone:hover {
+  background: #F0FDF4;
+  border-color: #024D24;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(3, 109, 51, 0.1);
+}
+
+.univ-sample-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1.5px solid #D1D5DB;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.univ-sample-pill:hover {
+  border-color: #036D33;
+  color: #024D24;
+  background: #E8F5EC;
+  transform: translateY(-1px);
+}
+
+/* Stepper Control for Team Members */
+.stepper-box {
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.stepper-box:hover {
+  transform: translateY(-2px);
+  border-color: rgba(3, 109, 51, 0.4);
+  box-shadow: 0 6px 16px rgba(3, 109, 51, 0.08);
+}
+
+.stepper-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepper-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid #036D33;
+  background: #E8F5EC;
+  color: #024D24;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.stepper-btn:hover {
+  background: #036D33;
+  color: #FFFFFF;
+}
+
+.stepper-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #D1D5DB;
+  background: #F3F4F6;
+  color: #9CA3AF;
+}
+
+.stepper-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1F2937;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* Dynamic Roster Card */
+.roster-card {
+  background: #FAFBFA;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+}
+
+.roster-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(3, 109, 51, 0.4);
+  box-shadow: 0 8px 20px rgba(3, 109, 51, 0.08);
+}
+
+.roster-card.faculty-theme {
+  background: #FFFDF7;
+  border-color: #FDE68A;
+}
+
+.roster-card.faculty-theme:hover {
+  border-color: #F59E0B;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.12);
+}
+
+.roster-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: #E8F5EC;
+  color: #036D33;
+  margin-bottom: 12px;
+}
+
+.roster-badge.faculty-badge {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+/* GPS Button */
+.gps-detect-btn {
+  background: #E8F5EC;
+  border: 1px solid rgba(3, 109, 51, 0.25);
+  color: #036D33;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.18s ease;
+}
+
+.gps-detect-btn:hover {
+  background: #036D33;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   Horizontal List Row Layout (One Problem per Line)
+   ========================================================================== */
+.univ-problem-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.univ-problem-list-row {
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.univ-problem-list-row:hover {
+  border-color: rgba(3, 109, 51, 0.45);
+  box-shadow: 0 8px 22px rgba(3, 109, 51, 0.1);
+  transform: translateY(-2px);
+}
+
+.univ-problem-list-row.is-working-row {
+  border-left: 5px solid #0284C7;
+}
+
+.univ-problem-list-row.is-new-row {
+  border-left: 5px solid #036D33;
+}
+
+.univ-problem-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.univ-problem-row-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.univ-problem-row-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px 0;
+  line-height: 1.35;
+}
+
+.univ-problem-row-desc {
+  font-size: 0.84rem;
+  color: #4B5563;
+  margin: 0 0 8px 0;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.univ-problem-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #6B7280;
+}
+
+.univ-problem-row-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 840px) {
+  .univ-problem-list-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .univ-problem-row-actions {
+    justify-content: flex-end;
+    border-top: 1px solid #F3F4F6;
+    padding-top: 10px;
+  }
+}

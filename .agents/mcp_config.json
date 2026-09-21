@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "civicconnect": {
+      "command": "python",
+      "args": [
+        "c:\\Users\\kesav\\OneDrive\\Desktop\\CivicConnect\\ai-service\\mcp-server\\server.py"
+      ],
+      "env": {
+        "MONGO_URI": "mongodb://localhost:27017",
+        "DB_NAME": "civicconnect_db",
+        "AI_SERVICE_URL": "http://localhost:8000",
+        "SPRING_BOOT_URL": "http://localhost:5000/api"
+      }
+    }
+  }
+}

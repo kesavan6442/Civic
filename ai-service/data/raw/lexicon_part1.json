@@ -1,0 +1,306 @@
+{
+  "Water Management & Drainage|||Drainage Siltation": {
+    "domain": "Water Management & Drainage",
+    "category": "Drainage Siltation",
+    "urgency": "High",
+    "en": [
+      "main stormwater drain choked with silt and debris",
+      "drainage culvert blocked with black sludge causing street overflow",
+      "open sewer canal overflowing into houses",
+      "sewage backup flooding residential area",
+      "desilting machinery needed for municipal drainage"
+    ],
+    "hi": [
+      "मुख्य नाला भारी गाद और कचरे से पट गया है",
+      "नाली की उड़ाही न होने से गंदा पानी सड़क पर बह रहा है",
+      "सीवर चोक होने से बदबूदार कीचड़ घरों में घुस रहा है",
+      "बरसात में नाला जाम होने से जलभराव हो गया है",
+      "जल निकासी की व्यवस्था ठप हो गई है"
+    ]
+  },
+  "Water Management & Drainage|||Drinking Water Contamination": {
+    "domain": "Water Management & Drainage",
+    "category": "Drinking Water Contamination",
+    "urgency": "Critical",
+    "en": [
+      "potable tap water is muddy and smelling of chemicals",
+      "fecal bacterial contamination detected in drinking water pipeline",
+      "community borewell water has foul chemical odor",
+      "residents suffering from diarrhea due to polluted water",
+      "drinking water supply mixed with sewage drain seepage"
+    ],
+    "hi": [
+      "नल से गंदा, मटमैला और बदबूदार पानी आ रहा है",
+      "पीने के पानी में सीवर का पानी मिल जाने से पीलिया फैल रहा है",
+      "चापाकल से लाल दुर्गंधयुक्त पानी निकल रहा है",
+      "दूषित जलापूर्ति के कारण बच्चे बीमार पड़ रहे हैं",
+      "पेयजल टंकी में गंदगी और कीड़े दिखाई दे रहे हैं"
+    ]
+  },
+  "Water Management & Drainage|||Pipeline Leakage": {
+    "domain": "Water Management & Drainage",
+    "category": "Pipeline Leakage",
+    "urgency": "High",
+    "en": [
+      "major potable water pipeline burst flooding main road",
+      "underground water main leaking thousands of liters daily",
+      "water supply pipe cracked causing road sub-base sinkhole",
+      "distribution pipe joint severed leaving colony without water",
+      "high pressure pipeline puncture creating continuous water wastage"
+    ],
+    "hi": [
+      "मुख्य सड़क पर पेयजल पाइपलाइन फटने से लाखों लीटर पानी बर्बाद हो रहा है",
+      "सड़क के नीचे पाइप लीक होने से सड़क धंस रही है",
+      "सप्लाई पाइपलाइन में बड़ा लीकेज होने से जलापूर्ति बंद है",
+      "चापाकल का राइजिंग पाइप टूट जाने से पानी व्यर्थ बह रहा है",
+      "जलमीनार की मुख्य पाइपलाइन में बड़ा रिसाव हो गया है"
+    ]
+  },
+  "Water Management & Drainage|||Groundwater Fluoride": {
+    "domain": "Water Management & Drainage",
+    "category": "Groundwater Fluoride",
+    "urgency": "Critical",
+    "en": [
+      "excessive fluoride in school borewell causing dental fluorosis in children",
+      "deep aquifer groundwater contains hazardous fluoride levels",
+      "villagers suffering from skeletal fluorosis and joint crippling",
+      "community defluoridation filtration plant is non-operational",
+      "water testing confirms fluoride double the permissible limit"
+    ],
+    "hi": [
+      "चापाकल के पानी में फ्लोराइड अधिक होने से बच्चों के दांत पीले पड़ रहे हैं",
+      "फ्लोराइड युक्त पानी पीने से बुजुर्गों और युवाओं में कुबड़ापन आ रहा है",
+      "भूजल में फ्लोराइड का खतरनाक स्तर मिला है, तुरंत फिल्टर चाहिए",
+      "फ्लोराइड ट्रीटमेंट प्लांट खराब होने से फ्लोरोसिस बीमारी फैल रही है",
+      "डीप बोरिंग के पानी में फ्लोराइड की विषाक्तता पाई गई है"
+    ]
+  },
+  "Roads, Potholes & Bridges|||Potholes": {
+    "domain": "Roads, Potholes & Bridges",
+    "category": "Potholes",
+    "urgency": "High",
+    "en": [
+      "deep crater potholes on highway causing fatal motorcycle crashes",
+      "series of sharp potholes on school road damaging vehicles",
+      "rainwater filled potholes creating severe traffic hazard",
+      "road surface completely disintegrating into loose gravel and holes",
+      "urgent bitumen patching required for large road cavities"
+    ],
+    "hi": [
+      "सड़क पर जानलेवा गहरे गड्ढे होने से रोज बाइक सवार गिर रहे हैं",
+      "हाईवे पर 2 किमी तक सड़क गड्ढों में तब्दील हो गई है",
+      "स्कूल के पास सड़क पर बड़े-बड़े गड्ढे होने से बस पलटने का खतरा है",
+      "गड्ढों में बारिश का पानी भरने से सड़क पर चलना मुश्किल हो गया है",
+      "कोलतार डालकर सड़क के गड्ढों की तुरंत मरम्मत की जाए"
+    ]
+  },
+  "Roads, Potholes & Bridges|||Asphalt Rutting": {
+    "domain": "Roads, Potholes & Bridges",
+    "category": "Asphalt Rutting",
+    "urgency": "Medium",
+    "en": [
+      "heavy mining trucks caused deep asphalt wheel rut channels",
+      "wavy bitumen deformation on highway causing loss of vehicle control",
+      "permanent pavement depression on commercial lane causing hydroplaning",
+      "asphalt shoving near traffic junction creating high uneven ridges",
+      "pavement resurfacing required to eliminate asphalt rutting tracks"
+    ],
+    "hi": [
+      "भारी ट्रकों के पहियों के दबाव से सड़क में गहरी नालियां बन गई हैं",
+      "डामर पिघलकर लहरदार हो गया है जिससे गाड़ियां फिसल रही हैं",
+      "सड़क के दोनों किनारों पर गहरा धंसाव होने से संतुलन बिगड़ता है",
+      "डामर उखड़कर मुड़ गया है, सड़क की मिलिंग और रीसर्फेसिंग जरूरी है",
+      "कोयला ढुलाई के कारण सड़क बीच से दब गई है और गड्ढे बन गए हैं"
+    ]
+  },
+  "Roads, Potholes & Bridges|||Bridge Structural Anomaly": {
+    "domain": "Roads, Potholes & Bridges",
+    "category": "Bridge Structural Anomaly",
+    "urgency": "Critical",
+    "en": [
+      "critical vertical crack observed in main bridge concrete pier",
+      "bridge expansion joint separated dangerously on flyover",
+      "flood surge scoured bridge foundation exposing steel reinforcement",
+      "heavy vibration and concrete spalling on river bridge under trucks",
+      "bridge approach embankment eroded risking sudden structural collapse"
+    ],
+    "hi": [
+      "नदी पुल के मुख्य खंभे में गहरा दरार आ गया है, पुल हिलता है",
+      "फ्लाईओवर के एक्सपेंशन जॉइंट में बड़ा गैप आ गया है, बड़ा खतरा है",
+      "बाढ़ से पुलिया की नींव कट गई है और सरिया बाहर निकल आया है",
+      "पुराने पुल की छत से कंक्रीट गिर रहा है, भारी वाहन रोके जाएं",
+      "पुल के पहुंच मार्ग की मिट्टी धंस जाने से संपर्क टूटने वाला है"
+    ]
+  },
+  "Roads, Potholes & Bridges|||Unpaved Rural Access": {
+    "domain": "Roads, Potholes & Bridges",
+    "category": "Unpaved Rural Access",
+    "urgency": "High",
+    "en": [
+      "only village approach road is unpaved kachha mud track",
+      "muddy slush on village road prevents ambulance from reaching hamlet",
+      "patients carried on cot due to lack of paved all-weather road",
+      "school students walking through deep mud on unpaved village track",
+      "monsoon rains completely washed out kachha road connectivity"
+    ],
+    "hi": [
+      "गांव का एकमात्र रास्ता कच्चा है जो बारिश में दलदल बन जाता है",
+      "पक्की सड़क न होने से मरीज और गर्भवती महिलाएं अस्पताल नहीं पहुंच पाते",
+      "कच्चे कीचड़ भरे रास्ते पर एंबुलेंस नहीं आ सकती, खाट पर ले जाना पड़ता है",
+      "स्कूल जाने के लिए बच्चों को 4 किमी कच्चे रास्ते पर पैदल चलना पड़ता है",
+      "प्रधानमंत्री ग्राम सड़क योजना के तहत पक्की सड़क का निर्माण कराया जाए"
+    ]
+  },
+  "Public Healthcare & Disease Sensors|||Vector-Borne Outbreak": {
+    "domain": "Public Healthcare & Disease Sensors",
+    "category": "Vector-Borne Outbreak",
+    "urgency": "Critical",
+    "en": [
+      "rapid surge in dengue and malaria cases due to stagnant drain puddles",
+      "mosquito vector breeding in waterlogged open plots causing fever outbreak",
+      "acute encephalitis and dengue fever cluster reported in rural block",
+      "need urgent fogging and rapid diagnostic sensor kits for malaria",
+      "primary health center overwhelmed with viral fever and dengue patients"
+    ],
+    "hi": [
+      "जलजमाव से डेंगू और मलेरिया का प्रकोप बहुत तेजी से फैल गया है",
+      "गांव में वायरल बुखार और मलेरिया से दर्जनों लोग पीड़ित हैं",
+      "मच्छरों के आतंक से डेंगू फैल रहा है, तुरंत फॉगिंग और दवा छिड़काव हो",
+      "स्वास्थ्य केंद्र में मलेरिया जांच किट और दवाइयों की भारी कमी है",
+      "डेंगू मरीजों की संख्या बढ़ने से अस्पताल में बेड कम पड़ गए हैं"
+    ]
+  },
+  "Public Healthcare & Disease Sensors|||Primary Health Centre Equipment": {
+    "domain": "Public Healthcare & Disease Sensors",
+    "category": "Primary Health Centre Equipment",
+    "urgency": "High",
+    "en": [
+      "primary health centre lacks functional ECG and ultrasound machines",
+      "diagnostic lab sensors and blood analyzer non-operational for months",
+      "PHC refrigerator broken, risking spoilage of vital vaccines and serums",
+      "lack of oxygen cylinders and basic surgical equipment in rural clinic",
+      "digital vitals monitoring equipment defunct at community health center"
+    ],
+    "hi": [
+      "प्राथमिक स्वास्थ्य केंद्र में ईसीजी और जांच मशीनें महीनों से बंद हैं",
+      "लैब में खून और पेशाब जांच के उपकरण खराब पड़े हैं",
+      "वैक्सीन रखने वाला डीप फ्रीजर खराब होने से टीके खराब हो रहे हैं",
+      "ऑक्सीजन सिलेंडर और जरूरी जीवन रक्षक दवाएं अस्पताल में नहीं हैं",
+      "स्वास्थ्य उपकेंद्र में डॉक्टर और जरूरी मेडिकल उपकरण उपलब्ध कराए जाएं"
+    ]
+  },
+  "Public Healthcare & Disease Sensors|||Waterborne Disease Surveillance": {
+    "domain": "Public Healthcare & Disease Sensors",
+    "category": "Waterborne Disease Surveillance",
+    "urgency": "Critical",
+    "en": [
+      "cholera and typhoid cluster identified following contaminated well usage",
+      "waterborne infection surveillance sensors alert bacterial spike in supply",
+      "multiple children hospitalized with acute gastroenteritis from stream water",
+      "need deployment of IoT water quality sensors for disease early warning",
+      "infectious diarrhea outbreak in tribal hamlet requiring emergency medical camp"
+    ],
+    "hi": [
+      "दूषित पानी पीने से हैजा और टाइफाइड का गंभीर संक्रमण फैल गया है",
+      "गांव में डायरिया का प्रकोप, कई बच्चे अस्पताल में भर्ती हैं",
+      "जल जनित बीमारियों की रोकथाम के लिए तुरंत मेडिकल टीम भेजी जाए",
+      "पानी की शुद्धता जांचने के लिए डिजिटल सेंसर की व्यवस्था की जाए",
+      "उल्टी-दस्त की महामारी फैलने से पूरे गांव में दहशत का माहौल है"
+    ]
+  },
+  "Public Healthcare & Disease Sensors|||Maternal Health Clinic": {
+    "domain": "Public Healthcare & Disease Sensors",
+    "category": "Maternal Health Clinic",
+    "urgency": "High",
+    "en": [
+      "rural maternal clinic lacks fetal heartbeat monitor and ultrasound probe",
+      "delivery room lacks sterile equipment and emergency neonatal resuscitation",
+      "antenatal care center in tribal block has no operational digital Hb sensor",
+      "maternal emergency transport vehicle unavailable for high-risk pregnancy",
+      "lack of dedicated maternity beds and pulse oximeters at health sub-centre"
+    ],
+    "hi": [
+      "मातृ स्वास्थ्य केंद्र में भ्रूण जांच और अल्ट्रासाउंड मशीन नहीं है",
+      "प्रसव कक्ष में जरूरी उपकरण और दवाओं का भारी अभाव है",
+      "गर्भवती महिलाओं के लिए हीमोग्लोबिन जांच किट उपलब्ध नहीं है",
+      "आपातकालीन प्रसव के लिए एंबुलेंस समय पर नहीं मिल पा रही है",
+      "उप-स्वास्थ्य केंद्र में सुरक्षित प्रसव के लिए बुनियादी सुविधाएं दी जाएं"
+    ]
+  },
+  "Renewable Energy & Solar Microgrids|||Solar Inverter Defect": {
+    "domain": "Renewable Energy & Solar Microgrids",
+    "category": "Solar Inverter Defect",
+    "urgency": "High",
+    "en": [
+      "solar microgrid central inverter faulted, plunging tribal village into darkness",
+      "faulty inverter charge controller tripping continuously under solar load",
+      "burnt inverter PCB in solar plant shutting down streetlights and fans",
+      "solar power conditioner failure preventing rooftop panel power delivery",
+      "inverter replacement needed for village community solar installation"
+    ],
+    "hi": [
+      "सोलर माइक्रोग्रिड का इन्वर्टर खराब होने से पूरे गांव में अंधेरा छाया है",
+      "सोलर इन्वर्टर बार-बार ट्रिप कर रहा है, बिजली आपूर्ति ठप हो गई है",
+      "सौर ऊर्जा प्लांट का इन्वर्टर जल गया है, स्ट्रीट लाइटें बंद हैं",
+      "सोलर चार्ज कंट्रोलर काम नहीं कर रहा, बैटरी चार्ज नहीं हो रही",
+      "गांव के सामुदायिक सोलर प्लांट का नया इन्वर्टर लगाया जाए"
+    ]
+  },
+  "Renewable Energy & Solar Microgrids|||Rural Microgrid Outage": {
+    "domain": "Renewable Energy & Solar Microgrids",
+    "category": "Rural Microgrid Outage",
+    "urgency": "High",
+    "en": [
+      "complete power failure in decentralized rural solar microgrid network",
+      "transmission wire snapped in off-grid solar microgrid system",
+      "tribal hamlet microgrid down for 10 days, halting drinking water pump",
+      "distribution line faults in village solar grid disrupting household power",
+      "microgrid telemetry shows total zero generation due to junction fault"
+    ],
+    "hi": [
+      "ग्रामीण सोलर माइक्रोग्रिड पूरी तरह ठप हो गया है, 100 घरों में बिजली नहीं है",
+      "सोलर ग्रिड का तार टूट जाने से बिजली आपूर्ति पिछले कई दिनों से बंद है",
+      "सोलर प्लांट से चलने वाला सोलर पंप बंद होने से पानी का संकट हो गया है",
+      "माइक्रोग्रिड की लाइन में खराबी से गांव में बिजली नहीं आ रही",
+      "सौर ऊर्जा वितरण प्रणाली की तत्काल मरम्मत कराई जाए"
+    ]
+  },
+  "Renewable Energy & Solar Microgrids|||Transformer Failure": {
+    "domain": "Renewable Energy & Solar Microgrids",
+    "category": "Transformer Failure",
+    "urgency": "High",
+    "en": [
+      "high-voltage electricity transformer burnt after lightning surge in village",
+      "distribution transformer leaking dielectric oil and sparking dangerously",
+      "burnt transformer cutting off agricultural borewell power for entire panchayat",
+      "transformer overloaded and tripped, leaving residential sector in blackout",
+      "need urgent replacement of 100 kVA transformer burnt since 2 weeks"
+    ],
+    "hi": [
+      "गांव का बिजली ट्रांसफार्मर जल गया है, पूरे इलाके में ब्लैकआउट है",
+      "ट्रांसफार्मर से तेल का रिसाव हो रहा है और चिंगारियां निकल रही हैं",
+      "ट्रांसफार्मर फुंकने से किसानों की बोरिंग और घरेलू बिजली बंद पड़ी है",
+      "ओवरलोड के कारण ट्रांसफार्मर खराब हो गया है, नया ट्रांसफार्मर लगाया जाए",
+      "पिछले 2 सप्ताह से ट्रांसफार्मर जला हुआ है, बिजली विभाग सुध नहीं ले रहा"
+    ]
+  },
+  "Renewable Energy & Solar Microgrids|||Off-grid Battery Storage": {
+    "domain": "Renewable Energy & Solar Microgrids",
+    "category": "Off-grid Battery Storage",
+    "urgency": "Medium",
+    "en": [
+      "solar battery bank depleted and dead, unable to hold night power backup",
+      "deep cycle solar batteries sulfated and leaking acid in community center",
+      "battery energy storage failure leaving rural health center without cold chain",
+      "degraded lithium-ion storage cells causing premature microgrid shutdown",
+      "replacement of battery storage rack required for remote tribal village"
+    ],
+    "hi": [
+      "सोलर बैटरी पूरी तरह खराब हो गई है, रात में बिजली बैकअप नहीं मिलता",
+      "सामुदायिक केंद्र में सोलर बैटरी से एसिड का रिसाव हो रहा है",
+      "बैटरी खराब होने से स्वास्थ्य केंद्र के फ्रिज में वैक्सीन सुरक्षित नहीं हैं",
+      "सौर ऊर्जा बैटरी की क्षमता खत्म हो चुकी है, नई बैटरियां लगाई जाएं",
+      "सोलर स्टोरेज खराब होने से शाम होते ही गांव अंधेरे में डूब जाता है"
+    ]
+  }
+}
