@@ -293,6 +293,34 @@ public class McpToolRegistry {
 
         registerTool("mcp_approve_funding", "Authorize CSR co-funding grant disbursement for an approved project.", "HIGH_IMPACT",
                 Map.of("type", "object", "properties", Map.of("project_id", Map.of("type", "string"), "amount", Map.of("type", "number"), "confirm", Map.of("type", "boolean")), "required", List.of("project_id", "amount")));
+
+        // --- PROPOSAL GENERATION & SUBMISSION TOOLS ---
+        registerTool("mcp_prepare_university_proposal", "Generate a university proposal preview based on actual problem details and university capabilities.", "ANALYZE",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "university_id", Map.of("type", "string")), "required", List.of("problem_id")));
+
+        registerTool("mcp_generate_university_proposal", "Alias for mcp_prepare_university_proposal.", "ANALYZE",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "university_id", Map.of("type", "string")), "required", List.of("problem_id")));
+
+        registerTool("mcp_submit_university_proposal", "Submit a generated university proposal to MongoDB upon explicit Admin confirmation (HIGH_IMPACT).", "HIGH_IMPACT",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "university_id", Map.of("type", "string"), "solution_title", Map.of("type", "string"), "technical_approach", Map.of("type", "string"), "estimated_cost", Map.of("type", "string"), "timeline_weeks", Map.of("type", "number"), "confirm", Map.of("type", "boolean")), "required", List.of("problem_id")));
+
+        registerTool("mcp_prepare_industry_proposal", "Generate an industry CSR proposal preview based on actual problem details and industry CSR sectors.", "ANALYZE",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "industry_id", Map.of("type", "string")), "required", List.of("problem_id")));
+
+        registerTool("mcp_generate_industry_proposal", "Alias for mcp_prepare_industry_proposal.", "ANALYZE",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "industry_id", Map.of("type", "string")), "required", List.of("problem_id")));
+
+        registerTool("mcp_submit_industry_proposal", "Submit a generated industry proposal to MongoDB upon explicit Admin confirmation (HIGH_IMPACT).", "HIGH_IMPACT",
+                Map.of("type", "object", "properties", Map.of("problem_id", Map.of("type", "string"), "industry_id", Map.of("type", "string"), "solution_title", Map.of("type", "string"), "technical_approach", Map.of("type", "string"), "funding_amount", Map.of("type", "string"), "timeline_weeks", Map.of("type", "number"), "confirm", Map.of("type", "boolean")), "required", List.of("problem_id")));
+
+        registerTool("mcp_generate_bulk_proposals", "Generate customized proposal previews for all eligible problems dynamically based on actual institution capabilities.", "ANALYZE",
+                Map.of("type", "object", "properties", Map.of("limit", Map.of("type", "number"), "district", Map.of("type", "string"))));
+
+        registerTool("mcp_submit_bulk_proposals", "Submit all generated university and industry proposals to MongoDB upon Admin confirmation (HIGH_IMPACT).", "HIGH_IMPACT",
+                Map.of("type", "object", "properties", Map.of("limit", Map.of("type", "number"), "confirm", Map.of("type", "boolean"))));
+
+        registerTool("mcp_create_test_problems", "Create real test problem records in MongoDB database (HIGH_IMPACT).", "HIGH_IMPACT",
+                Map.of("type", "object", "properties", Map.of("count", Map.of("type", "number"), "confirm", Map.of("type", "boolean"))));
     }
 
     private void registerTool(String name, String description, String category, Map<String, Object> schema) {
@@ -414,6 +442,15 @@ public class McpToolRegistry {
             case "mcp_merge_problem" -> executeMergeProblem(params, token);
             case "mcp_approve_solution" -> executeApproveSolution(params, token);
             case "mcp_approve_funding" -> executeApproveFunding(params, token);
+
+            // Proposal Generation & Submission Actions
+            case "mcp_prepare_university_proposal", "mcp_generate_university_proposal" -> prepareUniversityProposal(params);
+            case "mcp_submit_university_proposal" -> executeSubmitUniversityProposal(params, token);
+            case "mcp_prepare_industry_proposal", "mcp_generate_industry_proposal" -> prepareIndustryProposal(params);
+            case "mcp_submit_industry_proposal" -> executeSubmitIndustryProposal(params, token);
+            case "mcp_generate_bulk_proposals", "mcp_prepare_bulk_proposals" -> generateBulkProposals(params);
+            case "mcp_submit_bulk_proposals", "mcp_submit_proposals" -> executeSubmitBulkProposals(params, token);
+            case "mcp_create_test_problems", "mcp_create_test_problem" -> executeCreateTestProblems(params, token);
 
             default -> Map.of("status", "SUCCESS", "message", "Tool executed successfully");
         };
@@ -1789,6 +1826,344 @@ public class McpToolRegistry {
         String projId = (String) params.get("project_id");
         Number amount = (Number) params.getOrDefault("amount", 2500000);
         return Map.of("success", true, "projectId", projId != null ? projId : "N/A", "fundingSanctioned", "₹ " + amount + " allocated from CSR grant.");
+    }
+
+    private Object prepareUniversityProposal(Map<String, Object> params) {
+        String problemId = (String) params.getOrDefault("problem_id", params.get("id"));
+        if (problemId == null) return Map.of("error", "problem_id is required");
+        Problem problem = problemRepository.findById(problemId).orElse(null);
+        if (problem == null) return Map.of("error", "Problem not found: " + problemId);
+
+        String univId = (String) params.getOrDefault("university_id", params.get("universityId"));
+        University univ = null;
+        if (univId != null) {
+            univ = universityRepository.findById(univId).orElse(null);
+            if (univ == null) {
+                univ = universityRepository.findAll().stream()
+                        .filter(u -> u.getName() != null && u.getName().toLowerCase().contains(univId.toLowerCase()))
+                        .findFirst().orElse(null);
+            }
+        }
+        if (univ == null) {
+            List<Map<String, Object>> matches = aiService.recommendUniversities(problem);
+            if (matches != null && !matches.isEmpty()) {
+                String matchId = (String) matches.get(0).get("id");
+                if (matchId != null) univ = universityRepository.findById(matchId).orElse(null);
+            }
+        }
+        if (univ == null) {
+            univ = universityRepository.findAll().stream().findFirst().orElse(null);
+        }
+        if (univ == null) return Map.of("error", "No suitable university found for problem: " + problemId);
+
+        String dept = (univ.getDepartments() != null && !univ.getDepartments().isEmpty()) ? univ.getDepartments().get(0) : "Advanced Research & Engineering Lab";
+        List<String> expertise = univ.getExpertise() != null ? univ.getExpertise() : List.of("Civic Technology");
+
+        String title = "University R&D Proposal: " + problem.getTitle() + " (" + univ.getName() + ")";
+        String approach = "Engineering and R&D proposal developed by " + univ.getName() + " (" + dept + ") leveraging specialized capability in " + String.join(", ", expertise) + " to resolve " + problem.getTitle() + " in " + (problem.getDistrict() != null ? problem.getDistrict() : "Jharkhand") + ". Field deployment will utilize local lab facilities and telemetry sensors.";
+
+        Map<String, Object> preview = new LinkedHashMap<>();
+        preview.put("status", "PREVIEW");
+        preview.put("problemId", problem.getId());
+        preview.put("problemTitle", problem.getTitle());
+        preview.put("universityId", univ.getId());
+        preview.put("universityName", univ.getName());
+        preview.put("department", dept);
+        preview.put("expertiseMatched", expertise);
+        preview.put("solutionTitle", title);
+        preview.put("technicalApproach", approach);
+        preview.put("estimatedCost", "₹ 4.5 Lakhs");
+        preview.put("timelineWeeks", 6);
+        preview.put("requiresAdminConfirmation", true);
+        preview.put("confirmPrompt", "Proposal preview generated. To submit this proposal to MongoDB, call mcp_submit_university_proposal with problem_id='" + problem.getId() + "', university_id='" + univ.getId() + "', and confirm=true.");
+        return preview;
+    }
+
+    private Object executeSubmitUniversityProposal(Map<String, Object> params, McpToken token) {
+        String problemId = (String) params.getOrDefault("problem_id", params.get("id"));
+        if (problemId == null) return Map.of("error", "problem_id is required");
+        Problem problem = problemRepository.findById(problemId).orElse(null);
+        if (problem == null) return Map.of("error", "Problem not found: " + problemId);
+
+        String univId = (String) params.getOrDefault("university_id", params.get("universityId"));
+        University univ = null;
+        if (univId != null) {
+            univ = universityRepository.findById(univId).orElse(null);
+        }
+        if (univ == null) {
+            univ = universityRepository.findAll().stream().findFirst().orElse(null);
+        }
+        if (univ == null) return Map.of("error", "No suitable university found");
+
+        String solutionTitle = (String) params.getOrDefault("solution_title", "University R&D Technical Proposal: " + problem.getTitle());
+        String technicalApproach = (String) params.getOrDefault("technical_approach", "Engineering and lab prototype implementation by " + univ.getName() + " addressing " + problem.getTitle() + ".");
+        String cost = (String) params.getOrDefault("estimated_cost", "₹ 4.5 Lakhs");
+        int weeks = params.containsKey("timeline_weeks") && params.get("timeline_weeks") instanceof Number n ? n.intValue() : 6;
+
+        Solution sol = new Solution();
+        sol.setId("SOL-UNIV-" + System.currentTimeMillis() % 1000000);
+        sol.setProblemId(problem.getId());
+        sol.setProblemTitle(problem.getTitle());
+        sol.setUniversityId(univ.getId());
+        sol.setUniversityName(univ.getName());
+        sol.setDepartment((univ.getDepartments() != null && !univ.getDepartments().isEmpty()) ? univ.getDepartments().get(0) : "Engineering Dept");
+        sol.setSolutionTitle(solutionTitle);
+        sol.setTechnicalApproach(technicalApproach);
+        sol.setEstimatedCost(cost);
+        sol.setEstimatedTimeWeeks(weeks);
+        sol.setSubmitterType("university");
+        sol.setStatus("Under Review");
+        sol.setFeasibilityScore(90);
+        sol.setTechnicalQualityScore(92);
+        sol.setOverallScore("91%");
+        sol.setCreatedAt(Instant.now().toString());
+        solutionRepository.save(sol);
+
+        problem.setStatus("AWAITING_PROPOSALS");
+        problemRepository.save(problem);
+
+        AuditLog log = new AuditLog();
+        log.setAction("MCP_SUBMIT_UNIVERSITY_PROPOSAL");
+        log.setEntityId(sol.getId());
+        log.setDetails("Submitted University Proposal for problem " + problem.getId() + " by " + univ.getName());
+        log.setTimestamp(Instant.now().toString());
+        if (auditLogRepository != null) auditLogRepository.save(log);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", "SUBMITTED");
+        result.put("solutionId", sol.getId());
+        result.put("problemId", problem.getId());
+        result.put("universityId", univ.getId());
+        result.put("universityName", univ.getName());
+        result.put("solutionTitle", sol.getSolutionTitle());
+        result.put("estimatedCost", sol.getEstimatedCost());
+        result.put("timelineWeeks", sol.getEstimatedTimeWeeks());
+        result.put("message", "University proposal submitted successfully and saved to MongoDB.");
+        return result;
+    }
+
+    private Object prepareIndustryProposal(Map<String, Object> params) {
+        String problemId = (String) params.getOrDefault("problem_id", params.get("id"));
+        if (problemId == null) return Map.of("error", "problem_id is required");
+        Problem problem = problemRepository.findById(problemId).orElse(null);
+        if (problem == null) return Map.of("error", "Problem not found: " + problemId);
+
+        String indId = (String) params.getOrDefault("industry_id", params.get("industryId"));
+        IndustryPartner ind = null;
+        if (indId != null) {
+            ind = industryRepository.findById(indId).orElse(null);
+            if (ind == null) {
+                ind = industryRepository.findAll().stream()
+                        .filter(i -> i.getCompanyName() != null && i.getCompanyName().toLowerCase().contains(indId.toLowerCase()))
+                        .findFirst().orElse(null);
+            }
+        }
+        if (ind == null) {
+            List<Map<String, Object>> matches = aiService.recommendIndustries(problem);
+            if (matches != null && !matches.isEmpty()) {
+                String matchId = (String) matches.get(0).get("id");
+                if (matchId != null) ind = industryRepository.findById(matchId).orElse(null);
+            }
+        }
+        if (ind == null) {
+            ind = industryRepository.findAll().stream().findFirst().orElse(null);
+        }
+        if (ind == null) return Map.of("error", "No suitable industry found for problem: " + problemId);
+
+        List<String> sectors = ind.getExpertiseSectors() != null ? ind.getExpertiseSectors() : List.of("CSR Infrastructure");
+        String title = "Industrial CSR Proposal: " + problem.getTitle() + " (" + ind.getCompanyName() + ")";
+        String approach = "CSR co-funding and field deployment initiative by " + ind.getCompanyName() + " focusing on " + String.join(", ", sectors) + ". Will deploy equipment fleet and provide CSR capital grant for turnkey execution.";
+
+        Map<String, Object> preview = new LinkedHashMap<>();
+        preview.put("status", "PREVIEW");
+        preview.put("problemId", problem.getId());
+        preview.put("problemTitle", problem.getTitle());
+        preview.put("industryId", ind.getId());
+        preview.put("companyName", ind.getCompanyName());
+        preview.put("csrFocusSectors", sectors);
+        preview.put("solutionTitle", title);
+        preview.put("technicalApproach", approach);
+        preview.put("fundingAmount", "₹ 15.0 Lakhs CSR Grant");
+        preview.put("timelineWeeks", 8);
+        preview.put("requiresAdminConfirmation", true);
+        preview.put("confirmPrompt", "Industry proposal preview generated. To submit to MongoDB, call mcp_submit_industry_proposal with problem_id='" + problem.getId() + "', industry_id='" + ind.getId() + "', and confirm=true.");
+        return preview;
+    }
+
+    private Object executeSubmitIndustryProposal(Map<String, Object> params, McpToken token) {
+        String problemId = (String) params.getOrDefault("problem_id", params.get("id"));
+        if (problemId == null) return Map.of("error", "problem_id is required");
+        Problem problem = problemRepository.findById(problemId).orElse(null);
+        if (problem == null) return Map.of("error", "Problem not found: " + problemId);
+
+        String indId = (String) params.getOrDefault("industry_id", params.get("industryId"));
+        IndustryPartner ind = null;
+        if (indId != null) {
+            ind = industryRepository.findById(indId).orElse(null);
+        }
+        if (ind == null) {
+            ind = industryRepository.findAll().stream().findFirst().orElse(null);
+        }
+        if (ind == null) return Map.of("error", "No suitable industry found");
+
+        String title = (String) params.getOrDefault("solution_title", "Industrial CSR Proposal: " + problem.getTitle());
+        String approach = (String) params.getOrDefault("technical_approach", "Turnkey CSR equipment deployment and field maintenance by " + ind.getCompanyName() + ".");
+        String funding = (String) params.getOrDefault("funding_amount", params.getOrDefault("estimated_cost", "₹ 15.0 Lakhs CSR Grant"));
+        int weeks = params.containsKey("timeline_weeks") && params.get("timeline_weeks") instanceof Number n ? n.intValue() : 8;
+
+        Collaboration col = new Collaboration();
+        col.setId("COL-IND-" + System.currentTimeMillis() % 1000000);
+        col.setProblemId(problem.getId());
+        col.setProblemTitle(problem.getTitle());
+        col.setIndustryId(ind.getId());
+        col.setCompanyName(ind.getCompanyName());
+        col.setCategory((ind.getExpertiseSectors() != null && !ind.getExpertiseSectors().isEmpty()) ? ind.getExpertiseSectors().get(0) : problem.getCategory());
+        col.setFundingAmount(funding);
+        col.setCsrCommitmentDetails(approach);
+        col.setStatus("Submitted");
+        col.setCreatedAt(Instant.now().toString());
+        collaborationRepository.save(col);
+
+        Solution sol = new Solution();
+        sol.setId("SOL-IND-" + System.currentTimeMillis() % 1000000);
+        sol.setProblemId(problem.getId());
+        sol.setProblemTitle(problem.getTitle());
+        sol.setCompanyId(ind.getId());
+        sol.setCompanyName(ind.getCompanyName());
+        sol.setSolutionTitle(title);
+        sol.setTechnicalApproach(approach);
+        sol.setEstimatedCost(funding);
+        sol.setEstimatedTimeWeeks(weeks);
+        sol.setSubmitterType("industry");
+        sol.setStatus("Submitted");
+        sol.setCreatedAt(Instant.now().toString());
+        solutionRepository.save(sol);
+
+        problem.setStatus("AWAITING_PROPOSALS");
+        problemRepository.save(problem);
+
+        AuditLog log = new AuditLog();
+        log.setAction("MCP_SUBMIT_INDUSTRY_PROPOSAL");
+        log.setEntityId(col.getId());
+        log.setDetails("Submitted Industry Proposal for problem " + problem.getId() + " by " + ind.getCompanyName());
+        log.setTimestamp(Instant.now().toString());
+        if (auditLogRepository != null) auditLogRepository.save(log);
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", "SUBMITTED");
+        result.put("collaborationId", col.getId());
+        result.put("solutionId", sol.getId());
+        result.put("problemId", problem.getId());
+        result.put("industryId", ind.getId());
+        result.put("companyName", ind.getCompanyName());
+        result.put("fundingAmount", col.getFundingAmount());
+        result.put("message", "Industry CSR proposal submitted successfully and saved to MongoDB.");
+        return result;
+    }
+
+    private Object generateBulkProposals(Map<String, Object> params) {
+        int limit = params.containsKey("limit") && params.get("limit") instanceof Number n ? n.intValue() : 10;
+        List<Problem> problems = problemRepository.findAll().stream().limit(limit).toList();
+
+        List<Map<String, Object>> uPreviews = new ArrayList<>();
+        List<Map<String, Object>> iPreviews = new ArrayList<>();
+
+        for (Problem p : problems) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> uP = (Map<String, Object>) prepareUniversityProposal(Map.of("problem_id", p.getId()));
+            @SuppressWarnings("unchecked")
+            Map<String, Object> iP = (Map<String, Object>) prepareIndustryProposal(Map.of("problem_id", p.getId()));
+
+            if (uP != null && !uP.containsKey("error")) uPreviews.add(uP);
+            if (iP != null && !iP.containsKey("error")) iPreviews.add(iP);
+        }
+
+        Map<String, Object> bulkPreview = new LinkedHashMap<>();
+        bulkPreview.put("status", "PREVIEW");
+        bulkPreview.put("eligibleProblemsCount", problems.size());
+        bulkPreview.put("generatedUniversityProposalsCount", uPreviews.size());
+        bulkPreview.put("generatedIndustryProposalsCount", iPreviews.size());
+        bulkPreview.put("universityProposalPreviews", uPreviews);
+        bulkPreview.put("industryProposalPreviews", iPreviews);
+        bulkPreview.put("requiresAdminConfirmation", true);
+        bulkPreview.put("confirmPrompt", "Bulk proposals generated for " + problems.size() + " problems. To submit all proposals to MongoDB, call mcp_submit_bulk_proposals with confirm=true.");
+        return bulkPreview;
+    }
+
+    private Object executeSubmitBulkProposals(Map<String, Object> params, McpToken token) {
+        int limit = params.containsKey("limit") && params.get("limit") instanceof Number n ? n.intValue() : 10;
+        List<Problem> problems = problemRepository.findAll().stream().limit(limit).toList();
+
+        int univSubmitted = 0;
+        int indSubmitted = 0;
+
+        for (Problem p : problems) {
+            Object uRes = executeSubmitUniversityProposal(Map.of("problem_id", p.getId()), token);
+            if (uRes instanceof Map<?, ?> m && "SUBMITTED".equals(m.get("status"))) univSubmitted++;
+
+            Object iRes = executeSubmitIndustryProposal(Map.of("problem_id", p.getId()), token);
+            if (iRes instanceof Map<?, ?> m && "SUBMITTED".equals(m.get("status"))) indSubmitted++;
+        }
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", "SUBMITTED");
+        result.put("problemsProcessed", problems.size());
+        result.put("submittedUniversityProposalsCount", univSubmitted);
+        result.put("submittedIndustryProposalsCount", indSubmitted);
+        result.put("message", "Successfully created and stored " + (univSubmitted + indSubmitted) + " real proposals in MongoDB.");
+        return result;
+    }
+
+    private Object executeCreateTestProblems(Map<String, Object> params, McpToken token) {
+        int count = params.containsKey("count") && params.get("count") instanceof Number n ? n.intValue() : 2;
+        List<Map<String, Object>> createdList = new ArrayList<>();
+
+        for (int i = 1; i <= count; i++) {
+            Problem p = new Problem();
+            String pId = "JH-CHLG-2026-TEST" + String.format("%02d", (int)(Math.random() * 900 + 100));
+            p.setId(pId);
+            if (i % 2 == 1) {
+                p.setTitle("Harmu River Heavy Metal Siltation & Bio-filtration System");
+                p.setCategory("Water Management & Drainage");
+                p.setDomain("Biological Wastewater Treatment");
+                p.setDescription("Excessive silt accumulation and heavy metal industrial discharge in Harmu river requires multi-tier bio-floating raft filtration.");
+                p.setDistrict("Ranchi");
+                p.setLocationAddress("Ward 26, Harmu River Catchment, Ranchi");
+                p.setCitizenName("Sunil Kumar Mahato");
+                p.setCitizenPhone("+91 94311 87290");
+            } else {
+                p.setTitle("Rural Tele-Diagnostics & Solar Fluoride Removal Sensor");
+                p.setCategory("Public Healthcare & Disease Sensors");
+                p.setDomain("Chemical Sensing & Community Epidemiology");
+                p.setDescription("Groundwater fluoride contamination in rural blocks requires IoT telemetry sensors and solar water filtration.");
+                p.setDistrict("Sahibganj");
+                p.setLocationAddress("Rajmahal Block High School Borewell, Sahibganj");
+                p.setCitizenName("Dr. Prakash Soren");
+                p.setCitizenPhone("+91 91225 63891");
+            }
+            p.setUrgency("Critical");
+            p.setPriority("Critical");
+            p.setStatus("Approved for Matching");
+            p.setApprovalStatus("APPROVED_FOR_MATCHING");
+            p.setCreatedAt(Instant.now().toString());
+
+            problemRepository.save(p);
+
+            Map<String, Object> item = new LinkedHashMap<>();
+            item.put("problemId", p.getId());
+            item.put("title", p.getTitle());
+            item.put("category", p.getCategory());
+            item.put("district", p.getDistrict());
+            item.put("status", p.getStatus());
+            createdList.add(item);
+        }
+
+        Map<String, Object> res = new LinkedHashMap<>();
+        res.put("status", "CREATED");
+        res.put("count", createdList.size());
+        res.put("createdProblems", createdList);
+        res.put("message", "Created " + createdList.size() + " test problems in MongoDB database.");
+        return res;
     }
 
     @SuppressWarnings("unchecked")

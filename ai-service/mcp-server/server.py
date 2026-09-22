@@ -26,7 +26,9 @@ from tools.solution_tools import (
     analyze_solution, compare_solutions, identify_missing_information, analyze_solution_risk,
     generate_collaboration_report, get_problem_proposals, get_university_proposals,
     get_industry_proposals, analyze_proposals, compare_proposals, find_best_collaborations,
-    rank_collaboration_pairs, explain_collaboration, batch_collaboration_report
+    rank_collaboration_pairs, explain_collaboration, batch_collaboration_report,
+    prepare_university_proposal, submit_university_proposal, prepare_industry_proposal,
+    submit_industry_proposal, generate_bulk_proposals, submit_bulk_proposals, create_test_problems
 )
 from tools.project_tools import (
     get_project_status, analyze_project_risk, get_milestone_status, analyze_project_delay,
@@ -258,6 +260,51 @@ def mcp_identify_missing_information(proposal_data: str) -> dict:
 def mcp_analyze_solution_risk(solution_id: str) -> dict:
     """Compute delivery, procurement, and environmental risks for a selected solution."""
     return analyze_solution_risk(solution_id)
+
+@mcp.tool()
+def mcp_prepare_university_proposal(problem_id: str, university_id: str = "") -> dict:
+    """Generate a university proposal preview based on actual problem details and university capabilities."""
+    return prepare_university_proposal(problem_id=problem_id, university_id=university_id)
+
+@mcp.tool()
+def mcp_generate_university_proposal(problem_id: str, university_id: str = "") -> dict:
+    """Alias for mcp_prepare_university_proposal."""
+    return prepare_university_proposal(problem_id=problem_id, university_id=university_id)
+
+@mcp.tool()
+def mcp_submit_university_proposal(problem_id: str, university_id: str = "", solution_title: str = "", technical_approach: str = "", estimated_cost: str = "₹ 4.5 Lakhs", timeline_weeks: int = 6, confirm: bool = False) -> dict:
+    """Submit a generated university proposal to MongoDB upon explicit Admin confirmation (HIGH_IMPACT). Requires confirm: true."""
+    return submit_university_proposal(problem_id=problem_id, university_id=university_id, solution_title=solution_title, technical_approach=technical_approach, estimated_cost=estimated_cost, timeline_weeks=timeline_weeks, confirm=confirm)
+
+@mcp.tool()
+def mcp_prepare_industry_proposal(problem_id: str, industry_id: str = "") -> dict:
+    """Generate an industry CSR proposal preview based on actual problem details and industry capabilities."""
+    return prepare_industry_proposal(problem_id=problem_id, industry_id=industry_id)
+
+@mcp.tool()
+def mcp_generate_industry_proposal(problem_id: str, industry_id: str = "") -> dict:
+    """Alias for mcp_prepare_industry_proposal."""
+    return prepare_industry_proposal(problem_id=problem_id, industry_id=industry_id)
+
+@mcp.tool()
+def mcp_submit_industry_proposal(problem_id: str, industry_id: str = "", solution_title: str = "", technical_approach: str = "", funding_amount: str = "₹ 15.0 Lakhs CSR Grant", timeline_weeks: int = 8, confirm: bool = False) -> dict:
+    """Submit a generated industry proposal to MongoDB upon explicit Admin confirmation (HIGH_IMPACT). Requires confirm: true."""
+    return submit_industry_proposal(problem_id=problem_id, industry_id=industry_id, solution_title=solution_title, technical_approach=technical_approach, funding_amount=funding_amount, timeline_weeks=timeline_weeks, confirm=confirm)
+
+@mcp.tool()
+def mcp_generate_bulk_proposals(limit: int = 10) -> dict:
+    """Generate customized proposal previews for all eligible problems dynamically based on actual institution capabilities."""
+    return generate_bulk_proposals(limit=limit)
+
+@mcp.tool()
+def mcp_submit_bulk_proposals(limit: int = 10, confirm: bool = False) -> dict:
+    """Submit all generated university and industry proposals to MongoDB upon Admin confirmation (HIGH_IMPACT). Requires confirm: true."""
+    return submit_bulk_proposals(limit=limit, confirm=confirm)
+
+@mcp.tool()
+def mcp_create_test_problems(count: int = 2, confirm: bool = True) -> dict:
+    """Create real test problem records in MongoDB database (HIGH_IMPACT)."""
+    return create_test_problems(count=count, confirm=confirm)
 
 # =====================================================================
 # 5. COLLABORATION INTELLIGENCE (GATE 2) TOOLS

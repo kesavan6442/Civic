@@ -29,7 +29,13 @@ public class McpAuthorizationService {
             "mcp_assign_problem",
             "mcp_merge_problem",
             "mcp_approve_solution",
-            "mcp_approve_funding"
+            "mcp_approve_funding",
+            "mcp_submit_university_proposal",
+            "mcp_submit_industry_proposal",
+            "mcp_submit_bulk_proposals",
+            "mcp_submit_proposals",
+            "mcp_create_test_problems",
+            "mcp_create_test_problem"
     );
 
     private static final Set<String> READ_TOOLS = Set.of(
@@ -93,7 +99,13 @@ public class McpAuthorizationService {
             "mcp_generate_sla_report",
             "mcp_analyze_completion_evidence",
             "mcp_analyze_project_resolution",
-            "mcp_generate_verification_report"
+            "mcp_generate_verification_report",
+            "mcp_prepare_university_proposal",
+            "mcp_generate_university_proposal",
+            "mcp_prepare_industry_proposal",
+            "mcp_generate_industry_proposal",
+            "mcp_generate_bulk_proposals",
+            "mcp_prepare_bulk_proposals"
     );
 
     public ToolCategory getCategoryForTool(String toolName) {

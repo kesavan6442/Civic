@@ -319,3 +319,298 @@ def batch_collaboration_report(problem_ids: list) -> dict:
         "reports": reports
     }
 
+def prepare_university_proposal(problem_id: str, university_id: str = None) -> dict:
+    """Generate a university proposal preview based on actual problem details and university capabilities."""
+    audit_log("prepare_university_proposal", {"problem_id": problem_id, "u_id": university_id})
+    db = get_mongo_db()
+    prob = db.problems.find_one({"$or": [{"id": problem_id}, {"_id": problem_id}]}, {"_id": 0}) or {}
+    if not prob:
+        return {"error": f"Problem not found: {problem_id}"}
+    
+    univ = None
+    if university_id:
+        univ = db.universities.find_one({"$or": [{"id": university_id}, {"name": {"$regex": university_id, "$options": "i"}}]}, {"_id": 0})
+    if not univ:
+        univ = db.universities.find_one({}, {"_id": 0}) or {
+            "id": "UNIV-CUJ-01",
+            "name": "Central University of Jharkhand (CUJ), Ranchi",
+            "departments": ["Centre for Water Engineering & Environmental Sciences"],
+            "expertise": ["Water Management & Drainage", "Biological Wastewater Treatment"]
+        }
+    
+    dept = univ.get("departments", ["Research Lab"])[0] if univ.get("departments") else "Research Lab"
+    expertise = univ.get("expertise", ["Civic R&D"])
+    
+    title = f"University R&D Proposal: {prob.get('title', 'Civic Challenge')} ({univ.get('name')})"
+    approach = f"Engineering R&D proposal developed by {univ.get('name')} ({dept}) leveraging expertise in {', '.join(expertise)} to resolve {prob.get('title')} in {prob.get('district', 'Jharkhand')}."
+    
+    return {
+        "status": "PREVIEW",
+        "problemId": problem_id,
+        "problemTitle": prob.get("title"),
+        "universityId": univ.get("id"),
+        "universityName": univ.get("name"),
+        "department": dept,
+        "expertiseMatched": expertise,
+        "solutionTitle": title,
+        "technicalApproach": approach,
+        "estimatedCost": "₹ 4.5 Lakhs",
+        "timelineWeeks": 6,
+        "requiresAdminConfirmation": True,
+        "confirmPrompt": f"Proposal preview generated. To submit to MongoDB, invoke submit_university_proposal with problem_id='{problem_id}', university_id='{univ.get('id')}', and confirm=True."
+    }
+
+def submit_university_proposal(problem_id: str, university_id: str = None, solution_title: str = None, technical_approach: str = None, estimated_cost: str = "₹ 4.5 Lakhs", timeline_weeks: int = 6, confirm: bool = False) -> dict:
+    """Submit a generated university proposal to MongoDB upon explicit Admin confirmation."""
+    audit_log("submit_university_proposal", {"problem_id": problem_id, "confirm": confirm})
+    if not confirm:
+        return {
+            "requires_admin_approval": True,
+            "status": "APPROVAL_REQUIRED",
+            "message": "Admin confirmation required. Please re-invoke with confirm=True to store this proposal in MongoDB."
+        }
+    
+    db = get_mongo_db()
+    prob = db.problems.find_one({"$or": [{"id": problem_id}, {"_id": problem_id}]}) or {}
+    if not prob:
+        return {"error": f"Problem not found: {problem_id}"}
+    
+    univ = None
+    if university_id:
+        univ = db.universities.find_one({"$or": [{"id": university_id}, {"name": {"$regex": university_id, "$options": "i"}}]})
+    if not univ:
+        univ = db.universities.find_one({}) or {"id": "UNIV-CUJ-01", "name": "Central University of Jharkhand (CUJ), Ranchi"}
+    
+    sol_id = f"SOL-UNIV-{hash(problem_id + str(univ.get('id'))) % 1000000}"
+    sol_doc = {
+        "id": sol_id,
+        "problemId": problem_id,
+        "problemTitle": prob.get("title"),
+        "universityId": univ.get("id"),
+        "universityName": univ.get("name"),
+        "department": univ.get("departments", ["Engineering"])[0] if univ.get("departments") else "Engineering",
+        "solutionTitle": solution_title or f"University R&D Technical Proposal: {prob.get('title')}",
+        "technicalApproach": technical_approach or f"Engineering and lab prototype implementation by {univ.get('name')}.",
+        "estimatedCost": estimated_cost,
+        "estimatedTimeWeeks": timeline_weeks,
+        "submitterType": "university",
+        "status": "Under Review",
+        "feasibilityScore": 90,
+        "technicalQualityScore": 92,
+        "overallScore": "91%",
+        "createdAt": "2026-09-22T09:00:00Z"
+    }
+    
+    db.solutions.update_one({"id": sol_id}, {"$set": sol_doc}, upsert=True)
+    db.problems.update_one({"id": problem_id}, {"$set": {"status": "AWAITING_PROPOSALS"}})
+    
+    return {
+        "status": "SUBMITTED",
+        "solutionId": sol_id,
+        "problemId": problem_id,
+        "universityId": univ.get("id"),
+        "universityName": univ.get("name"),
+        "solutionTitle": sol_doc["solutionTitle"],
+        "estimatedCost": estimated_cost,
+        "timelineWeeks": timeline_weeks,
+        "message": "University proposal submitted successfully and saved to MongoDB."
+    }
+
+def prepare_industry_proposal(problem_id: str, industry_id: str = None) -> dict:
+    """Generate an industry CSR proposal preview based on actual problem details and industry capabilities."""
+    audit_log("prepare_industry_proposal", {"problem_id": problem_id, "i_id": industry_id})
+    db = get_mongo_db()
+    prob = db.problems.find_one({"$or": [{"id": problem_id}, {"_id": problem_id}]}, {"_id": 0}) or {}
+    if not prob:
+        return {"error": f"Problem not found: {problem_id}"}
+    
+    ind = None
+    if industry_id:
+        ind = db.industries.find_one({"$or": [{"id": industry_id}, {"companyName": {"$regex": industry_id, "$options": "i"}}]}, {"_id": 0})
+    if not ind:
+        ind = db.industries.find_one({}, {"_id": 0}) or {
+            "id": "IND-TATA-01",
+            "companyName": "Tata Steel Limited (CSR & Urban Utilities)",
+            "expertiseSectors": ["Water Management & Drainage", "Public Healthcare"]
+        }
+    
+    sectors = ind.get("expertiseSectors", ["CSR Infrastructure"])
+    title = f"Industrial CSR Proposal: {prob.get('title', 'Civic Challenge')} ({ind.get('companyName')})"
+    approach = f"CSR co-funding and field deployment initiative by {ind.get('companyName')} focusing on {', '.join(sectors)}."
+    
+    return {
+        "status": "PREVIEW",
+        "problemId": problem_id,
+        "problemTitle": prob.get("title"),
+        "industryId": ind.get("id"),
+        "companyName": ind.get("companyName"),
+        "csrFocusSectors": sectors,
+        "solutionTitle": title,
+        "technicalApproach": approach,
+        "fundingAmount": "₹ 15.0 Lakhs CSR Grant",
+        "timelineWeeks": 8,
+        "requiresAdminConfirmation": True,
+        "confirmPrompt": f"Industry proposal preview generated. To submit to MongoDB, call submit_industry_proposal with problem_id='{problem_id}', industry_id='{ind.get('id')}', and confirm=True."
+    }
+
+def submit_industry_proposal(problem_id: str, industry_id: str = None, solution_title: str = None, technical_approach: str = None, funding_amount: str = "₹ 15.0 Lakhs CSR Grant", timeline_weeks: int = 8, confirm: bool = False) -> dict:
+    """Submit a generated industry proposal to MongoDB upon explicit Admin confirmation."""
+    audit_log("submit_industry_proposal", {"problem_id": problem_id, "confirm": confirm})
+    if not confirm:
+        return {
+            "requires_admin_approval": True,
+            "status": "APPROVAL_REQUIRED",
+            "message": "Admin confirmation required. Please re-invoke with confirm=True to store this industry proposal in MongoDB."
+        }
+    
+    db = get_mongo_db()
+    prob = db.problems.find_one({"$or": [{"id": problem_id}, {"_id": problem_id}]}) or {}
+    if not prob:
+        return {"error": f"Problem not found: {problem_id}"}
+    
+    ind = None
+    if industry_id:
+        ind = db.industries.find_one({"$or": [{"id": industry_id}, {"companyName": {"$regex": industry_id, "$options": "i"}}]})
+    if not ind:
+        ind = db.industries.find_one({}) or {"id": "IND-TATA-01", "companyName": "Tata Steel Limited (CSR & Urban Utilities)"}
+    
+    col_id = f"COL-IND-{hash(problem_id + str(ind.get('id'))) % 1000000}"
+    col_doc = {
+        "id": col_id,
+        "problemId": problem_id,
+        "problemTitle": prob.get("title"),
+        "industryId": ind.get("id"),
+        "companyName": ind.get("companyName"),
+        "category": ind.get("expertiseSectors", [prob.get("category", "General")])[0] if ind.get("expertiseSectors") else prob.get("category"),
+        "fundingAmount": funding_amount,
+        "csrCommitmentDetails": technical_approach or f"Turnkey CSR equipment deployment by {ind.get('companyName')}.",
+        "status": "Submitted",
+        "createdAt": "2026-09-22T09:00:00Z"
+    }
+    
+    sol_id = f"SOL-IND-{hash(problem_id + str(ind.get('id'))) % 1000000}"
+    sol_doc = {
+        "id": sol_id,
+        "problemId": problem_id,
+        "problemTitle": prob.get("title"),
+        "companyId": ind.get("id"),
+        "companyName": ind.get("companyName"),
+        "solutionTitle": solution_title or f"Industrial CSR Proposal: {prob.get('title')}",
+        "technicalApproach": col_doc["csrCommitmentDetails"],
+        "estimatedCost": funding_amount,
+        "estimatedTimeWeeks": timeline_weeks,
+        "submitterType": "industry",
+        "status": "Submitted",
+        "createdAt": "2026-09-22T09:00:00Z"
+    }
+    
+    db.collaborations.update_one({"id": col_id}, {"$set": col_doc}, upsert=True)
+    db.solutions.update_one({"id": sol_id}, {"$set": sol_doc}, upsert=True)
+    db.problems.update_one({"id": problem_id}, {"$set": {"status": "AWAITING_PROPOSALS"}})
+    
+    return {
+        "status": "SUBMITTED",
+        "collaborationId": col_id,
+        "solutionId": sol_id,
+        "problemId": problem_id,
+        "industryId": ind.get("id"),
+        "companyName": ind.get("companyName"),
+        "fundingAmount": funding_amount,
+        "message": "Industry CSR proposal submitted successfully and saved to MongoDB."
+    }
+
+def generate_bulk_proposals(limit: int = 10) -> dict:
+    """Generate customized proposal previews for all eligible problems dynamically based on actual institution capabilities."""
+    audit_log("generate_bulk_proposals", {"limit": limit})
+    db = get_mongo_db()
+    probs = list(db.problems.find({}, {"_id": 0}).limit(limit))
+    u_previews = []
+    i_previews = []
+    
+    for p in probs:
+        pid = p.get("id")
+        u_p = prepare_university_proposal(pid)
+        i_p = prepare_industry_proposal(pid)
+        if "error" not in u_p:
+            u_previews.append(u_p)
+        if "error" not in i_p:
+            i_previews.append(i_p)
+    
+    return {
+        "status": "PREVIEW",
+        "eligibleProblemsCount": len(probs),
+        "generatedUniversityProposalsCount": len(u_previews),
+        "generatedIndustryProposalsCount": len(i_previews),
+        "universityProposalPreviews": u_previews,
+        "industryProposalPreviews": i_previews,
+        "requiresAdminConfirmation": True,
+        "confirmPrompt": f"Bulk proposals generated for {len(probs)} problems. To submit all proposals to MongoDB, call submit_bulk_proposals with confirm=True."
+    }
+
+def submit_bulk_proposals(limit: int = 10, confirm: bool = False) -> dict:
+    """Submit all generated university and industry proposals to MongoDB upon Admin confirmation."""
+    audit_log("submit_bulk_proposals", {"limit": limit, "confirm": confirm})
+    if not confirm:
+        return {
+            "requires_admin_approval": True,
+            "status": "APPROVAL_REQUIRED",
+            "message": "Admin confirmation required. Re-invoke submit_bulk_proposals with confirm=True to submit all proposals."
+        }
+    
+    db = get_mongo_db()
+    probs = list(db.problems.find({}, {"_id": 0}).limit(limit))
+    u_cnt = 0
+    i_cnt = 0
+    
+    for p in probs:
+        pid = p.get("id")
+        u_res = submit_university_proposal(pid, confirm=True)
+        if u_res.get("status") == "SUBMITTED":
+            u_cnt += 1
+        i_res = submit_industry_proposal(pid, confirm=True)
+        if i_res.get("status") == "SUBMITTED":
+            i_cnt += 1
+    
+    return {
+        "status": "SUBMITTED",
+        "problemsProcessed": len(probs),
+        "submittedUniversityProposalsCount": u_cnt,
+        "submittedIndustryProposalsCount": i_cnt,
+        "message": f"Successfully created and stored {u_cnt + i_cnt} real proposals in MongoDB."
+    }
+
+def create_test_problems(count: int = 2, confirm: bool = True) -> dict:
+    """Create real test problem records in MongoDB database."""
+    audit_log("create_test_problems", {"count": count})
+    db = get_mongo_db()
+    created = []
+    
+    for i in range(1, count + 1):
+        pid = f"JH-CHLG-2026-TEST{i:02d}"
+        doc = {
+            "id": pid,
+            "title": "Harmu River Heavy Metal Siltation & Bio-filtration System" if i % 2 == 1 else "Rural Tele-Diagnostics & Solar Fluoride Removal Sensor",
+            "category": "Water Management & Drainage" if i % 2 == 1 else "Public Healthcare & Disease Sensors",
+            "domain": "Biological Wastewater Treatment" if i % 2 == 1 else "Chemical Sensing & Community Epidemiology",
+            "description": "Excessive silt accumulation and heavy metal industrial discharge in Harmu river requires multi-tier bio-floating raft filtration." if i % 2 == 1 else "Groundwater fluoride contamination in rural blocks requires IoT telemetry sensors and solar water filtration.",
+            "district": "Ranchi" if i % 2 == 1 else "Sahibganj",
+            "locationAddress": "Ward 26, Harmu River Catchment, Ranchi" if i % 2 == 1 else "Rajmahal Block High School Borewell, Sahibganj",
+            "citizenName": "Sunil Kumar Mahato" if i % 2 == 1 else "Dr. Prakash Soren",
+            "citizenPhone": f"+91 94311 {10000 + i}",
+            "urgency": "Critical",
+            "priority": "Critical",
+            "status": "Approved for Matching",
+            "approvalStatus": "APPROVED_FOR_MATCHING",
+            "createdAt": "2026-09-22T09:00:00Z"
+        }
+        db.problems.update_one({"id": pid}, {"$set": doc}, upsert=True)
+        created.append({"problemId": pid, "title": doc["title"], "category": doc["category"], "district": doc["district"]})
+    
+    return {
+        "status": "CREATED",
+        "count": len(created),
+        "createdProblems": created,
+        "message": f"Created {len(created)} test problems in MongoDB database."
+    }
+
+

@@ -998,13 +998,13 @@ export const UniversityProblems = ({ user, onBackToDashboard, onBackToLanding })
          ========================================================================= */}
       {activeChallengeModal && (
         <div className="modal-backdrop" onClick={() => setActiveChallengeModal(null)}>
-          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '680px', width: '92%' }}>
-            <div className="modal-header" style={{ background: '#024D24' }}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '720px', width: '92%', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
+            <div className="modal-header" style={{ background: '#024D24', padding: '16px 20px' }}>
               <div>
-                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700 }}>
-                  Problem Details & Proposal Gateway
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700, color: '#D1FAE5' }}>
+                  Problem Statement & Proposal Gateway
                 </span>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginTop: '2px' }}>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '2px', color: '#FFFFFF', lineHeight: 1.3 }}>
                   {activeChallengeModal.id}: {activeChallengeModal.title}
                 </h3>
               </div>
@@ -1013,18 +1013,131 @@ export const UniversityProblems = ({ user, onBackToDashboard, onBackToLanding })
               </button>
             </div>
 
-            <div style={{ padding: '20px' }}>
-              <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '12px 16px', marginBottom: '14px', fontSize: '0.84rem' }}>
-                <p style={{ margin: 0, color: '#374151', lineHeight: 1.5 }}>
-                  {activeChallengeModal.description}
-                </p>
+            <div style={{ padding: '20px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Badges Bar */}
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                {activeChallengeModal.category && (
+                  <span style={{ background: '#DCFCE7', color: '#166534', padding: '3px 10px', borderRadius: '12px', fontSize: '0.74rem', fontWeight: 700 }}>
+                    Category: {activeChallengeModal.category}
+                  </span>
+                )}
+
+                {activeChallengeModal.domain && activeChallengeModal.domain !== activeChallengeModal.category && (
+                  <span style={{ background: '#E0F2FE', color: '#0369A1', padding: '3px 10px', borderRadius: '12px', fontSize: '0.74rem', fontWeight: 700 }}>
+                    Domain: {activeChallengeModal.domain}
+                  </span>
+                )}
+
+                {(activeChallengeModal.urgency || activeChallengeModal.priority) && (
+                  <span style={{
+                    background: (activeChallengeModal.urgency || activeChallengeModal.priority) === 'Critical' ? '#FEE2E2' : '#FEF3C7',
+                    color: (activeChallengeModal.urgency || activeChallengeModal.priority) === 'Critical' ? '#991B1B' : '#B45309',
+                    padding: '3px 10px',
+                    borderRadius: '12px',
+                    fontSize: '0.74rem',
+                    fontWeight: 700
+                  }}>
+                    Priority: {activeChallengeModal.urgency || activeChallengeModal.priority}
+                  </span>
+                )}
+
+                {activeChallengeModal.status && (
+                  <span style={{ background: '#F3F4F6', color: '#374151', padding: '3px 10px', borderRadius: '12px', fontSize: '0.74rem', fontWeight: 700, border: '1px solid #D1D5DB' }}>
+                    Status: {activeChallengeModal.status}
+                  </span>
+                )}
+
+                {activeChallengeModal.district && (
+                  <span style={{ background: '#EDE9FE', color: '#6D28D9', padding: '3px 10px', borderRadius: '12px', fontSize: '0.74rem', fontWeight: 700 }}>
+                    District: {activeChallengeModal.district}
+                  </span>
+                )}
               </div>
 
-              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', borderTop: '1px solid #E5E7EB', paddingTop: '14px' }}>
+              {/* Key Metadata Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '12px 16px' }}>
+                <div>
+                  <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#6B7280', fontWeight: 700, letterSpacing: '0.5px' }}>Location / Address</div>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#111827', marginTop: '2px' }}>
+                    {activeChallengeModal.locationAddress || activeChallengeModal.location || activeChallengeModal.district || 'Ranchi, Jharkhand'}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#6B7280', fontWeight: 700, letterSpacing: '0.5px' }}>Submitted By</div>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#111827', marginTop: '2px' }}>
+                    {activeChallengeModal.citizenName || 'Verified Citizen'}
+                    {activeChallengeModal.citizenPhone ? ` (${activeChallengeModal.citizenPhone})` : ''}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#6B7280', fontWeight: 700, letterSpacing: '0.5px' }}>Submission Date</div>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#111827', marginTop: '2px' }}>
+                    {activeChallengeModal.submissionDate || activeChallengeModal.createdAt?.split('T')[0] || '2026-09-04'}
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: '#6B7280', fontWeight: 700, letterSpacing: '0.5px' }}>Challenge ID</div>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#024D24', marginTop: '2px' }}>
+                    {activeChallengeModal.id}
+                  </div>
+                </div>
+              </div>
+
+              {/* Full Description Box */}
+              <div>
+                <h4 style={{ fontSize: '0.84rem', fontWeight: 800, color: '#111827', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Problem Overview & Detailed Description
+                </h4>
+                <div style={{ background: '#FFFFFF', border: '1.5px solid #E5E7EB', borderRadius: '10px', padding: '14px 16px', fontSize: '0.86rem', color: '#374151', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+                  {activeChallengeModal.description || 'No detailed problem statement provided.'}
+                </div>
+              </div>
+
+              {/* Attached Media / Evidence Photo (if available) */}
+              {activeChallengeModal.mediaUrl && (
+                <div>
+                  <h4 style={{ fontSize: '0.84rem', fontWeight: 800, color: '#111827', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Ground Evidence & Media Attachment
+                  </h4>
+                  <div style={{ borderRadius: '10px', overflow: 'hidden', border: '1px solid #E5E7EB', background: '#000000', textAlign: 'center' }}>
+                    <img
+                      src={activeChallengeModal.mediaUrl}
+                      alt={activeChallengeModal.title}
+                      style={{ maxWidth: '100%', maxHeight: '260px', objectFit: 'contain', display: 'block', margin: '0 auto' }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* AI Triage & Verification Summary */}
+              {(activeChallengeModal.aiStatus || activeChallengeModal.duplicateStatus || activeChallengeModal.matchedUniversitiesCount) && (
+                <div style={{ background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: '10px', padding: '12px 16px', fontSize: '0.8rem', color: '#065F46' }}>
+                  <div style={{ fontWeight: 800, marginBottom: '4px', fontSize: '0.82rem' }}>
+                    🤖 AI Audit & Multi-Partner Triage Status
+                  </div>
+                  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                    {activeChallengeModal.aiStatus && (
+                      <div><strong>AI Triage:</strong> {activeChallengeModal.aiStatus}</div>
+                    )}
+                    {activeChallengeModal.duplicateStatus && (
+                      <div><strong>Duplicate Check:</strong> {activeChallengeModal.duplicateStatus}</div>
+                    )}
+                    {activeChallengeModal.matchedUniversitiesCount && (
+                      <div><strong>Academic Partners Matched:</strong> {activeChallengeModal.matchedUniversitiesCount}</div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', borderTop: '1px solid #E5E7EB', paddingTop: '14px', marginTop: '4px' }}>
                 <button
                   type="button"
                   onClick={() => setActiveChallengeModal(null)}
-                  style={{ background: '#F3F4F6', border: '1px solid #D1D5DB', color: '#374151', padding: '8px 16px', borderRadius: '8px', fontWeight: 600, cursor: 'pointer' }}
+                  style={{ background: '#F3F4F6', border: '1px solid #D1D5DB', color: '#374151', padding: '8px 18px', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', fontSize: '0.84rem' }}
                 >
                   Close
                 </button>
@@ -1039,13 +1152,15 @@ export const UniversityProblems = ({ user, onBackToDashboard, onBackToLanding })
                     background: '#024D24',
                     color: '#FFFFFF',
                     border: 'none',
-                    padding: '8px 20px',
+                    padding: '8px 22px',
                     borderRadius: '8px',
                     fontWeight: 800,
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    fontSize: '0.84rem',
+                    boxShadow: '0 2px 6px rgba(2, 77, 36, 0.25)'
                   }}
                 >
-                  Propose Solution
+                  Propose Solution →
                 </button>
               </div>
             </div>

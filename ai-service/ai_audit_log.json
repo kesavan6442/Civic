@@ -7618,5 +7618,103 @@
     "recommendation": "Possible duplicate",
     "human_decision": "Pending Admin Review",
     "timestamp": "2026-09-21T16:13:17.426051"
+  },
+  {
+    "log_id": "AUDIT-28F09FE0",
+    "problem_id": "JH-TEMP-1606",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-1606",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.92,
+      "keywords": [
+        "water",
+        "unsafe",
+        "drinking",
+        "rural",
+        "village",
+        "management"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1001 (98%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1001",
+          "problem_title": "Unsafe Drinking Water in Rural Village",
+          "similarity": 0.98,
+          "reason": "High semantic similarity (98%). Same municipal vicinity (0.0 km) \u2022 Identical civic category",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T03:34:34.225614"
+    },
+    "confidence": 0.92,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T03:34:34.226917"
+  },
+  {
+    "log_id": "AUDIT-4CABFB81",
+    "problem_id": "JH-TEMP-0663",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-0663",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "severe",
+        "pipe",
+        "rupture",
+        "continuous",
+        "drinking",
+        "leakage",
+        "flooding"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 100% AI confidence and valid evidence.",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1001",
+          "problem_title": "Unsafe Drinking Water in Rural Village",
+          "similarity": 0.69,
+          "reason": "High semantic similarity (69%). Same municipal vicinity (0.0 km)",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T03:40:38.521558"
+    },
+    "confidence": 1.0,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T03:40:38.521558"
   }
 ]
