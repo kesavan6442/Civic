@@ -173,6 +173,9 @@ public class AdminController {
         if (solId != null) {
             Solution sol = solutionRepository.findById(solId).orElse(null);
             if (sol != null) {
+                if ("Assigned".equalsIgnoreCase(sol.getStatus()) || "Approved".equalsIgnoreCase(sol.getStatus())) {
+                    return ResponseEntity.badRequest().body(ApiResponse.error("Proposal has already been approved/assigned (Status: " + sol.getStatus() + "). Duplicate action blocked."));
+                }
                 sol.setStatus("Assigned");
                 sol.setAssignedDate(java.time.LocalDate.now().toString());
                 sol.setAssignedBy((String) payload.getOrDefault("assignedBy", "State Administration"));
@@ -202,6 +205,9 @@ public class AdminController {
     ) {
         Solution sol = solutionRepository.findById(id).orElse(null);
         if (sol != null) {
+            if ("Assigned".equalsIgnoreCase(sol.getStatus()) || "Rejected".equalsIgnoreCase(sol.getStatus())) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Cannot request modification for proposal in status: " + sol.getStatus()));
+            }
             sol.setStatus("Modification Requested");
             sol.setAdminFeedback((String) payload.get("adminFeedback"));
             solutionRepository.save(sol);
@@ -217,6 +223,9 @@ public class AdminController {
     ) {
         Solution sol = solutionRepository.findById(id).orElse(null);
         if (sol != null) {
+            if ("Rejected".equalsIgnoreCase(sol.getStatus())) {
+                return ResponseEntity.badRequest().body(ApiResponse.error("Proposal is already rejected."));
+            }
             sol.setStatus("Rejected");
             sol.setRejectionReason((String) payload.get("rejectionReason"));
             solutionRepository.save(sol);
@@ -560,6 +569,15 @@ public class AdminController {
             return ResponseEntity.status(404).body(ApiResponse.error("Problem statement not found: " + id));
         }
 
+        if ("APPROVED_FOR_MATCHING".equalsIgnoreCase(problem.getApprovalStatus()) ||
+            "COLLABORATION_APPROVED".equalsIgnoreCase(problem.getApprovalStatus()) ||
+            "PROJECT_CREATED".equalsIgnoreCase(problem.getApprovalStatus())) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Problem statement is already approved for matching (Status: " + problem.getApprovalStatus() + "). Duplicate approval blocked."));
+        }
+        if ("REJECTED_BY_ADMIN".equalsIgnoreCase(problem.getApprovalStatus())) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Problem statement has been rejected by administration. Duplicate action blocked."));
+        }
+
         String adminNotes = payload != null && payload.containsKey("adminNotes") ? (String) payload.get("adminNotes") : "Approved for Capability Matching by State Administration";
         String adminUser = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
         int deadlineDays = payload != null && payload.containsKey("proposalDeadlineDays") ? ((Number) payload.get("proposalDeadlineDays")).intValue() : 7;
@@ -685,6 +703,10 @@ public class AdminController {
         Problem problem = problemRepository.findById(id).orElse(null);
         if (problem == null) {
             return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        if ("REJECTED_BY_ADMIN".equalsIgnoreCase(problem.getApprovalStatus())) {
+            return ResponseEntity.badRequest().body(ApiResponse.error("Problem statement has already been rejected by administration. Duplicate rejection blocked."));
         }
 
         String reason = (String) payload.getOrDefault("rejectionReason", "Does not meet state civic challenge criteria");

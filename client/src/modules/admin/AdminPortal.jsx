@@ -509,15 +509,18 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
   // Confirm and Persist Final Admin Decision in Backend & LocalStorage
   const handleConfirmAssignment = async () => {
-    if (!comparingProblem || !selectedSolutionForAssignment) return;
+    const targetProblem = comparingProblem || (selectedSolutionForAssignment ? problems.find(p => (p.id && p.id === selectedSolutionForAssignment.problemId) || (p.title && p.title.trim().toLowerCase() === (selectedSolutionForAssignment.problemTitle || '').trim().toLowerCase())) : null);
+    if (!selectedSolutionForAssignment) return;
     setIsAssigning(true);
 
     const partnerName = selectedSolutionForAssignment.universityName || selectedSolutionForAssignment.companyName || 'Project Partner';
     const isIndustry = selectedSolutionForAssignment.submitterType === 'industry' || !!selectedSolutionForAssignment.companyName;
+    const targetProbId = targetProblem ? targetProblem.id : selectedSolutionForAssignment.problemId;
+    const targetProbTitle = targetProblem ? targetProblem.title : (selectedSolutionForAssignment.problemTitle || 'Civic Problem Statement');
 
     const payload = {
-      problemId: comparingProblem.id,
-      problemTitle: comparingProblem.title,
+      problemId: targetProbId,
+      problemTitle: targetProbTitle,
       universityId: selectedSolutionForAssignment.universityId || selectedSolutionForAssignment.companyId || 'PARTNER-01',
       universityName: partnerName,
       companyName: selectedSolutionForAssignment.companyName || null,
@@ -533,12 +536,12 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
     const res = await adminService.assignSolution(payload);
     setIsAssigning(false);
 
-    if (res.success) {
+    if (res && res.success) {
       setAssignConfirmModalOpen(false);
       setCompareModalOpen(false);
       setAssignmentSuccessToast({
         title: 'Assignment Confirmed & Dispatched!',
-        message: `Problem "${comparingProblem.title}" has been officially assigned to "${partnerName}". Notifications sent to Citizen and Partner.`
+        message: `Problem "${targetProbTitle}" has been officially assigned to "${partnerName}". Notifications sent to Citizen and Partner.`
       });
 
       // Reload real state
@@ -3116,25 +3119,51 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             >
                               <span>✨ MCP Intelligence Report</span>
                             </button>
-                            <button
-                              type="button"
-                              onClick={() => handleOpenCollaborationDecision(p)}
-                              style={{
-                                background: '#059669',
-                                color: '#FFFFFF',
-                                border: 'none',
+                            {p.approvalStatus === 'COLLABORATION_APPROVED' ? (
+                              <span style={{
+                                background: '#DCFCE7',
+                                color: '#166534',
+                                border: '1px solid #86EFAC',
                                 padding: '7px 16px',
                                 borderRadius: '8px',
                                 fontSize: '0.82rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'background 0.18s ease'
-                              }}
-                              onMouseEnter={(e) => e.currentTarget.style.background = '#047857'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = '#059669'}
-                            >
-                              <span>Select Collaboration (Gate 2)</span>
-                            </button>
+                                fontWeight: 700
+                              }}>
+                                ✓ Collaboration Approved (Gate 2)
+                              </span>
+                            ) : p.approvalStatus === 'PROJECT_CREATED' || p.status === 'IN_PROGRESS' ? (
+                              <span style={{
+                                background: '#EFF6FF',
+                                color: '#1D4ED8',
+                                border: '1px solid #BFDBFE',
+                                padding: '7px 16px',
+                                borderRadius: '8px',
+                                fontSize: '0.82rem',
+                                fontWeight: 700
+                              }}>
+                                ✓ Project Created
+                              </span>
+                            ) : (
+                              <button
+                                type="button"
+                                onClick={() => handleOpenCollaborationDecision(p)}
+                                style={{
+                                  background: '#059669',
+                                  color: '#FFFFFF',
+                                  border: 'none',
+                                  padding: '7px 16px',
+                                  borderRadius: '8px',
+                                  fontSize: '0.82rem',
+                                  fontWeight: 700,
+                                  cursor: 'pointer',
+                                  transition: 'background 0.18s ease'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = '#047857'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = '#059669'}
+                              >
+                                <span>Select Collaboration (Gate 2)</span>
+                              </button>
+                            )}
                             <button
                               type="button"
                               onClick={() => handleOpenCompareSolutions(p)}
@@ -3191,6 +3220,10 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           {pSols.map((sol) => {
                             const isIndustry = sol.submitterType === 'industry' || !!sol.companyName;
                             const leadName = isIndustry ? (sol.teamLeadName || sol.representativeName || 'CSR Director') : (sol.mentorName || sol.leadName || 'Dr. Sanjeev Hansda');
+                            const solStatusUpper = String(sol.status || sol.approvalStatus || '').toUpperCase();
+                            const isAssignedOrApproved = solStatusUpper === 'ASSIGNED' || solStatusUpper === 'APPROVED' || solStatusUpper === 'ACCEPTED' || solStatusUpper === 'SELECTED' || p.approvalStatus === 'COLLABORATION_APPROVED' || p.approvalStatus === 'PROJECT_CREATED';
+                            const isModRequested = solStatusUpper === 'MODIFICATION REQUESTED' || solStatusUpper === 'MODIFICATION_REQUESTED' || solStatusUpper === 'CHANGES_REQUESTED';
+                            const isRejected = solStatusUpper === 'REJECTED';
 
                             return (
                               <div
@@ -3239,7 +3272,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
                                 {/* Action on Right */}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                  {sol.status === 'Assigned' ? (
+                                  {isAssignedOrApproved ? (
                                     <span style={{
                                       background: '#ECFDF5',
                                       color: '#059669',
@@ -3249,9 +3282,9 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      Assigned & Approved
+                                      ✓ {solStatusUpper === 'APPROVED' ? 'Approved' : 'Assigned & Approved'}
                                     </span>
-                                  ) : sol.status === 'Modification Requested' ? (
+                                  ) : isModRequested ? (
                                     <span style={{
                                       background: '#FEF3C7',
                                       color: '#92400E',
@@ -3261,9 +3294,9 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      Modification Requested
+                                      ✓ Modification Requested
                                     </span>
-                                  ) : sol.status === 'Rejected' ? (
+                                  ) : isRejected ? (
                                     <span style={{
                                       background: '#FEE2E2',
                                       color: '#DC2626',
@@ -3273,7 +3306,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      Rejected
+                                      ✓ Rejected
                                     </span>
                                   ) : (
                                     <>
@@ -5665,63 +5698,117 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                 </div>
               )}
 
-              {/* Administrative Quick Action Controls (Admin Gate 1) */}
-              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', borderTop: '1px solid #E5E7EB', paddingTop: '14px', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  className="admin-btn-action"
-                  onClick={() => {
-                    setAiModalOpen(false);
-                    if (selectedProblem) handleOpenOverrideModal(selectedProblem);
-                  }}
-                  style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#4B5563', borderColor: '#D1D5DB' }}
-                >
-                  Override
-                </button>
-                <button
-                  type="button"
-                  className="admin-btn-action"
-                  onClick={() => {
-                    setAiModalOpen(false);
-                    if (selectedProblem) handleOpenRejectProblemModal(selectedProblem);
-                  }}
-                  style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#DC2626', borderColor: '#FECACA', background: '#FEF2F2' }}
-                >
-                  Reject Problem
-                </button>
-                <button
-                  type="button"
-                  className="admin-btn-action"
-                  onClick={() => {
-                    setAiModalOpen(false);
-                    if (selectedProblem) handleOpenRequestInfoModal(selectedProblem);
-                  }}
-                  style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#D97706', borderColor: '#FDE68A', background: '#FFFBEB' }}
-                >
-                  Request More Info
-                </button>
-                <button
-                  type="button"
-                  className="admin-btn-action"
-                  onClick={() => {
-                    setAiModalOpen(false);
-                    if (selectedProblem) handleOpenMatching(selectedProblem);
-                  }}
-                  style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#0284C7', borderColor: '#BAE6FD' }}
-                >
-                  View Matches
-                </button>
-                <button
-                  type="button"
-                  className="admin-btn-primary"
-                  onClick={() => {
-                    setAiModalOpen(false);
-                    if (selectedProblem) handleOpenApproveModal(selectedProblem);
-                  }}
-                  style={{ padding: '6px 16px', fontSize: '0.82rem', background: '#059669', borderColor: '#047857' }}
-                >
-                  Review & Approve for Matching (Gate 1)
-                </button>
+              {/* Administrative Quick Action Controls (Admin Gate 1 - Status Driven) */}
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', alignItems: 'center', borderTop: '1px solid #E5E7EB', paddingTop: '14px', flexWrap: 'wrap' }}>
+                {selectedProblem?.approvalStatus === 'APPROVED_FOR_MATCHING' || selectedProblem?.status === 'AWAITING_PROPOSALS' ? (
+                  <>
+                    <span style={{
+                      background: '#ECFDF5',
+                      color: '#065F46',
+                      border: '1px solid #A7F3D0',
+                      padding: '6px 14px',
+                      borderRadius: '8px',
+                      fontSize: '0.82rem',
+                      fontWeight: 700
+                    }}>
+                      ✓ Approved for Matching (Gate 1)
+                    </span>
+                    <button
+                      type="button"
+                      className="admin-btn-action"
+                      onClick={() => {
+                        setAiModalOpen(false);
+                        if (selectedProblem) handleOpenMatching(selectedProblem);
+                      }}
+                      style={{ padding: '6px 14px', fontSize: '0.82rem', color: '#0284C7', borderColor: '#BAE6FD', background: '#F0F9FF', fontWeight: 700 }}
+                    >
+                      View Matches
+                    </button>
+                  </>
+                ) : selectedProblem?.approvalStatus === 'COLLABORATION_APPROVED' ? (
+                  <span style={{
+                    background: '#DCFCE7',
+                    color: '#166534',
+                    border: '1px solid #86EFAC',
+                    padding: '6px 14px',
+                    borderRadius: '8px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700
+                  }}>
+                    ✓ Collaboration Approved (Gate 2)
+                  </span>
+                ) : selectedProblem?.approvalStatus === 'PROJECT_CREATED' || selectedProblem?.status === 'IN_PROGRESS' ? (
+                  <span style={{
+                    background: '#EFF6FF',
+                    color: '#1D4ED8',
+                    border: '1px solid #BFDBFE',
+                    padding: '6px 14px',
+                    borderRadius: '8px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700
+                  }}>
+                    ✓ Project Created
+                  </span>
+                ) : selectedProblem?.approvalStatus === 'REJECTED_BY_ADMIN' || selectedProblem?.status === 'REJECTED' ? (
+                  <span style={{
+                    background: '#FEE2E2',
+                    color: '#DC2626',
+                    border: '1px solid #FECACA',
+                    padding: '6px 14px',
+                    borderRadius: '8px',
+                    fontSize: '0.82rem',
+                    fontWeight: 700
+                  }}>
+                    ✓ Rejected by Administration
+                  </span>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="admin-btn-action"
+                      onClick={() => {
+                        setAiModalOpen(false);
+                        if (selectedProblem) handleOpenOverrideModal(selectedProblem);
+                      }}
+                      style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#4B5563', borderColor: '#D1D5DB' }}
+                    >
+                      Override
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-btn-action"
+                      onClick={() => {
+                        setAiModalOpen(false);
+                        if (selectedProblem) handleOpenRejectProblemModal(selectedProblem);
+                      }}
+                      style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#DC2626', borderColor: '#FECACA', background: '#FEF2F2' }}
+                    >
+                      Reject Problem
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-btn-action"
+                      onClick={() => {
+                        setAiModalOpen(false);
+                        if (selectedProblem) handleOpenRequestInfoModal(selectedProblem);
+                      }}
+                      style={{ padding: '6px 12px', fontSize: '0.8rem', color: '#D97706', borderColor: '#FDE68A', background: '#FFFBEB' }}
+                    >
+                      Request More Info
+                    </button>
+                    <button
+                      type="button"
+                      className="admin-btn-primary"
+                      onClick={() => {
+                        setAiModalOpen(false);
+                        if (selectedProblem) handleOpenApproveModal(selectedProblem);
+                      }}
+                      style={{ padding: '6px 16px', fontSize: '0.82rem', background: '#059669', borderColor: '#047857' }}
+                    >
+                      Review & Approve for Matching (Gate 1)
+                    </button>
+                  </>
+                )}
                 <button
                   type="button"
                   className="univ-btn-secondary"
