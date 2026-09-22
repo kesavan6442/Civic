@@ -569,8 +569,9 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
     if (!selectedProblemForApproval) return;
     setIsApprovingGate1(true);
     try {
-      const res = await adminService.approveProblem(selectedProblemForApproval.id, adminApprovalNotes, executionMode);
-      if (res.success) {
+      const probId = selectedProblemForApproval.id || selectedProblemForApproval._id;
+      const res = await adminService.approveProblem(probId, adminApprovalNotes, executionMode);
+      if (res && res.success) {
         setApproveModalOpen(false);
         setAssignmentSuccessToast({
           title: 'Gate 1 Approved: Problem Authorized for Matching',
@@ -578,7 +579,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
         });
         await loadAdminData();
         // Load matches to display
-        const matches = await adminService.getProblemMatches(selectedProblemForApproval.id);
+        const matches = await adminService.getProblemMatches(probId);
         if (matches) {
           setProblemMatchesData(matches);
           setSelectedProblem(selectedProblemForApproval);
@@ -586,7 +587,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
         }
         setTimeout(() => setAssignmentSuccessToast(null), 6000);
       } else {
-        alert(`Approval failed: ${res.message || 'Unknown error'}`);
+        alert(`Approval failed: ${res?.message || res?.error || 'Unknown error'}`);
       }
     } catch (err) {
       alert(`Approval error: ${err.message}`);

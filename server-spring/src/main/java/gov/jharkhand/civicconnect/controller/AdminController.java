@@ -580,13 +580,13 @@ public class AdminController {
         List<String> matchedUniIds = new ArrayList<>();
         if (uniMatches != null) {
             for (Map<String, Object> u : uniMatches) {
-                if (u.containsKey("id") && u.get("id") != null) matchedUniIds.add((String) u.get("id"));
+                if (u.containsKey("id") && u.get("id") != null) matchedUniIds.add(String.valueOf(u.get("id")));
             }
         }
         List<String> matchedIndIds = new ArrayList<>();
         if (indMatches != null) {
             for (Map<String, Object> ind : indMatches) {
-                if (ind.containsKey("id") && ind.get("id") != null) matchedIndIds.add((String) ind.get("id"));
+                if (ind.containsKey("id") && ind.get("id") != null) matchedIndIds.add(String.valueOf(ind.get("id")));
             }
         }
 

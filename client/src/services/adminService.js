@@ -1071,32 +1071,56 @@ export const adminService = {
 
   // 20. Admin Approve Problem for Capability Matching
   async approveProblem(problemId, adminNotes = '', executionMode = 'MANUAL') {
-    const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/approve`, {
-      method: 'POST',
-      headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminNotes, executionMode })
-    });
-    return await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/approve`, {
+        method: 'POST',
+        headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminNotes, executionMode })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, message: data.message || data.error || `HTTP ${res.status}: Failed to approve problem` };
+      }
+      return data;
+    } catch (err) {
+      return { success: false, message: err.message || 'Network error approving problem' };
+    }
   },
 
   // 21. Admin Reject Problem
   async rejectProblem(problemId, rejectionReason = '', executionMode = 'MANUAL') {
-    const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/reject`, {
-      method: 'POST',
-      headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ rejectionReason, executionMode })
-    });
-    return await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/reject`, {
+        method: 'POST',
+        headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rejectionReason, executionMode })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, message: data.message || data.error || `HTTP ${res.status}: Failed to reject problem` };
+      }
+      return data;
+    } catch (err) {
+      return { success: false, message: err.message || 'Network error rejecting problem' };
+    }
   },
 
   // 22. Admin Request More Information
   async requestMoreInfo(problemId, adminNotes = '', executionMode = 'MANUAL') {
-    const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/request-info`, {
-      method: 'POST',
-      headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ adminNotes, executionMode })
-    });
-    return await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/request-info`, {
+        method: 'POST',
+        headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminNotes, executionMode })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, message: data.message || data.error || `HTTP ${res.status}: Failed to request information` };
+      }
+      return data;
+    } catch (err) {
+      return { success: false, message: err.message || 'Network error requesting info' };
+    }
   },
 
   // 23. Get Matched Universities and Industries with Explainability
