@@ -1,6 +1,5 @@
-﻿// Authentication & User Session Service with Token Management, Refresh Rotation, and Clean Session Isolation
-
-const API_BASE_URL = 'http://localhost:5000/api';
+// Authentication & User Session Service with Token Management, Refresh Rotation, and Clean Session Isolation
+import { API_BASE_URL } from './apiConfig';
 
 const TOKEN_KEY = 'civic_auth_token';
 const REFRESH_TOKEN_KEY = 'civic_refresh_token';

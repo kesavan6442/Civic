@@ -1,15 +1,19 @@
+import os
 import pymongo
 import bcrypt
 import json
 from datetime import datetime
+
+MONGO_URI = os.getenv("MONGO_URI", os.getenv("MONGODB_URI", "mongodb+srv://kesav6442_db_user:F1wnTkeK5JJ4lvHe@cluster0.tlcbot1.mongodb.net/civicconnect_db?retryWrites=true&w=majority"))
+DB_NAME = os.getenv("DB_NAME", os.getenv("MONGODB_DATABASE", "civicconnect_db"))
 
 def hash_pw(password: str) -> str:
     salt = bcrypt.gensalt(rounds=10, prefix=b"2a")
     return bcrypt.hashpw(password.encode('utf-8'), salt).decode('utf-8')
 
 def seed_entities():
-    client = pymongo.MongoClient('mongodb://localhost:27017', serverSelectionTimeoutMS=2000)
-    db = client['civicconnect_db']
+    client = pymongo.MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+    db = client[DB_NAME]
 
     # 1. Universities
     u1 = {

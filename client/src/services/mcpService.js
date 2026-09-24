@@ -1,14 +1,8 @@
 import { authService } from './authService';
+import { API_BASE_URL } from './apiConfig';
 
-const getHost = () => {
-    if (typeof window !== 'undefined' && window.location && window.location.hostname) {
-        return window.location.hostname;
-    }
-    return 'localhost';
-};
-
-const getBaseUrl = () => `http://${getHost()}:5000/api/admin/mcp`;
-const getFallbackUrl = () => `http://${getHost()}:5000/api/mcp`;
+const getBaseUrl = () => `${API_BASE_URL}/admin/mcp`;
+const getFallbackUrl = () => `${API_BASE_URL}/mcp`;
 
 const getHeaders = () => {
     const token = authService.getToken();

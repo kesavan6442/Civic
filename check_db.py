@@ -1,16 +1,20 @@
-﻿import sys
+import os
+import sys
 import json
 import pymongo
 
+DEFAULT_MONGO_URI = os.getenv("MONGO_URI", os.getenv("MONGODB_URI", "mongodb+srv://kesav6442_db_user:F1wnTkeK5JJ4lvHe@cluster0.tlcbot1.mongodb.net/civicconnect_db?retryWrites=true&w=majority"))
+DEFAULT_DB_NAME = os.getenv("DB_NAME", os.getenv("MONGODB_DATABASE", "civicconnect_db"))
+
 def inspect_db(collection_filter=None):
     try:
-        client = pymongo.MongoClient('mongodb://localhost:27017', serverSelectionTimeoutMS=2000)
+        client = pymongo.MongoClient(DEFAULT_MONGO_URI, serverSelectionTimeoutMS=5000)
         client.server_info()
     except Exception as e:
         print(f"Error connecting to MongoDB: {e}")
         sys.exit(1)
 
-    db = client['civicconnect_db']
+    db = client[DEFAULT_DB_NAME]
     cols = db.list_collection_names()
 
     print("=" * 60)

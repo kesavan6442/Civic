@@ -1,8 +1,7 @@
 // Admin API Client Service - Real Backend Data Integration
 import { problemsService, getStoredProposals } from './problemsService';
 import { authService } from './authService';
-
-const API_BASE_URL = 'http://localhost:5000/api';
+import { API_BASE_URL } from './apiConfig';
 
 // Initial Seed Universities for Jharkhand
 export const UNIVERSITIES_LIST = [

@@ -1,8 +1,8 @@
 // Offline Storage & Background Synchronization Service for Low-Network Environments
+import { API_BASE_URL } from './apiConfig';
 
 const OFFLINE_QUEUE_KEY = 'civicconnect_offline_queue_v1';
 const OFFLINE_CACHE_KEY = 'civicconnect_offline_cache_v1';
-const API_BASE_URL = 'http://localhost:5000/api';
 
 class OfflineSyncService {
   constructor() {

@@ -1,14 +1,18 @@
+import os
 import pymongo
 import bcrypt
 
-client = pymongo.MongoClient('mongodb://localhost:27017')
-db = client['civicconnect_db']
+MONGO_URI = os.getenv("MONGO_URI", os.getenv("MONGODB_URI", "mongodb+srv://kesav6442_db_user:F1wnTkeK5JJ4lvHe@cluster0.tlcbot1.mongodb.net/civicconnect_db?retryWrites=true&w=majority"))
+DB_NAME = os.getenv("DB_NAME", os.getenv("MONGODB_DATABASE", "civicconnect_db"))
+
+client = pymongo.MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+db = client[DB_NAME]
 
 test_cases = [
-    ('agri.university@test.civicconnect.in', 'admin123', 'UNIVERSITY', 'UNI-JH-001'),
-    ('health.university@test.civicconnect.in', 'admin123', 'UNIVERSITY', 'UNI-JH-002'),
-    ('aquagrid.industry@test.civicconnect.in', 'admin123', 'INDUSTRY', 'IND-JH-001'),
-    ('greenvolt.industry@test.civicconnect.in', 'admin123', 'INDUSTRY', 'IND-JH-002')
+    ('agri.university@test.civicconnect.in', 'Agri@12345', 'UNIVERSITY', 'UNI-JH-001'),
+    ('health.university@test.civicconnect.in', 'Health@12345', 'UNIVERSITY', 'UNI-JH-002'),
+    ('aquagrid.industry@test.civicconnect.in', 'Aqua@12345', 'INDUSTRY', 'IND-JH-001'),
+    ('greenvolt.industry@test.civicconnect.in', 'Green@12345', 'INDUSTRY', 'IND-JH-002')
 ]
 
 print("=" * 60)
