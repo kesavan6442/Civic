@@ -265,7 +265,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
               onClick={() => { if (activeStep > 1) setActiveStep(1); }}
             >
               <div className="univ-wizard-circle">
-                {activeStep > 1 ? '✓' : '1'}
+                {activeStep > 1 ? '' : '1'}
               </div>
               <div className="univ-wizard-step-label">
                 <span className="step-num-txt">STEP 1</span>
@@ -281,7 +281,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
               onClick={() => { if (activeStep > 2 || (activeStep === 1 && validateStep1())) setActiveStep(2); }}
             >
               <div className="univ-wizard-circle">
-                {activeStep > 2 ? '✓' : '2'}
+                {activeStep > 2 ? '' : '2'}
               </div>
               <div className="univ-wizard-step-label">
                 <span className="step-num-txt">STEP 2</span>
@@ -315,7 +315,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>👔</span> Corporate Project Lead & Engineering Team
+                    <span></span> Corporate Project Lead & Engineering Team
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Provide contact details for the project lead and technical team members executing the deployment.
@@ -395,7 +395,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: 0 }}>
-                      👥 Additional Team Members ({membersCount})
+                       Additional Team Members ({membersCount})
                     </h4>
 
                     <div className="stepper-actions">
@@ -501,7 +501,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>💡</span> Solution Blueprint & Technical Proposal
+                    <span></span> Solution Blueprint & Technical Proposal
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Define the proposed industrial solution architecture, technical specifications, and implementation strategy.
@@ -572,7 +572,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>📊</span> CSR Budget, Timeline & Submission
+                    <span></span> CSR Budget, Timeline & Submission
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Specify estimated CSR allocation, timeline, attach documents and submit for Admin evaluation.
@@ -625,7 +625,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                     <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                       {uploadedFiles.map((f, i) => (
                         <span key={i} style={{ background: '#D1FAE5', color: '#065F46', border: '1px solid #6EE7B7', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
-                          📎 {f.name} ({f.size})
+                           {f.name} ({f.size})
                         </span>
                       ))}
                     </div>
@@ -649,7 +649,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                 {/* Proposal Summary Preview Card */}
                 <div style={{ background: '#F8FAF9', borderRadius: '12px', border: '1.5px solid #D1D5DB', padding: '16px', marginBottom: '18px' }}>
                   <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#064E3B', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
-                    📋 Proposal Overview Before Submission
+                    Proposal Overview Before Submission
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.82rem', color: '#374151' }}>
                     <div><strong>Solution:</strong> {solutionTitle || 'Untitled'}</div>
@@ -677,7 +677,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                     style={{ minWidth: '240px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
                   >
                     <span>
-                      {isSubmitting ? 'Submitting Solution Idea...' : '🚀 Submit Corporate Proposal'}
+                      {isSubmitting ? 'Submitting Solution Idea...' : 'Submit Corporate Proposal'}
                     </span>
                     <ChevronRight size={18} />
                   </button>
@@ -697,7 +697,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                     Industry Corporate Action • Government of Jharkhand
                   </span>
                   <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginTop: '2px' }}>
-                    🎉 Solution Idea Successfully Submitted!
+                    Solution Idea Successfully Submitted!
                   </h3>
                 </div>
               </div>
@@ -716,9 +716,9 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                 </p>
 
                 <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '14px', textAlign: 'left', fontSize: '0.84rem', color: '#374151', marginBottom: '22px' }}>
-                  <div><strong>💡 Solution:</strong> {solutionTitle}</div>
-                  <div style={{ marginTop: '4px' }}><strong>👔 Team Lead:</strong> {teamLeadName} ({teamLeadEmail})</div>
-                  <div style={{ marginTop: '4px' }}><strong>👥 Team Size:</strong> {members.length + 1} Members</div>
+                  <div><strong>Solution:</strong> {solutionTitle}</div>
+                  <div style={{ marginTop: '4px' }}><strong> Team Lead:</strong> {teamLeadName} ({teamLeadEmail})</div>
+                  <div style={{ marginTop: '4px' }}><strong> Team Size:</strong> {members.length + 1} Members</div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

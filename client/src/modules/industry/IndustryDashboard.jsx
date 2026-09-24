@@ -107,7 +107,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
       const updated = await problemsService.updateIndustryProfile(payload);
       if (updated) {
         setProfile(updated);
-        setProfileSuccessMsg('✅ Industry CSR & Deployment Profile successfully updated and synced with AI Engine!');
+        setProfileSuccessMsg('Industry CSR & Deployment Profile successfully updated and synced with AI Engine!');
         setTimeout(() => {
           setShowProfileModal(false);
           setProfileSuccessMsg('');
@@ -394,7 +394,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
 
         <div className="admin-topbar-right">
           <span className="admin-topbar-badge desktop-only">
-            🇮🇳 Industry Partner Portal
+             Industry Partner Portal
           </span>
 
           <button
@@ -520,15 +520,15 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
               }}>
                 <div style={{ flex: '1 1 500px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '1.4rem' }}>🏭</span>
+                    <span style={{ fontSize: '1.4rem' }}></span>
                     <h1 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#024D24', margin: 0 }}>
                       {displayName}
                     </h1>
                   </div>
 
                   <p style={{ fontSize: '0.86rem', color: '#4B5563', margin: '0 0 12px 0', lineHeight: 1.4 }}>
-                    📍 HQ: <strong>{displayLocation}</strong> • 🏢 Sector: <strong>{displaySector}</strong>
-                    {profile?.fundingCapacity ? ` • 💰 Annual CSR Budget: ${profile.fundingCapacity}` : ''}
+                    HQ: <strong>{displayLocation}</strong> •  Sector: <strong>{displaySector}</strong>
+                    {profile?.fundingCapacity ? ` •  Annual CSR Budget: ${profile.fundingCapacity}` : ''}
                   </p>
 
                   {/* CSR Focus Sectors Badges */}
@@ -571,7 +571,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
                       transition: 'all 0.2s ease'
                     }}
                   >
-                    <span>🏢</span>
+                    <span></span>
                     <span>Edit Corporate CSR Profile</span>
                   </button>
                   <div style={{
@@ -585,7 +585,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
                       Tenant Isolation Status
                     </div>
                     <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#78350F', marginTop: '2px' }}>
-                      🔒 Strict Enterprise Scope
+                      Strict Enterprise Scope
                     </div>
                     <div style={{ fontSize: '0.72rem', color: '#B45309', marginTop: '2px' }}>
                       AI Matching Synced ({profile?.equipmentSupport?.length || 3} Equip, {profile?.deploymentCapabilities?.length || 2} Log)
@@ -657,7 +657,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
 
                 {problemsList.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '48px 20px', color: '#6B7280' }}>
-                    <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>💡</div>
+                    <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}></div>
                     <h4 style={{ fontSize: '1.05rem', color: '#374151', margin: '0 0 6px 0' }}>No Matched Opportunities Currently</h4>
                     <p style={{ fontSize: '0.84rem', maxWidth: '420px', margin: '0 auto' }}>
                       No civic problems are currently routed to this industry partner's CSR focus sectors. New problem statements will appear here upon submission.
@@ -790,7 +790,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
                   Corporate Entity Profile & CSR Matching
                 </span>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginTop: '2px' }}>
-                  🏢 Edit Corporate CSR & Deployment Profile
+                   Edit Corporate CSR & Deployment Profile
                 </h3>
               </div>
               <button className="modal-close-btn" onClick={() => setShowProfileModal(false)}>
@@ -1154,7 +1154,7 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
                       cursor: isSavingProfile ? 'not-allowed' : 'pointer'
                     }}
                   >
-                    {isSavingProfile ? 'Saving...' : '💾 Save CSR Profile'}
+                    {isSavingProfile ? 'Saving...' : ' Save CSR Profile'}
                   </button>
                 </div>
               </div>

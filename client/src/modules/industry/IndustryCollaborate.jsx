@@ -130,7 +130,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
 
   const [collab, setCollab] = useState(null);
   const [problem, setProblem] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [chatOpen, setChatOpen] = useState(true);
 
   // Chat message input
@@ -215,156 +215,171 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
   });
 
   const loadData = async () => {
-    setLoading(true);
-    const cleanId = id ? decodeURIComponent(id).trim() : 'JH-CHLG-2026-1001';
-    const allProblems = await problemsService.getAllProblems();
-    const allSols = await problemsService.getSolutions();
-    const allCollabs = await problemsService.getCollaborations();
-    setAllAvailableProblems(allProblems);
+    const rawId = id ? decodeURIComponent(id).trim() : 'JH-CHLG-2026-1001';
+    const cleanId = rawId.replace(/\s+/g, '-');
 
-    // Compute dynamic sidebar counts to match Dashboard & Problems views exactly
-    if (isUniv) {
-      const universityExpertise = activeUser?.areasOfExpertise || activeUser?.departmentSpecialization || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
-      const activeUnivName = (activeUser?.universityName || activeUser?.name || '').toLowerCase();
-      
-      const isMatchedUniv = (p) => {
-        if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
-        if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
-        if (!activeUser || (!activeUser.universityName && !activeUser.name && !activeUser.id)) return true;
-        const hasSol = allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id));
-        const hasCol = allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
-        if (hasSol || hasCol) return true;
-        return isProblemMatchingUniversityDomains(p, universityExpertise);
-      };
+    try {
+      const [allProblems, allSols, allCollabs] = await Promise.all([
+        problemsService.getAllProblems(),
+        problemsService.getSolutions(),
+        problemsService.getCollaborations()
+      ]);
+      const problemsList = allProblems || [];
+      const solutionsList = allSols || [];
+      const collabsList = allCollabs || [];
 
-      const matchedProblems = allProblems.filter(isMatchedUniv);
-      const myProposals = matchedProblems.filter(p => allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id)));
-      const activeCollabs = matchedProblems.filter(p => allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
+      setAllAvailableProblems(problemsList);
 
-      setNavMetrics({
-        matched: matchedProblems.length,
-        proposals: myProposals.length,
-        collaborations: activeCollabs.length
-      });
-    } else {
-      const industryExpertise = activeUser?.areasOfExpertise || activeUser?.industryExpertise || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
-      const activeCompName = (activeUser?.companyName || activeUser?.name || '').toLowerCase();
+      if (isUniv) {
+        const universityExpertise = activeUser?.areasOfExpertise || activeUser?.departmentSpecialization || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
+        const activeUnivName = (activeUser?.universityName || activeUser?.name || '').toLowerCase();
+        
+        const isMatchedUniv = (p) => {
+          if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
+          if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
+          if (!activeUser || (!activeUser.universityName && !activeUser.name && !activeUser.id)) return true;
+          const hasSol = solutionsList.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id));
+          const hasCol = collabsList.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
+          if (hasSol || hasCol) return true;
+          return isProblemMatchingUniversityDomains(p, universityExpertise);
+        };
 
-      const isMatchedInd = (p) => {
-        if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
-        if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
-        if (!activeUser || (!activeUser.companyName && !activeUser.name && !activeUser.id)) return true;
-        const hasSol = allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id));
-        const hasCol = allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
-        if (hasSol || hasCol) return true;
-        return isProblemMatchingUniversityDomains(p, industryExpertise);
-      };
+        const matchedProblems = problemsList.filter(isMatchedUniv);
+        const myProposals = matchedProblems.filter(p => solutionsList.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id)));
+        const activeCollabs = matchedProblems.filter(p => collabsList.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
 
-      const matchedProblems = allProblems.filter(isMatchedInd);
-      const myProposals = matchedProblems.filter(p => allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id)));
-      const activeCollabs = matchedProblems.filter(p => allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
+        setNavMetrics({
+          matched: matchedProblems.length,
+          proposals: myProposals.length,
+          collaborations: activeCollabs.length
+        });
+      } else {
+        const industryExpertise = activeUser?.areasOfExpertise || activeUser?.industryExpertise || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
+        const activeCompName = (activeUser?.companyName || activeUser?.name || '').toLowerCase();
 
-      setNavMetrics({
-        matched: matchedProblems.length,
-        proposals: myProposals.length,
-        collaborations: activeCollabs.length
-      });
-    }
+        const isMatchedInd = (p) => {
+          if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
+          if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
+          if (!activeUser || (!activeUser.companyName && !activeUser.name && !activeUser.id)) return true;
+          const hasSol = solutionsList.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id));
+          const hasCol = collabsList.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
+          if (hasSol || hasCol) return true;
+          return isProblemMatchingUniversityDomains(p, industryExpertise);
+        };
 
-    // 1. Try to find existing collaboration by exact ID
-    let foundCollab = allCollabs.find(c => 
-      c.id === cleanId || 
-      c.problemId === cleanId ||
-      (c.id && cleanId && (c.id.toLowerCase().includes(cleanId.toLowerCase()) || cleanId.toLowerCase().includes(c.id.toLowerCase())))
-    );
+        const matchedProblems = problemsList.filter(isMatchedInd);
+        const myProposals = matchedProblems.filter(p => solutionsList.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id)));
+        const activeCollabs = matchedProblems.filter(p => collabsList.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
 
-    // 2. If not found directly, extract problem reference from ID
-    let foundProblem = null;
-    if (foundCollab && foundCollab.problemId) {
-      foundProblem = allProblems.find(p => p.id === foundCollab.problemId) || await problemsService.getProblemById(foundCollab.problemId);
-    }
-
-    if (!foundProblem) {
-      const match = cleanId.match(/10\d{2}/);
-      const code = match ? match[0] : '';
-      if (code) {
-        foundProblem = allProblems.find(p => p.id?.includes(code) || p.id === `JH-CHLG-2026-${code}`);
+        setNavMetrics({
+          matched: matchedProblems.length,
+          proposals: myProposals.length,
+          collaborations: activeCollabs.length
+        });
       }
+
+      // 1. Try to find existing collaboration by exact ID or problemId
+      let foundCollab = collabsList.find(c => 
+        c.id === cleanId || 
+        c.id === rawId || 
+        c.problemId === cleanId || 
+        c.problemId === rawId || 
+        (c.id && cleanId && (c.id.toLowerCase().includes(cleanId.toLowerCase()) || cleanId.toLowerCase().includes(c.id.toLowerCase())))
+      );
+
+      // 2. Extract problem reference
+      let foundProblem = null;
+      if (foundCollab && foundCollab.problemId) {
+        foundProblem = problemsList.find(p => p.id === foundCollab.problemId);
+      }
+
       if (!foundProblem) {
-        foundProblem = allProblems.find(p => p.id === cleanId || (p.title && cleanId.toLowerCase().includes(p.title.toLowerCase().substring(0, 15))))
-          || allProblems.find(p => p.id === 'JH-CHLG-2026-1001')
-          || allProblems[0];
+        const match = cleanId.match(/10\d{2}/);
+        const code = match ? match[0] : '';
+        if (code) {
+          foundProblem = problemsList.find(p => p.id?.includes(code) || p.id === `JH-CHLG-2026-${code}`);
+        }
+        if (!foundProblem) {
+          foundProblem = problemsList.find(p => 
+            p.id === cleanId || 
+            p.id === rawId || 
+            (p.title && cleanId.toLowerCase().includes(p.title.toLowerCase().substring(0, 15)))
+          ) || problemsList.find(p => p.id === 'JH-CHLG-2026-1001') || problemsList[0];
+        }
       }
+
+      const problemId = foundProblem?.id || cleanId || 'JH-CHLG-2026-1001';
+      const univSols = solutionsList.filter(s => s.problemId === problemId && (s.submitterType?.toLowerCase() === 'university' || s.universityName));
+      const indSols = solutionsList.filter(s => s.problemId === problemId && (s.submitterType?.toLowerCase() === 'industry' || s.companyName));
+      
+      const univSol = univSols[0] || null;
+      const indSol = indSols[0] || null;
+
+      const sharedMessages = loadSharedMessages(problemId);
+      const sharedUpdates = loadSharedUpdates(problemId);
+
+      const enrichedCollab = {
+        id: foundCollab?.id || `COLLAB-${problemId}`,
+        problemId: problemId,
+        problemTitle: foundCollab?.problemTitle || foundProblem?.title || 'Civic Infrastructure Challenge',
+        category: foundCollab?.category || foundProblem?.category || 'Civic Infrastructure',
+        district: foundCollab?.district || foundProblem?.district || 'Jharkhand',
+        status: foundCollab?.status || 'Active Collaboration',
+        universityName: foundCollab?.universityName || foundProblem?.adoptedByUniversity || univSol?.universityName || activeUser?.universityName || 'Academic Institution',
+        universitySolution: foundCollab?.universitySolution || (univSol ? {
+          solutionTitle: univSol.solutionTitle || univSol.title,
+          description: univSol.technicalApproach || univSol.description,
+          technicalApproach: univSol.technicalApproach || univSol.description,
+          mentorName: univSol.mentorName || univSol.leadName || 'Faculty Project Lead',
+          mentorDesignation: univSol.mentorDesignation || 'Principal Investigator',
+          students: univSol.students || [],
+          estimatedCost: univSol.estimatedCost || univSol.budget || '₹ 30 Lakhs',
+          estimatedTimeWeeks: univSol.estimatedTimeWeeks || 12,
+          folderLink: univSol.folderLink || ''
+        } : {
+          solutionTitle: foundProblem?.title ? `Research Solution: ${foundProblem.title}` : 'Civic Problem Solution Proposal',
+          description: foundProblem?.description || 'Applied engineering proposal and methodology.',
+          technicalApproach: foundProblem?.description || 'Applied engineering proposal and methodology.',
+          mentorName: 'Faculty Project Lead',
+          mentorDesignation: 'Principal Investigator',
+          students: [],
+          estimatedCost: '₹ 30 Lakhs',
+          estimatedTimeWeeks: 12,
+          folderLink: ''
+        }),
+        companyName: foundCollab?.companyName || foundProblem?.adoptedByIndustry || indSol?.companyName || activeUser?.companyName || 'Corporate CSR Partner',
+        industrySolution: foundCollab?.industrySolution || (indSol ? {
+          solutionTitle: indSol.solutionTitle || indSol.title,
+          description: indSol.technicalApproach || indSol.description,
+          technicalApproach: indSol.technicalApproach || indSol.description,
+          teamLeadName: indSol.teamLeadName || indSol.mentorName || 'CSR Project Manager',
+          teamLeadDesignation: indSol.teamLeadDesignation || 'Head of Community Relations',
+          members: indSol.members || [],
+          estimatedCost: indSol.fundingAmount || indSol.estimatedCost || 'CSR Funding Commitment',
+          estimatedTimeWeeks: indSol.estimatedTimeWeeks || 12,
+          folderLink: indSol.folderLink || ''
+        } : {
+          solutionTitle: foundProblem?.title ? `CSR Implementation: ${foundProblem.title}` : 'CSR Co-Funding & Equipment Support',
+          description: 'CSR capital co-funding, equipment supply, and industrial field deployment support.',
+          technicalApproach: 'CSR capital co-funding, equipment supply, and industrial field deployment support.',
+          teamLeadName: 'CSR Project Lead',
+          teamLeadDesignation: 'Head of Community Relations',
+          members: [],
+          estimatedCost: '₹ 40 Lakhs CSR Co-Funding',
+          estimatedTimeWeeks: 12,
+          folderLink: ''
+        }),
+        updates: sharedUpdates,
+        messages: sharedMessages
+      };
+
+      setCollab(enrichedCollab);
+      setProblem(foundProblem);
+    } catch (e) {
+      console.warn('loadData non-blocking fallback error:', e);
+    } finally {
+      setLoading(false);
     }
-
-    const problemId = foundProblem?.id || 'JH-CHLG-2026-1001';
-    const univSols = allSols.filter(s => s.problemId === problemId && (s.submitterType?.toLowerCase() === 'university' || s.universityName));
-    const indSols = allSols.filter(s => s.problemId === problemId && (s.submitterType?.toLowerCase() === 'industry' || s.companyName));
-    
-    const univSol = univSols[0] || null;
-    const indSol = indSols[0] || null;
-
-    const sharedMessages = loadSharedMessages(problemId);
-    const sharedUpdates = loadSharedUpdates(problemId);
-
-    const enrichedCollab = {
-      id: foundCollab?.id || `COLLAB-${problemId}`,
-      problemId: problemId,
-      problemTitle: foundCollab?.problemTitle || foundProblem?.title || 'Civic Infrastructure Challenge',
-      category: foundCollab?.category || foundProblem?.category || 'Civic Infrastructure',
-      district: foundCollab?.district || foundProblem?.district || 'Jharkhand',
-      status: foundCollab?.status || 'Active Collaboration',
-      universityName: foundCollab?.universityName || foundProblem?.adoptedByUniversity || univSol?.universityName || activeUser?.universityName || 'Academic Institution',
-      universitySolution: foundCollab?.universitySolution || (univSol ? {
-        solutionTitle: univSol.solutionTitle || univSol.title,
-        description: univSol.technicalApproach || univSol.description,
-        technicalApproach: univSol.technicalApproach || univSol.description,
-        mentorName: univSol.mentorName || univSol.leadName || 'Faculty Project Lead',
-        mentorDesignation: univSol.mentorDesignation || 'Principal Investigator',
-        students: univSol.students || [],
-        estimatedCost: univSol.estimatedCost || univSol.budget || '₹ 30 Lakhs',
-        estimatedTimeWeeks: univSol.estimatedTimeWeeks || 12,
-        folderLink: univSol.folderLink || ''
-      } : {
-        solutionTitle: foundProblem?.title ? `Research Solution: ${foundProblem.title}` : 'Civic Problem Solution Proposal',
-        description: foundProblem?.description || 'Applied engineering proposal and methodology.',
-        technicalApproach: foundProblem?.description || 'Applied engineering proposal and methodology.',
-        mentorName: 'Faculty Project Lead',
-        mentorDesignation: 'Principal Investigator',
-        students: [],
-        estimatedCost: '₹ 30 Lakhs',
-        estimatedTimeWeeks: 12,
-        folderLink: ''
-      }),
-      companyName: foundCollab?.companyName || foundProblem?.adoptedByIndustry || indSol?.companyName || activeUser?.companyName || 'Corporate CSR Partner',
-      industrySolution: foundCollab?.industrySolution || (indSol ? {
-        solutionTitle: indSol.solutionTitle || indSol.title,
-        description: indSol.technicalApproach || indSol.description,
-        technicalApproach: indSol.technicalApproach || indSol.description,
-        teamLeadName: indSol.teamLeadName || indSol.mentorName || 'CSR Project Manager',
-        teamLeadDesignation: indSol.teamLeadDesignation || 'Head of Community Relations',
-        members: indSol.members || [],
-        estimatedCost: indSol.fundingAmount || indSol.estimatedCost || 'CSR Funding Commitment',
-        estimatedTimeWeeks: indSol.estimatedTimeWeeks || 12,
-        folderLink: indSol.folderLink || ''
-      } : {
-        solutionTitle: foundProblem?.title ? `CSR Implementation: ${foundProblem.title}` : 'CSR Co-Funding & Equipment Support',
-        description: 'CSR capital co-funding, equipment supply, and industrial field deployment support.',
-        technicalApproach: 'CSR capital co-funding, equipment supply, and industrial field deployment support.',
-        teamLeadName: 'CSR Project Lead',
-        teamLeadDesignation: 'Head of Community Relations',
-        members: [],
-        estimatedCost: '₹ 40 Lakhs CSR Co-Funding',
-        estimatedTimeWeeks: 12,
-        folderLink: ''
-      }),
-      updates: sharedUpdates,
-      messages: sharedMessages
-    };
-
-    setCollab(enrichedCollab);
-    setProblem(foundProblem);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -523,13 +538,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
     setIsSubmittingFinal(false);
   };
 
-  if (loading) {
-    return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F0F8F8' }}>
-        <p style={{ color: '#036D33', fontWeight: 700, fontSize: '1.1rem' }}>Loading collaboration workspace...</p>
-      </div>
-    );
-  }
+  // Non-blocking workspace render
 
   const univWork = collab?.universitySolution || {};
   const indWork = collab?.industrySolution || {};
@@ -922,7 +931,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                   title={chatOpen ? "Hide Live Collaboration Chat" : "Open Live Collaboration Chat"}
                 >
                   <ChatNavIcon size={14} color={chatOpen ? '#475569' : '#047857'} />
-                  <span>{chatOpen ? 'Hide Chat' : '💬 Open Live Chat'}</span>
+                  <span>{chatOpen ? 'Hide Chat' : ' Open Live Chat'}</span>
                 </button>
 
                 <button
@@ -1053,19 +1062,19 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                     {/* Metadata Items with Icons */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.78rem', marginBottom: '14px', flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#059669' }}>👤</span>
+                        <span style={{ color: '#059669' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Faculty Lead / PI</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{univWork.facultyLead || univWork.mentorName || 'Faculty Project Lead'}</span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#059669' }}>👥</span>
+                        <span style={{ color: '#059669' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Student Researchers</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{univWork.studentResearchers || (univWork.students?.length > 0 ? univWork.students.map(s => s.name || s).join(', ') : 'Student Research Team')}</span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#059669' }}>💰</span>
+                        <span style={{ color: '#059669' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Estimated Budget</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{univWork.estimatedBudget || univWork.estimatedCost || '₹ 30 Lakhs (12 Weeks)'}</span>
                       </div>
@@ -1163,19 +1172,19 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                     {/* Metadata Items with Icons */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.78rem', marginBottom: '14px', flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#7C3AED' }}>👤</span>
+                        <span style={{ color: '#7C3AED' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Corporate Lead</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{indWork.corporateLead || indWork.teamLeadName || 'CSR Project Lead'}</span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#7C3AED' }}>👥</span>
+                        <span style={{ color: '#7C3AED' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Corporate Engineers</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{indWork.engineers || (indWork.members?.length > 0 ? indWork.members.map(m => m.name || m).join(', ') : 'Industrial Field Engineering Team')}</span>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: '#7C3AED' }}>💰</span>
+                        <span style={{ color: '#7C3AED' }}></span>
                         <span style={{ color: '#6B7280', fontWeight: 700, minWidth: '130px' }}>Committed Funding</span>
                         <span style={{ color: '#111827', fontWeight: 600 }}>{indWork.funding || indWork.estimatedCost || collab?.fundingAmount || '₹ 40 Lakhs CSR Co-Funding'}</span>
                       </div>
@@ -1246,7 +1255,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                     {/* Step 1: Initial Setup */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', zIndex: 2, flex: 1 }}>
                       <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#059669', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.74rem', fontWeight: 800, marginBottom: '6px' }}>
-                        ✓
+                        
                       </div>
                       <span style={{ fontSize: '0.76rem', fontWeight: 700, color: '#111827' }}>Initial Setup</span>
                       <span style={{ fontSize: '0.7rem', color: '#6B7280', marginTop: '2px' }}>10/06/2026</span>
@@ -1258,7 +1267,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                     {/* Step 2: Field Study */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', zIndex: 2, flex: 1 }}>
                       <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: '#059669', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.74rem', fontWeight: 800, marginBottom: '6px' }}>
-                        ✓
+                        
                       </div>
                       <span style={{ fontSize: '0.76rem', fontWeight: 700, color: '#111827' }}>Field Study</span>
                       <span style={{ fontSize: '0.7rem', color: '#6B7280', marginTop: '2px' }}>22/06/2026</span>
@@ -1480,7 +1489,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                       title="Hide Live Collaboration Chat"
                     >
                       <span>Hide Chat</span>
-                      <span>✕</span>
+                      <span></span>
                     </button>
                   </div>
 
@@ -1698,7 +1707,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
             >
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4ADE80', display: 'inline-block' }}></span>
               <ChatNavIcon size={16} color="#FFFFFF" />
-              <span>💬 Open Live Chat ({collab?.messages?.length || 0})</span>
+              <span> Open Live Chat ({collab?.messages?.length || 0})</span>
             </button>
           )}
 
@@ -1893,7 +1902,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
         <div className="modal-backdrop">
           <div className="modal-dialog" style={{ maxWidth: '520px', textAlign: 'center', padding: '26px' }}>
             <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#DCFCE7', color: '#166534', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', fontSize: '1.8rem', fontWeight: 800 }}>
-              ✓
+              
             </div>
 
             <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#024D24', marginBottom: '8px' }}>

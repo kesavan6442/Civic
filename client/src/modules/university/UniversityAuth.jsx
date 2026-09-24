@@ -447,7 +447,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
     setAccounts(updatedAccounts);
     saveStoredAccounts(updatedAccounts);
 
-    alert(`🎉 University Account successfully registered for ${formData.universityName}! Logging you into the portal.`);
+    alert(`University Account successfully registered for ${formData.universityName}! Logging you into the portal.`);
 
     onLoginSuccess(registerResult.success ? registerResult.user : newAccount);
   };
@@ -532,7 +532,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                🔐 Institutional Login
+                 Institutional Login
               </button>
               <button
                 type="button"
@@ -551,7 +551,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                📝 University Sign Up
+                University Sign Up
               </button>
             </div>
           )}
@@ -578,7 +578,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   gap: '10px',
                   boxShadow: '0 2px 6px rgba(248, 113, 113, 0.15)'
                 }}>
-                  <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+                  <span style={{ fontSize: '1.2rem' }}></span>
                   <div>
                     <strong>Account Error:</strong> {loginError}
                   </div>
@@ -644,7 +644,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
 
               {/* Seed Demo Account Helper Box */}
               <div style={{ marginTop: '18px', background: '#F8FAF9', border: '1.5px solid #E5E7EB', borderRadius: '10px', padding: '12px 14px', fontSize: '0.8rem', color: '#4B5563' }}>
-                <strong style={{ color: '#024D24', display: 'block', marginBottom: '4px' }}>🏛️ Verified Institutional Accounts:</strong>
+                <strong style={{ color: '#024D24', display: 'block', marginBottom: '4px' }}> Verified Institutional Accounts:</strong>
                 <div style={{ margin: '2px 0' }}>• Agri Institute: <code>agri.university@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0' }}>• Health Institute: <code>health.university@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0', opacity: 0.85 }}>• CUJ Ranchi: <code>civic.lab@cuj.ac.in</code> | Pass: <code>admin123</code></div>
@@ -720,7 +720,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                     margin: '0 auto 16px',
                     fontSize: '1.6rem'
                   }}>
-                    ✓
+                    
                   </div>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#024D24', marginBottom: '8px' }}>
                     Recovery Link Sent
@@ -763,7 +763,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   alignItems: 'flex-start',
                   gap: '8px'
                 }}>
-                  <span style={{ fontSize: '1.1rem' }}>ℹ️</span>
+                  <span style={{ fontSize: '1.1rem' }}>ℹ</span>
                   <div>
                     <strong>Sign-Up Required:</strong> {signupNotice}
                   </div>
@@ -828,7 +828,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                       textAlign: 'center'
                     }}
                   >
-                    {signupStep > 1 ? '✓ ' : ''}1. Profile & Location
+                    {signupStep > 1 ? ' ' : ''}1. Profile & Location
                   </button>
 
                   <button
@@ -849,7 +849,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                       textAlign: 'center'
                     }}
                   >
-                    {signupStep > 2 ? '✓ ' : ''}2. Academic Expertise
+                    {signupStep > 2 ? ' ' : ''}2. Academic Expertise
                   </button>
 
                   <button
@@ -1095,7 +1095,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                           cursor: 'pointer'
                         }}
                       >
-                        ✓ Select All
+                         Select All
                       </button>
                       <button
                         type="button"
@@ -1111,7 +1111,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                           cursor: 'pointer'
                         }}
                       >
-                        ✕ Clear All
+                         Clear All
                       </button>
                     </div>
                   </div>
@@ -1191,7 +1191,7 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
                     alignItems: 'center'
                   }}>
                     <span style={{ fontSize: '0.84rem', color: '#065F46', fontWeight: 700 }}>
-                      🏛️ Institution: <strong>{formData.universityName || 'University'}</strong> ({formData.city || 'Jharkhand'})
+                       Institution: <strong>{formData.universityName || 'University'}</strong> ({formData.city || 'Jharkhand'})
                     </span>
                     <span style={{
                       background: '#036D33',

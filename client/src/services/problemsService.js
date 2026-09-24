@@ -1,3 +1,16 @@
+
+export async function fetchWithTimeout(url, options = {}, timeoutMs = 3500) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetchWithTimeout(url, { ...options, signal: controller.signal });
+    clearTimeout(timeoutId);
+    return res;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    throw err;
+  }
+}
 // Client-side Problems & Challenges Service with Backend Sync and Local Storage Fallback
 import { authService } from './authService';
 import { API_BASE_URL } from './apiConfig';
@@ -55,6 +68,13 @@ const STORAGE_KEY_PROPOSALS = 'civic_solutions_proposals';
 const STORAGE_KEY_COLLABS = 'civic_collaborations_repository';
 
 export function getStoredLocalProblems() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_PROBLEMS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return deduplicateProblems(parsed);
+    }
+  } catch (e) {}
   return [];
 }
 
@@ -282,7 +302,7 @@ export const problemsService = {
       if (universityId) query.append('universityId', universityId);
 
       const queryString = query.toString() ? `?${query.toString()}` : '';
-      const res = await fetch(`${API_BASE_URL}/problems${queryString}`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/problems${queryString}`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -342,7 +362,7 @@ export const problemsService = {
 
     // Try direct backend fetch first if available
     try {
-      const res = await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(cleanId)}`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/problems/${encodeURIComponent(cleanId)}`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -370,7 +390,7 @@ export const problemsService = {
     if (!activeUser) return [];
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/problems/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/problems/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -391,7 +411,7 @@ export const problemsService = {
     const headers = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;
 
-    const res = await fetch(`${API_BASE_URL}/files/upload`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/files/upload`, {
       method: 'POST',
       headers,
       body: formData
@@ -428,7 +448,7 @@ export const problemsService = {
     };
 
     const headers = authService.getAuthHeaders();
-    const res = await fetch(`${API_BASE_URL}/problems`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/problems`, {
       method: 'POST',
       headers,
       body: JSON.stringify(newProblem)
@@ -448,7 +468,7 @@ export const problemsService = {
   // Get currently working team projects (University)
   async getCurrentlyWorkingProjects() {
     try {
-      const res = await fetch(`${API_BASE_URL}/teams`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/teams`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -509,7 +529,7 @@ export const problemsService = {
 
     // Sync to backend
     try {
-      await fetch(`${API_BASE_URL}/teams`, {
+      await fetchWithTimeout(`${API_BASE_URL}/teams`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(teamProject)
@@ -524,7 +544,7 @@ export const problemsService = {
   // Get Industry Teams
   async getIndustryTeams() {
     try {
-      const res = await fetch(`${API_BASE_URL}/industry/teams`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/teams`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -584,7 +604,7 @@ export const problemsService = {
 
     // Sync to backend
     try {
-      await fetch(`${API_BASE_URL}/industry/teams`, {
+      await fetchWithTimeout(`${API_BASE_URL}/industry/teams`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(industryProject)
@@ -597,7 +617,7 @@ export const problemsService = {
   // Get Funding Approvals (Collaborations)
   async getFundingApprovals() {
     try {
-      const res = await fetch(`${API_BASE_URL}/funding-approvals`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/funding-approvals`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -614,7 +634,7 @@ export const problemsService = {
   async getMyCollaborations(user) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -630,7 +650,7 @@ export const problemsService = {
   // Submit CSR Collaboration / Funding Commitment
   async submitCollaboration(collabData) {
     const headers = { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' };
-    const res = await fetch(`${API_BASE_URL}/collaborations`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations`, {
       method: 'POST',
       headers,
       body: JSON.stringify(collabData)
@@ -647,7 +667,7 @@ export const problemsService = {
   async getProblemCollaborations(problemId) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations/problem/${problemId}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/problem/${problemId}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -664,7 +684,7 @@ export const problemsService = {
   async saveFundingApproval(fundingData) {
     try {
       const headers = { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' };
-      const res = await fetch(`${API_BASE_URL}/collaborations`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations`, {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -705,7 +725,7 @@ export const problemsService = {
       if (user.email) query.append('citizenEmail', user.email);
       if (user.phone) query.append('citizenPhone', user.phone);
 
-      const res = await fetch(`${API_BASE_URL}/problems?${query.toString()}`);
+      const res = await fetchWithTimeout(`${API_BASE_URL}/problems?${query.toString()}`);
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -736,7 +756,7 @@ export const problemsService = {
   async getUniversityProfile() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/university/me`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/me`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.data) {
@@ -753,7 +773,7 @@ export const problemsService = {
   async getUniversityMatchedProblems() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/problems/matched`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/problems/matched`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -770,7 +790,7 @@ export const problemsService = {
   async getUniversityProposals() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/university/solutions/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/solutions/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -787,7 +807,7 @@ export const problemsService = {
   async getUniversityCollaborations() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/university/collaborations/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/collaborations/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -804,7 +824,7 @@ export const problemsService = {
   async getUniversityProjects() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/university/projects/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/projects/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -821,7 +841,7 @@ export const problemsService = {
   async getUniversityMetrics() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/university/metrics`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/metrics`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.data) {
@@ -845,7 +865,7 @@ export const problemsService = {
   async getIndustryProfile() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/industry/me`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/me`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.data) {
@@ -862,7 +882,7 @@ export const problemsService = {
   async getIndustryMatchedOpportunities() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/industry/problems/matched`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/problems/matched`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -879,7 +899,7 @@ export const problemsService = {
   async getIndustryProposals() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/industry/proposals/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/proposals/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -896,7 +916,7 @@ export const problemsService = {
   async getIndustryCollaborations() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -913,7 +933,7 @@ export const problemsService = {
   async getIndustryProjects() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/industry/projects/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/projects/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -930,7 +950,7 @@ export const problemsService = {
   async getIndustryMetrics() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/industry/metrics`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/metrics`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.data) {
@@ -960,7 +980,7 @@ export const problemsService = {
   async getSubmittedSolutionsForProblem(problemId, problemTitle) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -990,7 +1010,7 @@ export const problemsService = {
 
     if (token) {
       try {
-        const res = await fetch(`${API_BASE_URL}/solutions/mine`, { headers });
+        const res = await fetchWithTimeout(`${API_BASE_URL}/solutions/mine`, { headers });
         if (res.ok) {
           const data = await res.json();
           if (data.success && Array.isArray(data.data)) {
@@ -1008,7 +1028,7 @@ export const problemsService = {
       if (params.universityName) query.append('universityName', params.universityName);
       if (params.status) query.append('status', params.status);
 
-      const res = await fetch(`${API_BASE_URL}/proposals?${query.toString()}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/proposals?${query.toString()}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -1030,7 +1050,7 @@ export const problemsService = {
   async getProposalById(id) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/solutions/${encodeURIComponent(id)}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/solutions/${encodeURIComponent(id)}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && data.data) return data.data;
@@ -1046,7 +1066,7 @@ export const problemsService = {
   async submitProposal(proposalData) {
     const headers = authService.getAuthHeaders();
     try {
-      const res = await fetch(`${API_BASE_URL}/solutions`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/solutions`, {
         method: 'POST',
         headers,
         body: JSON.stringify(proposalData)
@@ -1066,7 +1086,7 @@ export const problemsService = {
   async updateProposal(proposalId, updateData) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/proposals/${proposalId}`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/proposals/${proposalId}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify(updateData)
@@ -1086,7 +1106,7 @@ export const problemsService = {
   async updateProjectProgress(problemId, progressData) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/projects/${problemId}/progress`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/projects/${problemId}/progress`, {
         method: 'PATCH',
         headers,
         body: JSON.stringify(progressData)
@@ -1106,7 +1126,7 @@ export const problemsService = {
   async submitProjectCompletion(problemId, completionData) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/projects/${problemId}/submit-completion`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/projects/${problemId}/submit-completion`, {
         method: 'POST',
         headers,
         body: JSON.stringify(completionData)
@@ -1126,7 +1146,7 @@ export const problemsService = {
   async adminProceedProblem(problemId) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/admin/problems/${problemId}/proceed`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/admin/problems/${problemId}/proceed`, {
         method: 'POST',
         headers
       });
@@ -1151,7 +1171,7 @@ export const problemsService = {
   async submitIdeaSolution(payload) {
     let headers = authService.getAuthHeaders();
     try {
-      let res = await fetch(`${API_BASE_URL}/solutions`, {
+      let res = await fetchWithTimeout(`${API_BASE_URL}/solutions`, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload)
@@ -1160,7 +1180,7 @@ export const problemsService = {
       // If 403 Forbidden due to stale/expired token, retry once without Authorization header
       if (res.status === 403) {
         console.warn('403 encountered on /solutions, retrying anonymously without stale token...');
-        res = await fetch(`${API_BASE_URL}/solutions`, {
+        res = await fetchWithTimeout(`${API_BASE_URL}/solutions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -1225,7 +1245,7 @@ export const problemsService = {
     try {
       const headers = authService.getAuthHeaders();
       const url = problemId ? `${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}` : `${API_BASE_URL}/solutions`;
-      const res = await fetch(url, { headers });
+      const res = await fetchWithTimeout(url, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -1295,7 +1315,7 @@ export const problemsService = {
 
     // Sync to backend
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/combine-collaboration`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/admin/combine-collaboration`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -1322,7 +1342,7 @@ export const problemsService = {
       if (filters.industryId) query.append('industryId', filters.industryId);
       if (filters.universityName) query.append('universityName', filters.universityName);
       if (filters.companyName) query.append('companyName', filters.companyName);
-      const res = await fetch(`${API_BASE_URL}/collaborations?${query.toString()}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations?${query.toString()}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -1360,7 +1380,7 @@ export const problemsService = {
   async getMyCollaborations() {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations/mine`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/mine`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.data)) {
@@ -1377,7 +1397,7 @@ export const problemsService = {
   async submitCollaboration(payload) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations`, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload)
@@ -1397,7 +1417,7 @@ export const problemsService = {
   async getCollaborationById(id) {
     try {
       const headers = authService.getAuthHeaders();
-      const res = await fetch(`${API_BASE_URL}/collaborations/${id}`, { headers });
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/${id}`, { headers });
       if (res.ok) {
         const data = await res.json();
         if (data.success) return data.data;
@@ -1427,7 +1447,7 @@ export const problemsService = {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/collaborations/${collabId}/messages`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/${collabId}/messages`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ senderType, senderName, message })
@@ -1462,7 +1482,7 @@ export const problemsService = {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/collaborations/${collabId}/updates`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/${collabId}/updates`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ authorType, authorName, description, folderLink, files })
@@ -1503,7 +1523,7 @@ export const problemsService = {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/collaborations/${collabId}/final-submit`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/collaborations/${collabId}/final-submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ authorType, authorName, finalDescription, folderLink, files })
@@ -1543,7 +1563,7 @@ export const problemsService = {
     }
 
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/collaborations/${collabId}/proceed-work`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/admin/collaborations/${collabId}/proceed-work`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sanctionedBy, notes, workOrderNumber })
@@ -1559,7 +1579,7 @@ export const problemsService = {
 
   // Citizen Clarification / More Info Response
   async respondToInformationRequest(problemId, payload) {
-    const res = await fetch(`${API_BASE_URL}/problems/${encodeURIComponent(problemId)}/respond-info`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/problems/${encodeURIComponent(problemId)}/respond-info`, {
       method: 'POST',
       headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -1570,7 +1590,7 @@ export const problemsService = {
   // University Profile & Capability Registry
   async getUniversityProfile() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/me`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/me`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1582,7 +1602,7 @@ export const problemsService = {
   },
 
   async updateUniversityProfile(profileData) {
-    const res = await fetch(`${API_BASE_URL}/university/profile`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/university/profile`, {
       method: 'PUT',
       headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(profileData)
@@ -1593,7 +1613,7 @@ export const problemsService = {
 
   async getUniversityMatchedProblems() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/problems/matched`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/problems/matched`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1606,7 +1626,7 @@ export const problemsService = {
 
   async getUniversityMetrics() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/metrics`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/metrics`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1619,7 +1639,7 @@ export const problemsService = {
 
   async getUniversityProposals() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/solutions/mine`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/solutions/mine`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1632,7 +1652,7 @@ export const problemsService = {
 
   async getUniversityCollaborations() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/collaborations/mine`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/collaborations/mine`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1645,7 +1665,7 @@ export const problemsService = {
 
   async getUniversityProjects() {
     try {
-      const res = await fetch(`${API_BASE_URL}/university/projects/mine`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/university/projects/mine`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1659,7 +1679,7 @@ export const problemsService = {
   // Industry Profile & CSR Capability Registry
   async getIndustryProfile() {
     try {
-      const res = await fetch(`${API_BASE_URL}/industry/me`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/me`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1671,7 +1691,7 @@ export const problemsService = {
   },
 
   async updateIndustryProfile(profileData) {
-    const res = await fetch(`${API_BASE_URL}/industry/profile`, {
+    const res = await fetchWithTimeout(`${API_BASE_URL}/industry/profile`, {
       method: 'PUT',
       headers: { ...authService.getAuthHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify(profileData)
@@ -1683,7 +1703,7 @@ export const problemsService = {
   async getIndustryMatchedProblems(params) {
     try {
       const query = params ? new URLSearchParams(params).toString() : '';
-      const res = await fetch(`${API_BASE_URL}/industry/problems/matched${query ? '?' + query : ''}`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/problems/matched${query ? '?' + query : ''}`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1696,7 +1716,7 @@ export const problemsService = {
 
   async getIndustryMetrics() {
     try {
-      const res = await fetch(`${API_BASE_URL}/industry/metrics`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/metrics`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {
@@ -1709,7 +1729,7 @@ export const problemsService = {
 
   async getIndustryProjects() {
     try {
-      const res = await fetch(`${API_BASE_URL}/industry/projects/mine`, {
+      const res = await fetchWithTimeout(`${API_BASE_URL}/industry/projects/mine`, {
         headers: { ...authService.getAuthHeaders() }
       });
       if (res.ok) {

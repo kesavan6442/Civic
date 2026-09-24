@@ -1314,7 +1314,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: totalProblemsCount,
       className: 'stat-total',
       subtitle: 'Recorded in Statewide Repository',
-      icon: '📁',
+      icon: '',
       tabTarget: 'problems'
     },
     {
@@ -1335,7 +1335,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: underAIAnalysisCount,
       className: 'stat-ai',
       subtitle: 'NLP & Vision Processing',
-      icon: '🤖',
+      icon: '',
       tabTarget: 'problems',
       filterVal: 'Under AI Analysis'
     },
@@ -1356,7 +1356,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: solutionsSubmittedCount,
       className: 'stat-solutions',
       subtitle: 'Ready for Admin Decision',
-      icon: '💡',
+      icon: '',
       tabTarget: 'solutions'
     },
     {
@@ -1366,7 +1366,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: problemsAssignedCount,
       className: 'stat-assigned',
       subtitle: 'Final Admin Decisions Persisted',
-      icon: '🏛️',
+      icon: '',
       tabTarget: 'projects'
     },
     {
@@ -1376,7 +1376,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: inProgressCount,
       className: 'stat-progress',
       subtitle: 'On-Ground R&D & Field Trials',
-      icon: '⚙️',
+      icon: '',
       tabTarget: 'projects'
     },
     {
@@ -1386,7 +1386,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
       count: resolvedCount,
       className: 'stat-resolved',
       subtitle: 'Delivered to Citizens',
-      icon: '✅',
+      icon: '',
       tabTarget: 'projects'
     }
   ];
@@ -1844,7 +1844,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div style={{ background: '#10B981', color: '#FFFFFF', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>
-                ✓
+                
               </div>
               <div>
                 <strong style={{ color: '#065F46', fontSize: '0.94rem' }}>{assignmentSuccessToast.title}</strong>
@@ -1856,7 +1856,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               onClick={() => setAssignmentSuccessToast(null)}
               style={{ background: 'none', border: 'none', color: '#065F46', cursor: 'pointer', fontWeight: 800 }}
             >
-              ✕
+              
             </button>
           </div>
         )}
@@ -1895,149 +1895,6 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   <span style={{ fontSize: '0.78rem', color: '#6B7280', fontWeight: 600 }}>
                     Updated {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                   </span>
-                </div>
-              </div>
-
-
-
-              {/* Intelligent Governance Action Center: 6 Queues */}
-              <div style={{
-                background: 'linear-gradient(135deg, #024D24 0%, #036D33 100%)',
-                borderRadius: '14px',
-                padding: '18px 20px',
-                color: '#FFFFFF',
-                marginBottom: '20px',
-                boxShadow: '0 4px 16px rgba(2, 77, 36, 0.15)'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-                  <div>
-                    <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#A7F3D0', fontWeight: 800 }}>
-                      ⚡ MCP-Assisted Intelligent Governance Workflow
-                    </span>
-                    <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: '2px 0 0 0', color: '#FFFFFF' }}>
-                      Administrative Decision & Action Center (6 Lifecycle Queues)
-                    </h2>
-                  </div>
-                  <span style={{ fontSize: '0.76rem', background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.3)', padding: '4px 10px', borderRadius: '8px', fontWeight: 700 }}>
-                    Strict Rule: AI Analyzes & Recommends • Admin Decides & Approves
-                  </span>
-                </div>
-
-                {/* 6 Workflow Queues Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '10px' }}>
-                  {/* Queue 1: Gate 1 Pending Review */}
-                  <div
-                    onClick={() => { setFilterStatus('Pending Admin Review'); setActiveTab('problems'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Gate 1: Review</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#FEF08A', margin: '2px 0' }}>{newProblemsCount}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>Citizen Reports Pending</div>
-                  </div>
-
-                  {/* Queue 2: Capability Matching */}
-                  <div
-                    onClick={() => { setActiveTab('universities'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Capability Matches</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#93C5FD', margin: '2px 0' }}>{universities.length + industries.length}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>All Capable Partners</div>
-                  </div>
-
-                  {/* Queue 3: Awaiting Proposals */}
-                  <div
-                    onClick={() => { setFilterStatus('Broadcasted to Universities'); setActiveTab('problems'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Awaiting Proposals</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#C4B5FD', margin: '2px 0' }}>{Math.max(1, problems.filter(p => p.status === 'Broadcasted to Universities' || p.status === 'Awaiting Proposals').length)}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>Dispatched RFPs</div>
-                  </div>
-
-                  {/* Queue 4: Gate 2 Collaboration Decisions */}
-                  <div
-                    onClick={() => { setActiveTab('solutions'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Gate 2: Decisions</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#FDBA74', margin: '2px 0' }}>{solutionsSubmittedCount}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>Proposals to Pair</div>
-                  </div>
-
-                  {/* Queue 5: Active Projects */}
-                  <div
-                    onClick={() => { setActiveTab('projects'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Active Projects</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#6EE7B7', margin: '2px 0' }}>{assignments.length || inProgressCount || 2}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>Milestones & SLA Tracked</div>
-                  </div>
-
-                  {/* Queue 6: Gate 3 Final Verification */}
-                  <div
-                    onClick={() => { setFilterStatus('Resolved'); setActiveTab('problems'); }}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.12)',
-                      border: '1px solid rgba(255, 255, 255, 0.25)',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s ease'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.22)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-                  >
-                    <div style={{ fontSize: '0.7rem', color: '#D1FAE5', fontWeight: 700, textTransform: 'uppercase' }}>Gate 3: Verification</div>
-                    <div style={{ fontSize: '1.35rem', fontWeight: 900, color: '#A7F3D0', margin: '2px 0' }}>{resolvedCount}</div>
-                    <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.85)' }}>Pre-Audit & Sanctioned</div>
-                  </div>
                 </div>
               </div>
 
@@ -3218,7 +3075,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                     fontSize: '0.76rem',
                                     fontWeight: 800
                                   }}>
-                                    📝 {pSols.length} {pSols.length === 1 ? 'Proposal' : 'Proposals'}
+                                    {pSols.length} {pSols.length === 1 ? 'Proposal' : 'Proposals'}
                                   </span>
                                 </div>
 
@@ -3241,7 +3098,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                     onMouseLeave={(e) => e.currentTarget.style.background = '#4F46E5'}
                                     title="Generate or view MCP Collaboration Intelligence Synergy Report"
                                   >
-                                    <span>✨ MCP Intelligence Report</span>
+                                    <span> MCP Intelligence Report</span>
                                   </button>
                                   {p.approvalStatus === 'COLLABORATION_APPROVED' ? (
                                     <span style={{
@@ -3253,7 +3110,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontSize: '0.82rem',
                                       fontWeight: 700
                                     }}>
-                                      ✓ Collaboration Approved (Gate 2)
+                                       Collaboration Approved (Gate 2)
                                     </span>
                                   ) : p.approvalStatus === 'PROJECT_CREATED' || p.status === 'IN_PROGRESS' ? (
                                     <span style={{
@@ -3265,7 +3122,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontSize: '0.82rem',
                                       fontWeight: 700
                                     }}>
-                                      ✓ Project Created
+                                       Project Created
                                     </span>
                                   ) : (
                                     <button
@@ -3382,7 +3239,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                               color: isIndustry ? '#92400E' : '#1E40AF',
                                               border: isIndustry ? '1px solid #FDE68A' : '1px solid #BFDBFE'
                                             }}>
-                                              {isIndustry ? '🏢 Industry' : '🏛️ University'}
+                                              {isIndustry ? ' Industry' : ' University'}
                                             </span>
                                           </div>
                                           <div style={{ fontSize: '0.86rem', fontWeight: 800, color: '#111827', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -3433,7 +3290,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      ✓ {solStatusUpper === 'APPROVED' ? 'Approved' : 'Assigned & Approved'}
+                                       {solStatusUpper === 'APPROVED' ? 'Approved' : 'Assigned & Approved'}
                                     </span>
                                   ) : isModRequested ? (
                                     <span style={{
@@ -3445,7 +3302,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      ✓ Modification Requested
+                                       Modification Requested
                                     </span>
                                   ) : isRejected ? (
                                     <span style={{
@@ -3457,7 +3314,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                       fontWeight: 700,
                                       fontSize: '0.82rem'
                                     }}>
-                                      ✓ Rejected
+                                       Rejected
                                     </span>
                                   ) : (
                                     <>
@@ -3574,7 +3431,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
                 {collaborations.length === 0 ? (
                   <div className="admin-table-card" style={{ padding: '36px 20px', textAlign: 'center', color: '#6B7280' }}>
-                    <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>🤝</div>
+                    <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}></div>
                     <strong style={{ fontSize: '1.05rem', color: '#111827', display: 'block', marginBottom: '4px' }}>
                       No Joint Collaborations Formed Yet
                     </strong>
@@ -3623,7 +3480,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                 background: isResolved ? '#DCFCE7' : isDeliverableReady ? '#FEF3C7' : '#EFF6FF',
                                 color: isResolved ? '#166534' : isDeliverableReady ? '#92400E' : '#1D4ED8'
                               }}>
-                                {isResolved ? '✓ Completed & Verified' : isDeliverableReady ? 'Deliverables Submitted' : 'In Active Execution'}
+                                {isResolved ? ' Completed & Verified' : isDeliverableReady ? 'Deliverables Submitted' : 'In Active Execution'}
                               </span>
                             </div>
 
@@ -3638,7 +3495,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '12px', marginBottom: '12px' }}>
                               <div>
                                 <div style={{ fontSize: '0.7rem', color: '#036D33', fontWeight: 800, textTransform: 'uppercase' }}>
-                                  🏛️ Academic R&D Lead
+                                   Academic R&D Lead
                                 </div>
                                 <strong style={{ fontSize: '0.86rem', color: '#111827', display: 'block', marginTop: '2px' }}>
                                   {collab.universityName}
@@ -3650,7 +3507,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
                               <div>
                                 <div style={{ fontSize: '0.7rem', color: '#6D28D9', fontWeight: 800, textTransform: 'uppercase' }}>
-                                  🏭 Corporate CSR Co-Funder
+                                   Corporate CSR Co-Funder
                                 </div>
                                 <strong style={{ fontSize: '0.86rem', color: '#111827', display: 'block', marginTop: '2px' }}>
                                   {collab.companyName}
@@ -4169,7 +4026,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             {asgn.milestones?.map((m, idx) => (
                               <div key={idx} style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '6px', padding: '8px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
                                 <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#374151' }}>
-                                  {m.completed ? '✓' : '•'} {m.title}
+                                  {m.completed ? '' : '•'} {m.title}
                                 </span>
                                 <span style={{ fontSize: '0.78rem', fontWeight: 800, color: m.completed ? '#059669' : '#D97706' }}>
                                   {m.progress}%
@@ -4382,7 +4239,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           width: '100%'
                         }}
                       >
-                        ✕ Reset Filters
+                         Reset Filters
                       </button>
                     </div>
                   )}
@@ -5252,10 +5109,10 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Sub-Navigation Tabs */}
               <div style={{ display: 'flex', gap: '8px', borderBottom: '2px solid #E5E7EB', paddingBottom: '2px', marginBottom: '8px', overflowX: 'auto' }}>
                 {[
-                  { id: 'mcp', label: '⚡ MCP Configuration', badge: '31 Tools' },
-                  { id: 'sla', label: '⚖️ State SLA & Escalation', badge: null },
-                  { id: 'security', label: '🛡️ Security & Access Control', badge: null },
-                  { id: 'audit', label: `📜 MCP Audit Log (${mcpAuditLogs.length})`, badge: null },
+                  { id: 'mcp', label: ' MCP Configuration', badge: '31 Tools' },
+                  { id: 'sla', label: ' State SLA & Escalation', badge: null },
+                  { id: 'security', label: ' Security & Access Control', badge: null },
+                  { id: 'audit', label: ` MCP Audit Log (${mcpAuditLogs.length})`, badge: null },
                 ].map(tab => (
                   <button
                     key={tab.id}
@@ -5301,7 +5158,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   {/* Backend Connection Info Banner — shown when backend is unreachable */}
                   {!mcpStatus && !mcpLoading && (
                     <div style={{ background: '#EFF6FF', border: '1.5px solid #BFDBFE', borderRadius: '10px', padding: '14px 18px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                      <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>ℹ️</span>
+                      <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>ℹ</span>
                       <div>
                         <strong style={{ color: '#1E40AF', fontSize: '0.9rem', display: 'block', marginBottom: '3px' }}>Backend Connection Required</strong>
                         <p style={{ margin: 0, fontSize: '0.82rem', color: '#1D4ED8', lineHeight: 1.5 }}>
@@ -5309,7 +5166,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           The MCP client configuration JSON and tools catalog below are always available.
                         </p>
                         <button type="button" onClick={loadMcpData} style={{ marginTop: '8px', padding: '4px 12px', fontSize: '0.78rem', border: '1px solid #93C5FD', borderRadius: '6px', background: '#FFFFFF', color: '#1D4ED8', cursor: 'pointer', fontWeight: 700 }}>
-                          🔄 Retry Connection
+                           Retry Connection
                         </button>
                       </div>
                     </div>
@@ -5320,7 +5177,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     <div style={{ background: '#FEF3C7', border: '2px solid #F59E0B', borderRadius: '10px', padding: '16px 20px', boxShadow: '0 4px 12px rgba(245,158,11,0.15)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+                          <span style={{ fontSize: '1.2rem' }}></span>
                           <strong style={{ color: '#92400E', fontSize: '0.96rem' }}>New MCP Bearer Token Generated — Copy Now!</strong>
                         </div>
                         <button type="button" onClick={() => setNewlyGeneratedToken(null)} style={{ background: 'transparent', border: 'none', color: '#92400E', cursor: 'pointer', fontWeight: 700 }}>Dismiss</button>
@@ -5331,7 +5188,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#FFFFFF', border: '1px solid #FCD34D', borderRadius: '8px', padding: '8px 12px' }}>
                         <code style={{ flex: 1, fontSize: '0.86rem', fontFamily: 'Consolas, Monaco, monospace', color: '#024D24', wordBreak: 'break-all', fontWeight: 700 }}>{newlyGeneratedToken}</code>
                         <button type="button" className="admin-btn-primary" onClick={handleCopyToken} style={{ padding: '6px 14px', fontSize: '0.8rem', whiteSpace: 'nowrap', background: tokenCopied ? '#059669' : '#036D33' }}>
-                          {tokenCopied ? '✓ Copied!' : '📋 Copy Token'}
+                          {tokenCopied ? ' Copied!' : 'Copy Token'}
                         </button>
                       </div>
                     </div>
@@ -5366,15 +5223,15 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                         </div>
                         {mcpTestResult && (
                           <div style={{ padding: '8px 12px', borderRadius: '6px', fontSize: '0.78rem', marginBottom: '14px', background: mcpTestResult.success ? '#E8F5EC' : '#FEE2E2', color: mcpTestResult.success ? '#024D24' : '#991B1B', border: `1px solid ${mcpTestResult.success ? '#A7F3D0' : '#FECACA'}` }}>
-                            <strong>{mcpTestResult.success ? '✓ Passed' : '✗ Failed'}:</strong> {mcpTestResult.message}
+                            <strong>{mcpTestResult.success ? ' Passed' : ' Failed'}:</strong> {mcpTestResult.message}
                           </div>
                         )}
                       </div>
                       <div style={{ display: 'flex', gap: '10px' }}>
                         <button type="button" className="admin-btn-action" disabled={mcpActionLoading} onClick={handleTestMcpConnection} style={{ flex: 1, padding: '8px 12px', fontSize: '0.82rem', textAlign: 'center', justifyContent: 'center' }}>
-                          {mcpActionLoading ? 'Testing...' : '⚡ Test Connection'}
+                          {mcpActionLoading ? 'Testing...' : ' Test Connection'}
                         </button>
-                        <button type="button" className="univ-btn-secondary" onClick={loadMcpData} style={{ padding: '8px 12px', fontSize: '0.82rem' }} title="Refresh">🔄</button>
+                        <button type="button" className="univ-btn-secondary" onClick={loadMcpData} style={{ padding: '8px 12px', fontSize: '0.82rem' }} title="Refresh"></button>
                       </div>
                     </div>
 
@@ -5412,12 +5269,12 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {!mcpStatus?.hasActiveToken ? (
                           <button type="button" className="admin-btn-primary" disabled={mcpActionLoading} onClick={handleGenerateMcpToken} style={{ flex: 1, padding: '8px 14px', fontSize: '0.82rem' }}>
-                            ➕ Generate MCP Token
+                             Generate MCP Token
                           </button>
                         ) : (
                           <>
-                            <button type="button" className="univ-btn-secondary" disabled={mcpActionLoading} onClick={() => setMcpRegenModalOpen(true)} style={{ flex: 1, padding: '8px 10px', fontSize: '0.8rem', color: '#D97706', borderColor: '#FCD34D' }}>🔄 Regenerate</button>
-                            <button type="button" className="univ-btn-secondary" disabled={mcpActionLoading} onClick={() => setMcpRevokeModalOpen(true)} style={{ flex: 1, padding: '8px 10px', fontSize: '0.8rem', color: '#C62828', borderColor: '#FCA5A5' }}>🛑 Revoke Token</button>
+                            <button type="button" className="univ-btn-secondary" disabled={mcpActionLoading} onClick={() => setMcpRegenModalOpen(true)} style={{ flex: 1, padding: '8px 10px', fontSize: '0.8rem', color: '#D97706', borderColor: '#FCD34D' }}> Regenerate</button>
+                            <button type="button" className="univ-btn-secondary" disabled={mcpActionLoading} onClick={() => setMcpRevokeModalOpen(true)} style={{ flex: 1, padding: '8px 10px', fontSize: '0.8rem', color: '#C62828', borderColor: '#FCA5A5' }}> Revoke Token</button>
                           </>
                         )}
                       </div>
@@ -5445,10 +5302,10 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       </pre>
                       <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', gap: '6px' }}>
                         <button type="button" onClick={handleCopyJsonConfig} style={{ background: jsonCopied ? '#059669' : 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: '#FFFFFF', borderRadius: '6px', padding: '4px 10px', fontSize: '0.74rem', fontWeight: 700, cursor: 'pointer' }}>
-                          {jsonCopied ? '✓ Copied!' : '📋 Copy JSON'}
+                          {jsonCopied ? ' Copied!' : 'Copy JSON'}
                         </button>
                         <button type="button" onClick={handleDownloadJsonConfig} style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', color: '#FFFFFF', borderRadius: '6px', padding: '4px 10px', fontSize: '0.74rem', fontWeight: 700, cursor: 'pointer' }}>
-                          ⬇️ Download .json
+                          ⬇ Download .json
                         </button>
                       </div>
                     </div>
@@ -5491,7 +5348,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             <p style={{ margin: 0, fontSize: '0.78rem', color: '#4B5563', lineHeight: 1.4 }}>{tool.description}</p>
                             {tool.category === 'HIGH_IMPACT' && (
                               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '0.7rem', color: '#92400E', background: '#FFFBEB', border: '1px solid #FDE68A', padding: '3px 6px', borderRadius: '4px', fontWeight: 700, marginTop: '6px' }}>
-                                🛡️ Admin Approval Required
+                                 Admin Approval Required
                               </div>
                             )}
                           </div>
@@ -5505,10 +5362,10 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: '#111827', marginBottom: '12px' }}>Security & Privacy Safeguards</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
                       {[
-                        ['🔒 SHA-256 Token Hashing', 'Bearer tokens are never stored in plaintext in the database.'],
-                        ['🛡️ Recursive PII Redaction', 'Phone numbers (+91 98765*****) and emails (c***@gov.in) are masked automatically.'],
-                        ['👤 Human-in-the-Loop Safety', 'Assigning, merging, approving, and funding require explicit state officer confirmation.'],
-                        ['📜 Tamper-Evident Audit Trail', 'Every tool call, auth attempt, and payload is securely logged in the audit stream.'],
+                        [' SHA-256 Token Hashing', 'Bearer tokens are never stored in plaintext in the database.'],
+                        [' Recursive PII Redaction', 'Phone numbers (+91 98765*****) and emails (c***@gov.in) are masked automatically.'],
+                        [' Human-in-the-Loop Safety', 'Assigning, merging, approving, and funding require explicit state officer confirmation.'],
+                        [' Tamper-Evident Audit Trail', 'Every tool call, auth attempt, and payload is securely logged in the audit stream.'],
                       ].map(([title, desc]) => (
                         <div key={title} style={{ background: '#F8FAF9', padding: '12px', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
                           <strong style={{ fontSize: '0.84rem', color: '#036D33', display: 'block', marginBottom: '3px' }}>{title}</strong>
@@ -5573,7 +5430,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       </p>
                     </div>
                     <button type="button" className="univ-btn-secondary" onClick={loadMcpData} style={{ padding: '6px 14px', fontSize: '0.8rem', fontWeight: 700 }}>
-                      🔄 Refresh
+                       Refresh
                     </button>
                   </div>
 
@@ -5626,7 +5483,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                 <td>
                                   {isMcpAssisted ? (
                                     <span style={{ background: '#EDE9FE', color: '#6D28D9', border: '1px solid #DDD6FE', padding: '3px 8px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 800, whiteSpace: 'nowrap' }}>
-                                      ⚡ MCP-ASSISTED (CONFIRMED)
+                                       MCP-ASSISTED (CONFIRMED)
                                     </span>
                                   ) : isManual ? (
                                     <span style={{ background: '#F3F4F6', color: '#374151', border: '1px solid #E5E7EB', padding: '3px 8px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 700, whiteSpace: 'nowrap' }}>
@@ -5634,7 +5491,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                     </span>
                                   ) : (
                                     <span style={{ background: '#EFF6FF', color: '#1D4ED8', border: '1px solid #BFDBFE', padding: '3px 8px', borderRadius: '6px', fontSize: '0.72rem', fontWeight: 700, whiteSpace: 'nowrap' }}>
-                                      🤖 {mode}
+                                      {mode}
                                     </span>
                                   )}
                                 </td>
@@ -5646,9 +5503,9 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                                 </td>
                                 <td>
                                   {result === 'SUCCESS' || result === 'CONFIRMED' ? (
-                                    <span style={{ color: '#059669', fontWeight: 800, fontSize: '0.75rem' }}>✓ {result}</span>
+                                    <span style={{ color: '#059669', fontWeight: 800, fontSize: '0.75rem' }}> {result}</span>
                                   ) : (
-                                    <span style={{ color: '#DC2626', fontWeight: 800, fontSize: '0.75rem' }}>✗ {result}</span>
+                                    <span style={{ color: '#DC2626', fontWeight: 800, fontSize: '0.75rem' }}> {result}</span>
                                   )}
                                 </td>
                                 <td style={{ color: '#6B7280', fontSize: '0.78rem', minWidth: '140px' }}>
@@ -5702,9 +5559,9 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Executive Summary Box */}
               <div style={{ background: '#FAF5FF', border: '1.5px solid #DDD6FE', borderRadius: '10px', padding: '12px 14px', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                  <strong style={{ color: '#5B21B6', fontSize: '0.84rem' }}>📑 AI Executive Problem Summary:</strong>
+                  <strong style={{ color: '#5B21B6', fontSize: '0.84rem' }}> AI Executive Problem Summary:</strong>
                   <span style={{ background: '#EDE9FE', color: '#6D28D9', padding: '2px 8px', borderRadius: '4px', fontSize: '0.72rem', fontWeight: 800 }}>
-                    {aiAnalysisData.autoRouting ? '⚡ Auto-Routing Eligible' : '🛡️ Standard Admin Queue'}
+                    {aiAnalysisData.autoRouting ? ' Auto-Routing Eligible' : ' Standard Admin Queue'}
                   </span>
                 </div>
                 <p style={{ margin: 0, fontSize: '0.82rem', color: '#374151', lineHeight: 1.45 }}>
@@ -5725,7 +5582,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   alignItems: 'flex-start',
                   gap: '10px'
                 }}>
-                  <span style={{ fontSize: '1.2rem' }}>ℹ️</span>
+                  <span style={{ fontSize: '1.2rem' }}>ℹ</span>
                   <div>
                     <strong style={{ color: '#92400E', fontSize: '0.86rem', display: 'block' }}>
                       Basic Problem / Idea Statement Received (Pending Detailed Analysis)
@@ -5746,7 +5603,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   alignItems: 'center',
                   gap: '8px'
                 }}>
-                  <span style={{ fontSize: '1.2rem' }}>{aiAnalysisData.isDuplicate ? '⚠️' : '✓'}</span>
+                  <span style={{ fontSize: '1.2rem' }}>{aiAnalysisData.isDuplicate ? '' : ''}</span>
                   <div>
                     <strong style={{ color: aiAnalysisData.isDuplicate ? '#991B1B' : '#166534', fontSize: '0.86rem' }}>
                       Duplicate Score: {aiAnalysisData.duplicateProbability}
@@ -5783,12 +5640,12 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Required Academic & Technical Expertise Tags */}
               <div style={{ marginBottom: '14px' }}>
                 <strong style={{ fontSize: '0.82rem', color: '#111827', display: 'block', marginBottom: '6px' }}>
-                  🎯 Required Academic & Technical Expertise Tags:
+                   Required Academic & Technical Expertise Tags:
                 </strong>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {aiAnalysisData.requiredExpertise?.map((exp, i) => (
                     <span key={i} style={{ background: '#E8F5EC', color: '#024D24', padding: '3px 10px', borderRadius: '14px', fontSize: '0.76rem', fontWeight: 700, border: '1px solid rgba(3, 109, 51, 0.2)' }}>
-                      ✓ {exp}
+                       {exp}
                     </span>
                   ))}
                 </div>
@@ -5824,7 +5681,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   {aiAnalysisData.imageAnalysis ? (
                     <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '12px' }}>
                       <strong style={{ fontSize: '0.84rem', color: '#024D24', display: 'block', marginBottom: '6px' }}>
-                        📸 Computer Vision Analysis ({aiAnalysisData.imageAnalysis.confidenceScore}% Confidence):
+                         Computer Vision Analysis ({aiAnalysisData.imageAnalysis.confidenceScore}% Confidence):
                       </strong>
                       <div style={{ fontSize: '0.8rem', color: '#374151', marginBottom: '6px' }}>
                         <strong>Detected Defect:</strong> {aiAnalysisData.imageAnalysis.visualDefectType}
@@ -5832,14 +5689,14 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                         {aiAnalysisData.imageAnalysis.detectedObjects?.map((obj, i) => (
                           <span key={i} style={{ background: '#FFFFFF', border: '1px solid #D1D5DB', padding: '2px 6px', borderRadius: '4px', fontSize: '0.74rem' }}>
-                            🏷️ {obj}
+                             {obj}
                           </span>
                         ))}
                       </div>
                     </div>
                   ) : (
                     <div style={{ background: '#F9FAFB', border: '1px dashed #D1D5DB', borderRadius: '8px', padding: '10px 12px', fontSize: '0.78rem', color: '#6B7280' }}>
-                      📷 <em>No photographic evidence was attached to this basic report. Computer vision defect estimation is skipped.</em>
+                       <em>No photographic evidence was attached to this basic report. Computer vision defect estimation is skipped.</em>
                     </div>
                   )}
 
@@ -5865,7 +5722,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       fontSize: '0.82rem',
                       fontWeight: 700
                     }}>
-                      ✓ Approved for Matching (Gate 1)
+                       Approved for Matching (Gate 1)
                     </span>
                     <button
                       type="button"
@@ -5889,7 +5746,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     fontSize: '0.82rem',
                     fontWeight: 700
                   }}>
-                    ✓ Collaboration Approved (Gate 2)
+                     Collaboration Approved (Gate 2)
                   </span>
                 ) : selectedProblem?.approvalStatus === 'PROJECT_CREATED' || selectedProblem?.status === 'IN_PROGRESS' ? (
                   <span style={{
@@ -5901,7 +5758,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     fontSize: '0.82rem',
                     fontWeight: 700
                   }}>
-                    ✓ Project Created
+                     Project Created
                   </span>
                 ) : selectedProblem?.approvalStatus === 'REJECTED_BY_ADMIN' || selectedProblem?.status === 'REJECTED' ? (
                   <span style={{
@@ -5913,7 +5770,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     fontSize: '0.82rem',
                     fontWeight: 700
                   }}>
-                    ✓ Rejected by Administration
+                     Rejected by Administration
                   </span>
                 ) : (
                   <>
@@ -6016,7 +5873,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
               {/* Strict Tenant Isolation Banner */}
               <div style={{ background: '#EFF6FF', border: '1.5px solid #BFDBFE', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>🛡️</span>
+                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}></span>
                 <div>
                   <strong style={{ color: '#1E40AF', fontSize: '0.86rem', display: 'block', marginBottom: '2px' }}>
                     Strict Multi-Tenant Dispatch Active (Targeted Institution Routing)
@@ -6059,7 +5916,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Matched Universities */}
               <div style={{ marginBottom: '18px' }}>
                 <h4 style={{ fontSize: '0.96rem', fontWeight: 800, color: '#024D24', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🏛️ Matched Universities (Ranked by Capability Fit)</span>
+                  <span> Matched Universities (Ranked by Capability Fit)</span>
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {(problemMatchesData?.topUniversities || universities).map((u, i) => {
@@ -6082,7 +5939,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           <div style={{ fontSize: '0.74rem', color: '#6B7280', marginTop: '2px' }}>{rationale}</div>
                         </div>
                         <span style={{ fontSize: '0.72rem', background: '#ECFDF5', color: '#059669', border: '1px solid #A7F3D0', padding: '3px 8px', borderRadius: '6px', fontWeight: 700 }}>
-                          ✓ Dispatched
+                           Dispatched
                         </span>
                       </div>
                     );
@@ -6093,7 +5950,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Matched Industries */}
               <div style={{ marginBottom: '18px' }}>
                 <h4 style={{ fontSize: '0.96rem', fontWeight: 800, color: '#6D28D9', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span>🏭 Matched Industries (CSR Sponsors & Technology Partners)</span>
+                  <span> Matched Industries (CSR Sponsors & Technology Partners)</span>
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {(problemMatchesData?.topIndustries || industries).map((ind, i) => {
@@ -6114,7 +5971,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           <div style={{ fontSize: '0.74rem', color: '#4B5563' }}>Focus: {sectors}</div>
                         </div>
                         <span style={{ fontSize: '0.72rem', background: '#FAF5FF', color: '#6D28D9', border: '1px solid #DDD6FE', padding: '3px 8px', borderRadius: '6px', fontWeight: 700 }}>
-                          ✓ Dispatched
+                           Dispatched
                         </span>
                       </div>
                     );
@@ -6215,7 +6072,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                 />
               </div>
               <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '8px', padding: '10px 12px', fontSize: '0.78rem', color: '#1E40AF', marginBottom: '16px' }}>
-                ℹ️ <strong>Action Impact:</strong> Approving this problem triggers real-time capability matching and dispatches targeted notifications to matched Universities and matched Industries. Unmatched institutions will be blocked.
+                ℹ <strong>Action Impact:</strong> Approving this problem triggers real-time capability matching and dispatches targeted notifications to matched Universities and matched Industries. Unmatched institutions will be blocked.
               </div>
 
               {/* Modal Actions */}
@@ -6235,7 +6092,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   onClick={() => handleConfirmApproveGate1('MANUAL')}
                   style={{ padding: '8px 22px', fontSize: '0.86rem', background: '#059669', borderColor: '#047857' }}
                 >
-                  {isApprovingGate1 ? 'Approving...' : '✓ Approve for Matching'}
+                  {isApprovingGate1 ? 'Approving...' : ' Approve for Matching'}
                 </button>
               </div>
             </div>
@@ -6401,7 +6258,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               <div style={{ background: '#FAF5FF', border: '1.5px solid #DDD6FE', borderRadius: '12px', padding: '16px', marginBottom: '18px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                   <strong style={{ color: '#5B21B6', fontSize: '0.88rem' }}>
-                    🤖 AI Multi-Proposal Synergy Analysis (5 Key Factors)
+                    AI Multi-Proposal Synergy Analysis (5 Key Factors)
                   </strong>
                   <span style={{ background: '#EDE9FE', color: '#6D28D9', padding: '2px 8px', borderRadius: '4px', fontSize: '0.74rem', fontWeight: 800 }}>
                     Synergy Index: {collaborationAnalysisData?.synergyScore || 94}/100
@@ -6514,7 +6371,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   onClick={() => handleConfirmCollaborationSelection('MANUAL')}
                   style={{ padding: '8px 22px', fontSize: '0.86rem', background: '#059669', borderColor: '#047857' }}
                 >
-                  {isSelectingCollab ? 'Sanctioning...' : '✓ Approve Collaboration'}
+                  {isSelectingCollab ? 'Sanctioning...' : ' Approve Collaboration'}
                 </button>
               </div>
             </div>
@@ -6638,7 +6495,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             </div>
 
                             {sol.status === 'Assigned' && (
-                              <span className="admin-badge badge-assigned" style={{ fontSize: '0.72rem' }}>✓ Assigned</span>
+                              <span className="admin-badge badge-assigned" style={{ fontSize: '0.72rem' }}> Assigned</span>
                             )}
                           </div>
 
@@ -6732,7 +6589,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '12px' }}>
                           {sol.status === 'Assigned' ? (
                             <div style={{ textAlign: 'center', background: '#ECFDF5', color: '#059669', padding: '8px', borderRadius: '6px', fontWeight: 800, fontSize: '0.82rem' }}>
-                              ✓ Officially Selected & Assigned
+                               Officially Selected & Assigned
                             </div>
                           ) : sol.status === 'Modification Requested' ? (
                             <div style={{ textAlign: 'center', background: '#FEF3C7', color: '#92400E', padding: '8px', borderRadius: '6px', fontWeight: 700, fontSize: '0.8rem' }}>
@@ -7035,7 +6892,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.78rem', color: '#374151' }}>
                     {resolutionAuditData.checklist?.map((chk, cIdx) => (
                       <div key={cIdx} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ color: '#059669', fontWeight: 800 }}>✓</span>
+                        <span style={{ color: '#059669', fontWeight: 800 }}></span>
                         <span>{chk}</span>
                       </div>
                     ))}
@@ -7073,7 +6930,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   onClick={() => handleConfirmVerify('MANUAL')}
                   style={{ background: '#059669', borderColor: '#047857', padding: '8px 22px', fontSize: '0.86rem' }}
                 >
-                  {isSubmittingVerify ? 'Verifying...' : '✓ Verify & Sanction Resolution'}
+                  {isSubmittingVerify ? 'Verifying...' : ' Verify & Sanction Resolution'}
                 </button>
               </div>
             </div>
@@ -7845,7 +7702,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
               {/* Proposals Analyzed Summary Banner */}
               <div style={{ background: '#EEF2FF', border: '1px solid #C7D2FE', borderRadius: '10px', padding: '12px 16px', marginBottom: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                 <div style={{ fontSize: '0.84rem', color: '#312E81' }}>
-                  📊 <strong>{activeCollaborationReport?.summary || `Analyzed proposals and identified collaborative partnerships.`}</strong>
+                  <strong>{activeCollaborationReport?.summary || `Analyzed proposals and identified collaborative partnerships.`}</strong>
                 </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <span style={{ background: '#E0E7FF', color: '#4338CA', padding: '3px 10px', borderRadius: '12px', fontSize: '0.74rem', fontWeight: 800 }}>
@@ -7864,7 +7721,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
               {(!activeCollaborationReport?.candidatePairs || activeCollaborationReport.candidatePairs.length === 0) ? (
                 <div style={{ textAlign: 'center', padding: '32px', background: '#F9FAFB', borderRadius: '10px', border: '1px dashed #D1D5DB', color: '#6B7280' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}>🔍</div>
+                  <div style={{ fontSize: '1.5rem', marginBottom: '6px' }}></div>
                   <strong>No candidate pairs evaluated yet.</strong>
                   <p style={{ fontSize: '0.82rem', margin: '4px 0 12px 0' }}>Proposals are currently awaiting formulation from matched institutions.</p>
                   <button
@@ -7965,7 +7822,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                         <div style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '12px', fontSize: '0.8rem', marginBottom: '14px' }}>
                           <div style={{ marginBottom: '8px' }}>
                             <strong style={{ color: '#065F46', display: 'block', fontSize: '0.76rem', textTransform: 'uppercase', marginBottom: '3px' }}>
-                              ✨ Synergistic Strengths:
+                               Synergistic Strengths:
                             </strong>
                             <div style={{ color: '#374151', lineHeight: 1.45 }}>
                               {pair.synergisticStrengths || pair.synergyRationale || 'Strong technical overlap with corporate CSR sponsorship and student laboratory deployment capabilities.'}
@@ -7975,7 +7832,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           {pair.keyRisks && (
                             <div style={{ borderTop: '1px solid #E5E7EB', paddingTop: '8px' }}>
                               <strong style={{ color: '#B45309', display: 'block', fontSize: '0.76rem', textTransform: 'uppercase', marginBottom: '3px' }}>
-                                ⚠️ Execution Risk & Mitigation:
+                                Execution Risk & Mitigation:
                               </strong>
                               <div style={{ color: '#4B5563', lineHeight: 1.45 }}>
                                 {pair.keyRisks} {pair.mitigationStrategy ? `• Mitigation: ${pair.mitigationStrategy}` : ''}

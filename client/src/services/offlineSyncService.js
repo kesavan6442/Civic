@@ -53,10 +53,10 @@ class OfflineSyncService {
     this.isOnline = online;
     this.notify();
     if (online) {
-      console.log('🌐 Network restored. Initiating automatic background synchronization...');
+      console.log(' Network restored. Initiating automatic background synchronization...');
       this.triggerBackgroundSync();
     } else {
-      console.warn('⚠️ Network offline. Operating in local-first storage mode.');
+      console.warn('Network offline. Operating in local-first storage mode.');
     }
   }
 
@@ -97,7 +97,7 @@ class OfflineSyncService {
 
     queue.push(item);
     this.saveQueue(queue);
-    console.log(`📥 Action enqueued offline [${actionType}]:`, item);
+    console.log(` Action enqueued offline [${actionType}]:`, item);
     return item;
   }
 
@@ -142,7 +142,7 @@ class OfflineSyncService {
     this.isSyncing = true;
     this.notify();
 
-    console.log(`🔄 Processing ${queue.length} offline actions in background queue...`);
+    console.log(` Processing ${queue.length} offline actions in background queue...`);
     const remaining = [];
 
     for (const item of queue) {
@@ -157,7 +157,7 @@ class OfflineSyncService {
         });
 
         if (res.ok) {
-          console.log(`✅ Synced action successfully: ${item.actionType} [${item.id}]`);
+          console.log(`Synced action successfully: ${item.actionType} [${item.id}]`);
         } else {
           item.retryCount += 1;
           if (item.retryCount < 5) {

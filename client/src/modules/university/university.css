@@ -1546,9 +1546,9 @@
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    background: rgba(0, 0, 0, 0.5) !important;
-    backdrop-filter: blur(2px) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
     z-index: 9990 !important;
+    touch-action: manipulation !important;
   }
 
   /* Layout & Body Container */

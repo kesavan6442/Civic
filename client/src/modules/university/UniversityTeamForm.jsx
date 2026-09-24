@@ -383,7 +383,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
               onClick={() => { if (currentStep > 1) setCurrentStep(1); }}
             >
               <div className="univ-wizard-circle">
-                {currentStep > 1 ? '✓' : '1'}
+                {currentStep > 1 ? '' : '1'}
               </div>
               <div className="univ-wizard-step-label">
                 <span className="step-num-txt">STEP 1</span>
@@ -399,7 +399,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
               onClick={() => { if (currentStep > 2 || (currentStep === 1 && validateStep1())) setCurrentStep(2); }}
             >
               <div className="univ-wizard-circle">
-                {currentStep > 2 ? '✓' : '2'}
+                {currentStep > 2 ? '' : '2'}
               </div>
               <div className="univ-wizard-step-label">
                 <span className="step-num-txt">STEP 2</span>
@@ -433,7 +433,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>🎓</span> Faculty Mentor & Research Team
+                    <span></span> Faculty Mentor & Research Team
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Provide contact details for the faculty mentor and student research team members executing the project.
@@ -513,7 +513,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 <div style={{ marginBottom: '20px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: 0 }}>
-                      🎒 Student Researchers ({studentCount})
+                       Student Researchers ({studentCount})
                     </h4>
 
                     <div className="stepper-actions">
@@ -614,7 +614,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 <div style={{ marginBottom: '10px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                     <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#92400E', margin: 0 }}>
-                      👨‍🏫 Faculty Co-Mentors ({facultyCount})
+                       Faculty Co-Mentors ({facultyCount})
                     </h4>
 
                     <div className="stepper-actions">
@@ -722,7 +722,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>💡</span> Solution Blueprint & Technical Proposal
+                    <span></span> Solution Blueprint & Technical Proposal
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Define the proposed research methodology, hardware architecture, and project milestones.
@@ -768,7 +768,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 <div style={{ marginBottom: '16px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                     <label className="univ-form-label" style={{ margin: 0 }}>
-                      <span>🎯 Project Milestones & Deliverables ({milestones.length})</span>
+                      <span> Project Milestones & Deliverables ({milestones.length})</span>
                     </label>
                     <button
                       type="button"
@@ -815,7 +815,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                             style={{ background: 'none', border: 'none', color: '#EF4444', fontWeight: 800, cursor: 'pointer', padding: '4px 8px', fontSize: '0.9rem' }}
                             title="Remove Milestone"
                           >
-                            ✕
+                            
                           </button>
                         )}
                       </div>
@@ -852,7 +852,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
               <div>
                 <div style={{ marginBottom: '18px' }}>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span>📊</span> Grant Budget, Timeline & Submission
+                    <span></span> Grant Budget, Timeline & Submission
                   </h3>
                   <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
                     Specify estimated research grant allocation, timeline, attach documents and submit for Admin evaluation.
@@ -910,14 +910,14 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                   )}
                   {uploadError && (
                     <div style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '4px', fontWeight: 600 }}>
-                      ❌ {uploadError}
+                       {uploadError}
                     </div>
                   )}
                   {uploadedFiles.length > 0 && (
                     <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                       {uploadedFiles.map((f, i) => (
                         <span key={i} style={{ background: '#D1FAE5', color: '#065F46', border: '1px solid #6EE7B7', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
-                          📎 {f.name} ({f.size}) ✓
+                           {f.name} ({f.size}) 
                         </span>
                       ))}
                     </div>
@@ -941,7 +941,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 {/* Proposal Summary Preview Card */}
                 <div style={{ background: '#F8FAF9', borderRadius: '12px', border: '1.5px solid #D1D5DB', padding: '16px', marginBottom: '18px' }}>
                   <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#064E3B', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
-                    📋 Proposal Overview Before Submission
+                    Proposal Overview Before Submission
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.82rem', color: '#374151' }}>
                     <div><strong>Solution:</strong> {solutionTitle || 'Untitled'}</div>
@@ -969,7 +969,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                     style={{ minWidth: '240px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
                   >
                     <span>
-                      {isSubmitting ? 'Submitting Technical Proposal...' : '🚀 Submit Technical Proposal'}
+                      {isSubmitting ? 'Submitting Technical Proposal...' : 'Submit Technical Proposal'}
                     </span>
                     <ChevronRight size={18} />
                   </button>
@@ -989,7 +989,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                     Government of Jharkhand • Research Gateway
                   </span>
                   <h3 style={{ fontSize: '1.35rem', fontWeight: 800, marginTop: '2px' }}>
-                    🎉 Proposal Submitted & Evaluated
+                    Proposal Submitted & Evaluated
                   </h3>
                 </div>
               </div>
@@ -1012,7 +1012,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                   <div style={{ background: '#F0FDF4', border: '1.5px solid #86EFAC', borderRadius: '12px', padding: '16px', textAlign: 'left', marginBottom: '18px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                       <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#166534', textTransform: 'uppercase' }}>
-                        🤖 Real AI Feasibility Evaluation
+                        Real AI Feasibility Evaluation
                       </span>
                       <span style={{
                         fontSize: '0.72rem',
@@ -1060,7 +1060,7 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                         <div><strong>Analysis Summary:</strong> {submittedResult.aiAnalysis.explanation || submittedResult.aiAnalysis.verdict || 'Evaluation completed based on cosine semantic alignment and 6-factor methodology analysis.'}</div>
                         {submittedResult.needsHumanReview && (
                           <div style={{ marginTop: '4px', color: '#B45309', fontWeight: 700 }}>
-                            ⚠️ Flagged for Secondary Administrative Review
+                            Flagged for Secondary Administrative Review
                           </div>
                         )}
                       </div>
@@ -1069,9 +1069,9 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 )}
 
                 <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '12px', padding: '12px 14px', textAlign: 'left', fontSize: '0.82rem', color: '#374151', marginBottom: '20px' }}>
-                  <div><strong>💡 Solution:</strong> {solutionTitle}</div>
-                  <div style={{ marginTop: '4px' }}><strong>🎓 Mentor:</strong> {mentorName} ({mentorDesignation})</div>
-                  <div style={{ marginTop: '4px' }}><strong>👥 Members:</strong> {studentCount} Students {facultyCount > 0 ? `, ${facultyCount} Faculty` : ''} • <strong>Milestones:</strong> {milestones.length} Phases</div>
+                  <div><strong>Solution:</strong> {solutionTitle}</div>
+                  <div style={{ marginTop: '4px' }}><strong>Mentor:</strong> {mentorName} ({mentorDesignation})</div>
+                  <div style={{ marginTop: '4px' }}><strong>Members:</strong> {studentCount} Students {facultyCount > 0 ? `, ${facultyCount} Faculty` : ''} • <strong>Milestones:</strong> {milestones.length} Phases</div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

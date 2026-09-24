@@ -49,22 +49,22 @@ function findNearestJharkhandDistrict(lat, lng) {
 
 // Core Domain Definitions with Icons
 const CORE_DOMAINS = [
-  { name: 'Water', icon: '💧' },
-  { name: 'Roads', icon: '🛣️' },
-  { name: 'Agriculture', icon: '🌾' },
-  { name: 'Healthcare', icon: '💚' },
-  { name: 'Education', icon: '🎓' },
-  { name: 'Sanitation', icon: '🚯' },
-  { name: 'Environment', icon: '🍃' },
-  { name: 'Accessibility', icon: '♿' },
-  { name: 'Public Services', icon: '🏛️' }
+  { name: 'Water', icon: '' },
+  { name: 'Roads', icon: '' },
+  { name: 'Agriculture', icon: '' },
+  { name: 'Healthcare', icon: '' },
+  { name: 'Education', icon: '' },
+  { name: 'Sanitation', icon: '' },
+  { name: 'Environment', icon: '' },
+  { name: 'Accessibility', icon: '' },
+  { name: 'Public Services', icon: '' }
 ];
 
 // 5 Stage Cards from the Reference
 const FIVE_STAGES_CARDS = [
   {
     num: 1,
-    icon: '📝',
+    icon: '',
     theme: 'green',
     title: 'Submit Your Challenge',
     titleHi: 'चुनौती दर्ज करें',
@@ -74,7 +74,7 @@ const FIVE_STAGES_CARDS = [
   },
   {
     num: 2,
-    icon: '🤖',
+    icon: '',
     theme: 'blue',
     title: 'AI Analysis & Verification',
     titleHi: 'एआई विश्लेषण व सत्यापन',
@@ -84,7 +84,7 @@ const FIVE_STAGES_CARDS = [
   },
   {
     num: 3,
-    icon: '🎓',
+    icon: '',
     theme: 'purple',
     title: 'University Matching',
     titleHi: 'विश्वविद्यालय मिलान',
@@ -94,7 +94,7 @@ const FIVE_STAGES_CARDS = [
   },
   {
     num: 4,
-    icon: '🏭',
+    icon: '',
     theme: 'amber',
     title: 'Industry & CSR Collaboration',
     titleHi: 'उद्योग व सीएसआर सहयोग',
@@ -104,7 +104,7 @@ const FIVE_STAGES_CARDS = [
   },
   {
     num: 5,
-    icon: '📈',
+    icon: '',
     theme: 'teal',
     title: 'Solution & Impact',
     titleHi: 'समाधान व सामुदायिक प्रभाव',
@@ -924,16 +924,16 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
 
   const renderAiStatus = (item) => {
     if (item.aiStatus === 'AI_COMPLETED' || item.aiAnalysisResult || item.aiAnalysis) {
-      return <span style={{ color: '#059669', fontWeight: 700 }}>✓ AI Analyzed</span>;
+      return <span style={{ color: '#059669', fontWeight: 700 }}> AI Analyzed</span>;
     }
-    return <span style={{ color: '#036D33', fontWeight: 600 }}>⚙️ AI Triage Ready</span>;
+    return <span style={{ color: '#036D33', fontWeight: 600 }}> AI Triage Ready</span>;
   };
 
   const renderUnivStatus = (item) => {
     if (item.adoptedByUniversity || item.assignedUniversityId || item.universityName) {
       return (
         <span style={{ color: '#0284C7', fontWeight: 700 }}>
-          🎓 {item.universityName || item.adoptedByUniversity || 'University Assigned'}
+           {item.universityName || item.adoptedByUniversity || 'University Assigned'}
         </span>
       );
     }
@@ -1194,7 +1194,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
             <div className="citizen-wizard-steps-bar">
               <div className="citizen-wizard-step" onClick={() => setCurrentStep(1)}>
                 <div className={`citizen-wizard-circle ${currentStep === 1 ? 'active' : currentStep > 1 ? 'completed' : 'inactive'}`}>
-                  {currentStep > 1 ? '✓' : '1'}
+                  {currentStep > 1 ? '' : '1'}
                 </div>
                 <span className={`citizen-wizard-label ${currentStep === 1 ? 'active' : ''}`}>
                   {isHindi ? '1. प्रस्तुतकर्ता जानकारी' : '1. Submitter Info'}
@@ -1205,7 +1205,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
 
               <div className="citizen-wizard-step" onClick={() => { if (validateStep1()) setCurrentStep(2); }}>
                 <div className={`citizen-wizard-circle ${currentStep === 2 ? 'active' : currentStep > 2 ? 'completed' : 'inactive'}`}>
-                  {currentStep > 2 ? '✓' : '2'}
+                  {currentStep > 2 ? '' : '2'}
                 </div>
                 <span className={`citizen-wizard-label ${currentStep === 2 ? 'active' : ''}`}>
                   {isHindi ? '2. समस्या का विवरण' : '2. Problem Details'}
@@ -1216,7 +1216,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
 
               <div className="citizen-wizard-step" onClick={() => { if (validateStep1() && validateStep2()) setCurrentStep(3); }}>
                 <div className={`citizen-wizard-circle ${currentStep === 3 ? 'active' : currentStep > 3 ? 'completed' : 'inactive'}`}>
-                  {currentStep > 3 ? '✓' : '3'}
+                  {currentStep > 3 ? '' : '3'}
                 </div>
                 <span className={`citizen-wizard-label ${currentStep === 3 ? 'active' : ''}`}>
                   {isHindi ? '3. स्थान व साक्ष्य' : '3. Location & Evidence'}
@@ -1243,7 +1243,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                 {currentStep === 1 && (
                   <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
                     <div className="citizen-form-section-heading">
-                      <span>👤</span>
+                      <span></span>
                       <h3>1. {isHindi ? 'प्रस्तुतकर्ता की जानकारी' : 'Submitter Information'}</h3>
                     </div>
 
@@ -1341,7 +1341,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                 {currentStep === 2 && (
                   <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
                     <div className="citizen-form-section-heading">
-                      <span>📝</span>
+                      <span></span>
                       <h3>2. {isHindi ? 'समस्या का विवरण व डोमेन' : 'Problem Details & Categorization'}</h3>
                     </div>
 
@@ -1349,7 +1349,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                     {aiDetectedInfo && (formData.category || formData.domain) && (
                       <div className="citizen-ai-badge-banner">
                         <div className="citizen-ai-badge-header">
-                          <span className="citizen-ai-sparkle-icon">✨</span>
+                          <span className="citizen-ai-sparkle-icon"></span>
                           <span className="citizen-ai-badge-title">
                             {isHindi ? 'एआई द्वारा स्वचालित वर्गीकरण' : 'AI Smart Categorization Active'}
                           </span>
@@ -1389,7 +1389,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               }}
                               title="Re-run AI auto-detection for category & domain"
                             >
-                              ⚡ AI Re-Detect
+                               AI Re-Detect
                             </button>
                           )}
                         </div>
@@ -1410,7 +1410,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         <label>
                           {isHindi ? 'समस्या की श्रेणी' : 'Problem Category'} <span className="req">*</span>
                           {aiDetectedInfo && formData.category === aiDetectedInfo.category && (
-                            <span className="citizen-ai-tag">✨ AI Auto-Selected</span>
+                            <span className="citizen-ai-tag"> AI Auto-Selected</span>
                           )}
                         </label>
                         <select
@@ -1449,7 +1449,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         <label>
                           {isHindi ? 'अनुसंधान डोमेन' : 'Research Domain'} <span className="req">*</span>
                           {aiDetectedInfo && formData.domain === aiDetectedInfo.domain && (
-                            <span className="citizen-ai-tag">✨ AI Auto-Selected</span>
+                            <span className="citizen-ai-tag"> AI Auto-Selected</span>
                           )}
                         </label>
                         <select
@@ -1471,7 +1471,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         <label>
                           {isHindi ? 'तात्कालिकता स्तर' : 'Urgency Level'} <span className="req">*</span>
                           {aiDetectedInfo && formData.urgency === aiDetectedInfo.urgency && (
-                            <span className="citizen-ai-tag">✨ AI Auto-Detected</span>
+                            <span className="citizen-ai-tag"> AI Auto-Detected</span>
                           )}
                         </label>
                         <select
@@ -1480,10 +1480,10 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                           onChange={handleChange}
                           className="citizen-form-control"
                         >
-                          <option value="Critical">🔴 Critical (Immediate Hazard)</option>
-                          <option value="High">🟠 High Priority</option>
-                          <option value="Medium">🟡 Medium Priority</option>
-                          <option value="Low">🟢 Low Priority</option>
+                          <option value="Critical"> Critical (Immediate Hazard)</option>
+                          <option value="High"> High Priority</option>
+                          <option value="Medium"> Medium Priority</option>
+                          <option value="Low"> Low Priority</option>
                         </select>
                       </div>
                     </div>
@@ -1504,7 +1504,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                 {currentStep === 3 && (
                   <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }}>
                     <div className="citizen-form-section-heading">
-                      <span>📍</span>
+                      <span></span>
                       <h3>3. {isHindi ? 'स्थान एवं ऑन-साइट लाइव साक्ष्य' : 'Location & Live Photo Evidence'}</h3>
                     </div>
 
@@ -1512,8 +1512,8 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                     <div className="citizen-gps-fetch-card">
                       <div>
                         <div style={{ fontSize: '0.84rem', fontWeight: 800, color: '#065F46', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                          <span>🛰️ Satellite GPS Auto-Fetch</span>
-                          {gpsData && <span className="citizen-gps-badge-locked">✓ Location Locked</span>}
+                          <span> Satellite GPS Auto-Fetch</span>
+                          {gpsData && <span className="citizen-gps-badge-locked"> Location Locked</span>}
                         </div>
                         <div style={{ fontSize: '0.74rem', color: '#047857', marginTop: '2px' }}>
                           {gpsData 
@@ -1522,7 +1522,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         </div>
                         {gpsError && (
                           <div style={{ fontSize: '0.74rem', color: '#DC2626', marginTop: '3px', fontWeight: 600 }}>
-                            ⚠️ {gpsError}
+                            {gpsError}
                           </div>
                         )}
                       </div>
@@ -1533,7 +1533,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         onClick={handleAutoFetchLocation}
                         disabled={isFetchingGps}
                       >
-                        <span>{isFetchingGps ? '🛰️ Detecting GPS...' : '📍 Auto Fetch Location (GPS)'}</span>
+                        <span>{isFetchingGps ? ' Detecting GPS...' : 'Auto Fetch Location (GPS)'}</span>
                       </button>
                     </div>
 
@@ -1596,7 +1596,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                             fontSize: '1.6rem',
                             boxShadow: '0 4px 12px rgba(5, 150, 105, 0.15)'
                           }}>
-                            📷
+                            
                           </div>
                           <div>
                             <div style={{ fontSize: '1rem', fontWeight: 800, color: '#024D24' }}>
@@ -1613,7 +1613,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               className="citizen-capture-photo-btn"
                               onClick={(e) => { e.stopPropagation(); startCamera('environment'); }}
                             >
-                              <span>📷 Launch Live Camera</span>
+                              <span> Launch Live Camera</span>
                             </button>
 
                             <label
@@ -1622,7 +1622,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               style={{ background: '#F3F4F6', color: '#374151', borderColor: '#D1D5DB', cursor: 'pointer' }}
                               onClick={(e) => e.stopPropagation()}
                             >
-                              <span>📱 Device Camera</span>
+                              <span> Device Camera</span>
                               <input
                                 id="device-camera-input"
                                 type="file"
@@ -1636,7 +1636,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
 
                           {cameraError && (
                             <div style={{ color: '#DC2626', fontSize: '0.76rem', fontWeight: 600, marginTop: '6px' }}>
-                              ⚠️ {cameraError}
+                              {cameraError}
                             </div>
                           )}
                         </div>
@@ -1661,7 +1661,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               onClick={toggleCameraFacing}
                               title="Switch Camera"
                             >
-                              🔄 Flip Camera
+                               Flip Camera
                             </button>
                           </div>
 
@@ -1672,7 +1672,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               className="citizen-camera-action-btn"
                               onClick={stopCamera}
                             >
-                              ✕ Cancel
+                               Cancel
                             </button>
 
                             <button
@@ -1680,7 +1680,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               className="citizen-capture-photo-btn"
                               onClick={capturePhoto}
                             >
-                              <span>📸 Take Photo</span>
+                              <span> Take Photo</span>
                             </button>
                           </div>
                         </div>
@@ -1698,7 +1698,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                             <div style={{ flex: 1, minWidth: '220px' }}>
                               {isVerifyingPhoto ? (
                                 <div style={{ padding: '8px 0', color: '#036D33', fontWeight: 700, fontSize: '0.86rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                  <span style={{ animation: 'spin 1s linear infinite', display: 'inline-block' }}>⚙️</span>
+                                  <span style={{ animation: 'spin 1s linear infinite', display: 'inline-block' }}></span>
                                   AI Forensic Engine Verifying Photo Authenticity & Quality...
                                 </div>
                               ) : photoVerification ? (
@@ -1716,7 +1716,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                                       alignItems: 'center',
                                       gap: '4px'
                                     }}>
-                                      {photoVerification.isValid ? '✓ Photo Verified Authentic' : '⚠️ Photo Quality Warning'}
+                                      {photoVerification.isValid ? ' Photo Verified Authentic' : 'Photo Quality Warning'}
                                     </span>
 
                                     <span style={{ fontSize: '0.74rem', color: '#4B5563', fontWeight: 600 }}>
@@ -1729,11 +1729,11 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                                   </div>
 
                                   <div style={{ display: 'flex', gap: '8px', fontSize: '0.72rem', color: '#6B7280', flexWrap: 'wrap' }}>
-                                    <span>🛡️ Anti-Tamper: Passed</span>
+                                    <span> Anti-Tamper: Passed</span>
                                     <span>•</span>
-                                    <span>📍 GPS Geo-Stamped: {photoVerification.gpsStamped ? 'Yes (Locked)' : 'Available'}</span>
+                                    <span>GPS Geo-Stamped: {photoVerification.gpsStamped ? 'Yes (Locked)' : 'Available'}</span>
                                     <span>•</span>
-                                    <span>🖼️ SHA-256 Frame Stamped</span>
+                                    <span> SHA-256 Frame Stamped</span>
                                   </div>
                                 </div>
                               ) : null}
@@ -1745,7 +1745,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                               className="citizen-gps-btn"
                               style={{ background: '#F3F4F6', color: '#374151', border: '1px solid #D1D5DB', padding: '6px 12px', fontSize: '0.76rem' }}
                             >
-                              🔄 Retake Photo
+                               Retake Photo
                             </button>
                           </div>
                         </div>
@@ -1768,22 +1768,22 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                 {currentStep === 4 && (
                   <div>
                     <div className="citizen-form-section-heading">
-                      <span>✓</span>
+                      <span></span>
                       <h3>4. {isHindi ? 'समीक्षा एवं अंतिम पुष्टि' : 'Review & Final Confirmation'}</h3>
                     </div>
 
                     <div className="citizen-review-summary-card">
                       <h4 className="citizen-review-title">{formData.title || 'Untitled Challenge'}</h4>
                       <div className="citizen-review-meta-grid">
-                        <div><strong>👤 Submitter:</strong> {formData.citizenName} ({formData.entityType})</div>
-                        <div><strong>📱 Phone:</strong> {formData.citizenPhone}</div>
-                        <div><strong>🏷️ Category:</strong> {formData.category}</div>
-                        <div><strong>🔬 Domain:</strong> {formData.domain}</div>
-                        <div><strong>⚡ Urgency:</strong> {formData.urgency}</div>
-                        <div><strong>📍 District & Location:</strong> {formData.district} ({formData.locationAddress})</div>
-                        <div><strong>📅 Date:</strong> {formData.submissionDate}</div>
-                        <div><strong>🛰️ GPS Status:</strong> {gpsData ? `Locked (±${gpsData.accuracy}m)` : 'Manual Address'}</div>
-                        <div><strong>📎 Live Evidence:</strong> {photoVerification ? `Verified (${photoVerification.qualityScore}% Quality)` : (mediaPreview ? 'Live Captured Photo' : 'None')}</div>
+                        <div><strong> Submitter:</strong> {formData.citizenName} ({formData.entityType})</div>
+                        <div><strong> Phone:</strong> {formData.citizenPhone}</div>
+                        <div><strong> Category:</strong> {formData.category}</div>
+                        <div><strong> Domain:</strong> {formData.domain}</div>
+                        <div><strong> Urgency:</strong> {formData.urgency}</div>
+                        <div><strong>District & Location:</strong> {formData.district} ({formData.locationAddress})</div>
+                        <div><strong> Date:</strong> {formData.submissionDate}</div>
+                        <div><strong> GPS Status:</strong> {gpsData ? `Locked (±${gpsData.accuracy}m)` : 'Manual Address'}</div>
+                        <div><strong> Live Evidence:</strong> {photoVerification ? `Verified (${photoVerification.qualityScore}% Quality)` : (mediaPreview ? 'Live Captured Photo' : 'None')}</div>
                       </div>
 
                       <div className="citizen-review-desc">
@@ -1795,7 +1795,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                           <img src={mediaPreview} alt="Preview" style={{ maxHeight: '140px', borderRadius: '8px', border: '1.5px solid #059669' }} />
                           {photoVerification && (
                             <div style={{ fontSize: '0.78rem', color: '#047857', background: '#ECFDF5', padding: '10px 14px', borderRadius: '8px', border: '1px solid #A7F3D0' }}>
-                              <div style={{ fontWeight: 800 }}>✓ Verified Live On-Site Photo</div>
+                              <div style={{ fontWeight: 800 }}> Verified Live On-Site Photo</div>
                               <div style={{ marginTop: '3px' }}>Anti-Tamper Passed • Scene Quality {photoVerification.qualityScore}%</div>
                               <div style={{ color: '#6B7280', fontSize: '0.72rem', marginTop: '2px' }}>Timestamp: {photoVerification.timestamp}</div>
                             </div>
@@ -1809,7 +1809,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                         ← {isHindi ? 'वापस' : 'Previous Step'}
                       </button>
                       <button type="button" className="citizen-btn-primary" onClick={handleSubmitChallenge} disabled={isSubmitting}>
-                        {isSubmitting ? (isHindi ? 'सबमिट हो रहा है...' : 'Submitting to AI...') : `🚀 ${isHindi ? 'चुनौती सबमिट करें' : 'Submit Civic Challenge'}`}
+                        {isSubmitting ? (isHindi ? 'सबमिट हो रहा है...' : 'Submitting to AI...') : ` ${isHindi ? 'चुनौती सबमिट करें' : 'Submit Civic Challenge'}`}
                       </button>
                     </div>
                   </div>
@@ -1819,17 +1819,17 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
               {/* Right Sidebar Benefit Cards */}
               <aside className="citizen-form-sidebar">
                 <div className="citizen-sidebar-card">
-                  <h4>💡 Open & Frictionless</h4>
+                  <h4> Open & Frictionless</h4>
                   <p>Citizens can report civic issues immediately without login barriers. Real-time AI will triage and route it to matching universities.</p>
                 </div>
 
                 <div className="citizen-sidebar-card">
-                  <h4>🛡️ AI Authenticity & Duplication Check</h4>
+                  <h4> AI Authenticity & Duplication Check</h4>
                   <p>Your problem is automatically checked against existing district reports to prevent duplication and fast-track resource allocation.</p>
                 </div>
 
                 <div className="citizen-sidebar-card">
-                  <h4>🎓 Academic & Industry Action</h4>
+                  <h4> Academic & Industry Action</h4>
                   <p>Faculty and student research teams formulate engineering prototypes while CSR funds enable rapid deployment.</p>
                 </div>
               </aside>
@@ -1844,7 +1844,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
           <div className="citizen-challenges-view-wrapper">
             <div className="citizen-challenges-header-row">
               <div>
-                <h2>📋 {isHindi ? 'मेरी दर्ज नागरिक चुनौतियाँ' : 'My Registered Civic Challenges'} ({myChallenges.length})</h2>
+                <h2>{isHindi ? 'मेरी दर्ज नागरिक चुनौतियाँ' : 'My Registered Civic Challenges'} ({myChallenges.length})</h2>
                 <p>Track the real-time AI triage status, university assignment, and government resolution milestones:</p>
               </div>
 
@@ -1880,7 +1880,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
               <div style={{ textAlign: 'center', padding: '48px', color: '#6B7280' }}>⏳ Loading your challenges...</div>
             ) : myChallenges.length === 0 ? (
               <div className="citizen-empty-state-card">
-                <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>📭</div>
+                <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}></div>
                 <h3>{isHindi ? 'कोई दर्ज चुनौती नहीं मिली।' : 'No submissions found for this phone/session.'}</h3>
                 <p>Submit a new civic problem or search using your registered mobile number.</p>
                 <button type="button" onClick={() => { setViewTab('submit'); setCurrentStep(1); }} className="citizen-primary-hero-btn">
@@ -1905,7 +1905,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                     {(item.status === 'MORE_INFO_REQUESTED' || item.approvalStatus === 'MORE_INFO_REQUESTED') && (
                       <div style={{ background: '#FFFBEB', border: '1.5px solid #FDE68A', borderRadius: '8px', padding: '10px 12px', margin: '10px 0', fontSize: '0.82rem' }}>
                         <strong style={{ color: '#92400E', display: 'block', marginBottom: '3px' }}>
-                          ⚠️ State Administration Clarification Request:
+                          State Administration Clarification Request:
                         </strong>
                         <div style={{ color: '#78350F', lineHeight: 1.4 }}>
                           {item.adminReviewNotes || item.requestedInformation || 'Please provide clearer on-site photographic evidence or landmark details.'}
@@ -1922,12 +1922,12 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                     )}
 
                     <div className="citizen-problem-item-meta">
-                      <div>📍 {item.district || 'Ranchi'} ({item.locationAddress || 'Jharkhand'})</div>
-                      <div>🏷️ {item.category || item.domain}</div>
-                      <div>⚡ {item.urgency || 'Medium'}</div>
-                      <div>🤖 {renderAiStatus(item)}</div>
-                      <div>🎓 {renderUnivStatus(item)}</div>
-                      <div>📅 {item.submissionDate || 'Recent'}</div>
+                      <div>{item.district || 'Ranchi'} ({item.locationAddress || 'Jharkhand'})</div>
+                      <div> {item.category || item.domain}</div>
+                      <div> {item.urgency || 'Medium'}</div>
+                      <div>{renderAiStatus(item)}</div>
+                      <div> {renderUnivStatus(item)}</div>
+                      <div> {item.submissionDate || 'Recent'}</div>
                     </div>
                   </div>
                 ))}
@@ -1942,7 +1942,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
         {viewTab === 'notifications' && (
           <div className="citizen-challenges-view-wrapper">
             <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#024D24', marginBottom: '16px' }}>
-              🔔 {isHindi ? 'नागरिक सूचनाएं एवं राज्य अपडेट' : 'Citizen Notifications & State Updates'} ({notifications.length})
+              {isHindi ? 'नागरिक सूचनाएं एवं राज्य अपडेट' : 'Citizen Notifications & State Updates'} ({notifications.length})
             </h2>
 
             <div style={{ display: 'grid', gap: '12px' }}>
@@ -1972,7 +1972,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
           <div className="citizen-challenges-view-wrapper" style={{ maxWidth: '640px', margin: '0 auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
               <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: '#E8F5EC', color: '#036D33', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', fontWeight: 800 }}>
-                👤
+                
               </div>
               <div>
                 <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#024D24', margin: '0 0 4px 0' }}>
@@ -2007,7 +2007,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
         {submittedSuccessModal && (
           <div className="citizen-modal-overlay">
             <div className="citizen-modal-box">
-              <div className="citizen-modal-check">✓</div>
+              <div className="citizen-modal-check"></div>
               <h2>{isHindi ? 'चुनौती सफलतापूर्वक दर्ज हुई!' : 'Civic Challenge Submitted!'}</h2>
               <p>Your problem statement has been saved to MongoDB and processed for university & industry matching.</p>
               
@@ -2040,14 +2040,14 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
             <div className="citizen-modal-box" style={{ maxWidth: '560px', width: '92%', textAlign: 'left' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px solid #E5E7EB', paddingBottom: '10px' }}>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#024D24', margin: 0 }}>
-                  📝 {isHindi ? 'स्पष्टीकरण व अतिरिक्त साक्ष्य दर्ज करें' : 'Provide Clarification & Evidence'}
+                  {isHindi ? 'स्पष्टीकरण व अतिरिक्त साक्ष्य दर्ज करें' : 'Provide Clarification & Evidence'}
                 </h3>
                 <button
                   type="button"
                   onClick={() => setClarificationModalOpen(false)}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}
                 >
-                  ✕
+                  
                 </button>
               </div>
 

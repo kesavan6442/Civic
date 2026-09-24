@@ -123,7 +123,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
       const updated = await problemsService.updateUniversityProfile(payload);
       if (updated) {
         setProfile(updated);
-        setProfileSuccessMsg('✅ University Capability Profile successfully updated and synced with AI Matching Engine!');
+        setProfileSuccessMsg('University Capability Profile successfully updated and synced with AI Matching Engine!');
         setTimeout(() => {
           setShowProfileModal(false);
           setProfileSuccessMsg('');
@@ -429,7 +429,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
 
         <div className="admin-topbar-right">
           <span className="admin-topbar-badge desktop-only">
-            🇮🇳 University Portal
+             University Portal
           </span>
 
           <button
@@ -556,16 +556,16 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
               }}>
                 <div style={{ flex: '1 1 500px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '1.4rem' }}>🏛️</span>
+                    <span style={{ fontSize: '1.4rem' }}></span>
                     <h1 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#024D24', margin: 0 }}>
                       {displayName}
                     </h1>
                   </div>
 
                   <p style={{ fontSize: '0.86rem', color: '#4B5563', margin: '0 0 12px 0', lineHeight: 1.4 }}>
-                    {profile?.location || profile?.district ? `📍 ${profile?.location || profile?.district}, Jharkhand` : '📍 Jharkhand, India'}
-                    {profile?.naacGrade ? ` • 🏆 NAAC Grade: ${profile.naacGrade}` : ''}
-                    {profile?.ranking ? ` • 📊 NIRF Rank: ${profile.ranking}` : ''}
+                    {profile?.location || profile?.district ? `${profile?.location || profile?.district}, Jharkhand` : 'Jharkhand, India'}
+                    {profile?.naacGrade ? ` •  NAAC Grade: ${profile.naacGrade}` : ''}
+                    {profile?.ranking ? ` • NIRF Rank: ${profile.ranking}` : ''}
                   </p>
 
                   {/* Departments & Expertise Badges */}
@@ -626,7 +626,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                       transition: 'all 0.2s ease'
                     }}
                   >
-                    <span>🏛️</span>
+                    <span></span>
                     <span>Edit R&D Capability Profile</span>
                   </button>
                   <div style={{
@@ -640,7 +640,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                       Tenant Isolation Status
                     </div>
                     <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#14532D', marginTop: '2px' }}>
-                      🔒 Strict Academic Scope
+                      Strict Academic Scope
                     </div>
                     <div style={{ fontSize: '0.72rem', color: '#15803D', marginTop: '2px' }}>
                       AI Matching Synced ({profile?.labs?.length || 2} Labs, {profile?.technologies?.length || 3} Tech)
@@ -712,7 +712,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
 
                 {problemsList.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '48px 20px', color: '#6B7280' }}>
-                    <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}>🔍</div>
+                    <div style={{ fontSize: '2.5rem', marginBottom: '8px' }}></div>
                     <h4 style={{ fontSize: '1.05rem', color: '#374151', margin: '0 0 6px 0' }}>No Matched Problems Currently</h4>
                     <p style={{ fontSize: '0.84rem', maxWidth: '420px', margin: '0 auto' }}>
                       No civic problems are currently routed to this university's domain expertise. New citizen submissions in your domain will appear here automatically.
@@ -856,7 +856,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
             <div className="modal-body" style={{ padding: '24px', maxHeight: '75vh', overflowY: 'auto' }}>
               {workingProjects.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '40px 20px', color: '#6B7280' }}>
-                  <div style={{ fontSize: '2.4rem', marginBottom: '10px' }}>📁</div>
+                  <div style={{ fontSize: '2.4rem', marginBottom: '10px' }}></div>
                   <h4 style={{ fontSize: '1.1rem', color: '#374151', marginBottom: '6px' }}>No Active Project Teams Yet</h4>
                   <p style={{ fontSize: '0.88rem', maxWidth: '420px', margin: '0 auto 18px' }}>
                     Browse available problem statements, select "Take this Challenge", and register your student or faculty team to start working on a project.
@@ -905,7 +905,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                             {proj.problemCategory || 'Civic Problem'}
                           </span>
                           <span style={{ fontSize: '0.74rem', color: '#6B7280' }}>
-                            📍 {proj.district} • ID: {proj.problemId}
+                            {proj.district} • ID: {proj.problemId}
                           </span>
                         </div>
 
@@ -914,9 +914,9 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                         </h4>
 
                         <div style={{ fontSize: '0.82rem', color: '#4B5563' }}>
-                          <span>🎓 <strong>Mentor:</strong> {proj.mentorName} ({proj.mentorDesignation})</span>
+                          <span> <strong>Mentor:</strong> {proj.mentorName} ({proj.mentorDesignation})</span>
                           <span style={{ margin: '0 8px' }}>•</span>
-                          <span>📅 <strong>Started:</strong> {proj.startedDate || proj.startedAt?.split('T')[0]}</span>
+                          <span> <strong>Started:</strong> {proj.startedDate || proj.startedAt?.split('T')[0]}</span>
                         </div>
                       </div>
 
@@ -938,7 +938,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                           boxShadow: '0 2px 6px rgba(2, 77, 36, 0.2)'
                         }}
                       >
-                        <span>👥 View Team</span>
+                        <span> View Team</span>
                         <ChevronRight size={15} />
                       </button>
                     </div>
@@ -1009,7 +1009,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
               {selectedTeamProject.students && selectedTeamProject.students.length > 0 && (
                 <div style={{ marginBottom: '20px' }}>
                   <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#024D24', marginBottom: '10px' }}>
-                    🎒 Student Researchers ({selectedTeamProject.students.length})
+                     Student Researchers ({selectedTeamProject.students.length})
                   </h4>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1048,7 +1048,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
               {selectedTeamProject.faculties && selectedTeamProject.faculties.length > 0 && (
                 <div style={{ marginBottom: '20px' }}>
                   <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#92400E', marginBottom: '10px' }}>
-                    👨‍🏫 Faculty Co-Mentors ({selectedTeamProject.faculties.length})
+                     Faculty Co-Mentors ({selectedTeamProject.faculties.length})
                   </h4>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -1120,7 +1120,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                   Institutional Profile & Matching Capabilities
                 </span>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginTop: '2px' }}>
-                  🏛️ Edit University R&D Capability Profile
+                   Edit University R&D Capability Profile
                 </h3>
               </div>
               <button className="modal-close-btn" onClick={() => setShowProfileModal(false)}>
@@ -1533,7 +1533,7 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                       cursor: isSavingProfile ? 'not-allowed' : 'pointer'
                     }}
                   >
-                    {isSavingProfile ? 'Saving...' : '💾 Save Capability Profile'}
+                    {isSavingProfile ? 'Saving...' : ' Save Capability Profile'}
                   </button>
                 </div>
               </div>

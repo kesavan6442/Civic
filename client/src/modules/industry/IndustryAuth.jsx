@@ -296,7 +296,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
     setAccounts(updatedAccounts);
     saveStoredIndustryAccounts(updatedAccounts);
 
-    alert(`🎉 Corporate Account successfully registered for ${formData.companyName}! Logging you in.`);
+    alert(`Corporate Account successfully registered for ${formData.companyName}! Logging you in.`);
     onLoginSuccess(registerResult.success ? registerResult.user : newAccount);
   };
 
@@ -379,7 +379,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                🏢 Corporate Login
+                 Corporate Login
               </button>
               <button
                 type="button"
@@ -398,7 +398,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                📝 Industry Sign Up
+                Industry Sign Up
               </button>
             </div>
           )}
@@ -423,7 +423,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   gap: '10px',
                   boxShadow: '0 2px 6px rgba(248, 113, 113, 0.15)'
                 }}>
-                  <span style={{ fontSize: '1.2rem' }}>⚠️</span>
+                  <span style={{ fontSize: '1.2rem' }}></span>
                   <div>
                     <strong>Account Error:</strong> {loginError}
                   </div>
@@ -489,7 +489,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
 
               {/* Seed Demo Account Helper */}
               <div style={{ marginTop: '18px', background: '#F8FAF9', border: '1.5px solid #E5E7EB', borderRadius: '10px', padding: '12px 14px', fontSize: '0.8rem', color: '#4B5563' }}>
-                <strong style={{ color: '#047857', display: 'block', marginBottom: '4px' }}>💼 Verified Corporate Accounts:</strong>
+                <strong style={{ color: '#047857', display: 'block', marginBottom: '4px' }}> Verified Corporate Accounts:</strong>
                 <div style={{ margin: '2px 0' }}>• AquaGrid CSR: <code>aquagrid.industry@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0' }}>• GreenVolt Solar: <code>greenvolt.industry@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0', opacity: 0.85 }}>• Tata Steel CSR: <code>csr@tatasteel.com</code> | Pass: <code>admin123</code></div>
@@ -554,7 +554,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
               ) : (
                 <div style={{ textAlign: 'center', padding: '10px 0' }}>
                   <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#ECFDF5', color: '#047857', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', fontSize: '1.6rem' }}>
-                    ✓
+                    
                   </div>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', marginBottom: '8px' }}>
                     Recovery Link Dispatched
@@ -596,7 +596,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                   alignItems: 'flex-start',
                   gap: '8px'
                 }}>
-                  <span style={{ fontSize: '1.1rem' }}>ℹ️</span>
+                  <span style={{ fontSize: '1.1rem' }}>ℹ</span>
                   <div>
                     <strong>Sign-Up Required:</strong> {signupNotice}
                   </div>
@@ -660,7 +660,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                       textAlign: 'center'
                     }}
                   >
-                    {signupStep > 1 ? '✓ ' : ''}1. Company & Location Details
+                    {signupStep > 1 ? ' ' : ''}1. Company & Location Details
                   </button>
 
                   <button
@@ -898,7 +898,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                     alignItems: 'center'
                   }}>
                     <span style={{ fontSize: '0.84rem', color: '#065F46', fontWeight: 700 }}>
-                      🏢 Company: <strong>{formData.companyName || 'Enterprise'}</strong> ({formData.city || 'Jharkhand'})
+                       Company: <strong>{formData.companyName || 'Enterprise'}</strong> ({formData.city || 'Jharkhand'})
                     </span>
                     <span style={{
                       background: '#047857',
@@ -932,7 +932,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                           cursor: 'pointer'
                         }}
                       >
-                        ✓ Select All
+                         Select All
                       </button>
                       <button
                         type="button"
@@ -948,7 +948,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                           cursor: 'pointer'
                         }}
                       >
-                        ✕ Clear All
+                         Clear All
                       </button>
                     </div>
                   </div>
@@ -980,7 +980,7 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
                       fontWeight: 600,
                       marginBottom: '16px'
                     }}>
-                      ⚠️ {formErrors.industryExpertise}
+                      {formErrors.industryExpertise}
                     </div>
                   )}
 

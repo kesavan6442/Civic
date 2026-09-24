@@ -1508,3 +1508,46 @@
   border-radius: 4px;
 }
 
+/* Responsive Mobile Header & Navigation */
+@media (max-width: 768px) {
+  .citizen-top-header {
+    padding: 6px 12px !important;
+    gap: 8px !important;
+    min-height: 48px !important;
+  }
+  .citizen-header-dept {
+    display: none !important;
+  }
+  .citizen-header-divider {
+    display: none !important;
+  }
+  .citizen-header-brand-title {
+    font-size: 1rem !important;
+  }
+  .citizen-header-brand-sub {
+    font-size: 0.62rem !important;
+  }
+  .citizen-top-nav {
+    width: 100% !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+    padding-bottom: 4px !important;
+    gap: 6px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .citizen-top-nav::-webkit-scrollbar {
+    display: none !important;
+  }
+  .citizen-nav-btn {
+    padding: 5px 10px !important;
+    font-size: 0.75rem !important;
+    flex-shrink: 0 !important;
+  }
+  .citizen-body-wrapper {
+    padding: 12px 10px 40px !important;
+  }
+}
+
+

@@ -1,5 +1,5 @@
 // Admin API Client Service - Real Backend Data Integration
-import { problemsService, getStoredProposals } from './problemsService';
+import { problemsService, getStoredProposals, fetchWithTimeout } from './problemsService';
 import { authService } from './authService';
 import { API_BASE_URL } from './apiConfig';
 
@@ -158,7 +158,7 @@ export const adminService = {
 
     adminAuthInFlight = (async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/auth/login`, {
+        const res = await fetchWithTimeout(`${API_BASE_URL}/auth/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -199,7 +199,7 @@ export const adminService = {
 
   async adminFetch(url, options = {}) {
     let headers = await this.getAdminHeaders();
-    let res = await fetch(url, {
+    let res = await fetchWithTimeout(url, {
       ...options,
       headers: { ...headers, ...(options.headers || {}) }
     });
@@ -216,7 +216,7 @@ export const adminService = {
           ...(options.headers || {}),
           'Authorization': `Bearer ${freshToken}`
         };
-        res = await fetch(url, {
+        res = await fetchWithTimeout(url, {
           ...options,
           headers: retryHeaders
         });
@@ -308,7 +308,7 @@ export const adminService = {
 
     // First try FastAPI microservice endpoint
     try {
-      const aiRes = await fetch(`http://localhost:8000/analyze/problem`, {
+      const aiRes = await fetchWithTimeout(`http://localhost:8000/analyze/problem`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -421,7 +421,7 @@ export const adminService = {
   // 3b. Query Active AI Models & Benchmarks
   async getAIModels() {
     try {
-      const res = await fetch(`http://localhost:8000/models`);
+      const res = await fetchWithTimeout(`http://localhost:8000/models`);
       if (res.ok) {
         return await res.json();
       }
@@ -440,7 +440,7 @@ export const adminService = {
   async getAIAuditLogs(problemId = null) {
     try {
       const url = problemId ? `http://localhost:8000/api/ai/audit-logs?problem_id=${encodeURIComponent(problemId)}` : `http://localhost:8000/api/ai/audit-logs`;
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url);
       if (res.ok) {
         return await res.json();
       }
@@ -521,7 +521,7 @@ export const adminService = {
     // 2. Try General public solutions endpoint
     try {
       const url2 = problemId ? `${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}` : `${API_BASE_URL}/solutions`;
-      const res2 = await fetch(url2, { headers: authService.getAuthHeaders() });
+      const res2 = await fetchWithTimeout(url2, { headers: authService.getAuthHeaders() });
       if (res2.ok) {
         const data2 = await res2.json();
         if (data2.success && Array.isArray(data2.data)) {
@@ -758,7 +758,7 @@ export const adminService = {
 
     // Fallback: fetch from /teams
     try {
-      const res2 = await fetch(`${API_BASE_URL}/teams`, { headers: authService.getAuthHeaders() });
+      const res2 = await fetchWithTimeout(`${API_BASE_URL}/teams`, { headers: authService.getAuthHeaders() });
       if (res2.ok) {
         const data2 = await res2.json();
         if (data2.success && Array.isArray(data2.data) && data2.data.length > 0) {
@@ -815,7 +815,7 @@ export const adminService = {
     
     // Fallback: fetch from /collaborations
     try {
-      const res2 = await fetch(`${API_BASE_URL}/collaborations`, { headers: authService.getAuthHeaders() });
+      const res2 = await fetchWithTimeout(`${API_BASE_URL}/collaborations`, { headers: authService.getAuthHeaders() });
       if (res2.ok) {
         const data2 = await res2.json();
         if (data2.success && Array.isArray(data2.data) && data2.data.length > 0) {
@@ -1213,7 +1213,7 @@ export const adminService = {
       daysLeft: 66,
       slaProgress: '27%',
       slaRiskLevel: 'Low',
-      activeAlerts: ['✓ Project milestones are progressing on track within 90-day SLA.']
+      activeAlerts: [' Project milestones are progressing on track within 90-day SLA.']
     };
   },
 

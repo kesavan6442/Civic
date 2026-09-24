@@ -449,7 +449,7 @@ function LandingPage({
                       textAlign: 'center',
                       marginTop: '4px'
                     }}>
-                      <div style={{ fontSize: '2rem', lineHeight: 1 }}>🏛️</div>
+                      <div style={{ fontSize: '2rem', lineHeight: 1 }}></div>
                       <div>
                         <h3 style={{ margin: '0 0 6px 0', fontSize: '1.05rem', fontWeight: 800, color: '#065F46' }}>
                           {isHindi ? 'नागरिक सेवा एवं शिकायत पोर्टल' : 'Citizen Civic Portal'}
@@ -884,7 +884,7 @@ function LandingPage({
                                     transition: 'all 0.15s ease'
                                   }}
                                 >
-                                  <span>{isChecked ? '☑' : '☐'}</span>
+                                  <span>{isChecked ? '' : ''}</span>
                                   <span style={{ whiteSpace: 'normal' }}>{item}</span>
                                 </button>
                               );
@@ -1062,7 +1062,7 @@ function LandingPage({
                                           gap: '4px'
                                         }}
                                       >
-                                        <span>{isChecked ? '☑' : '☐'}</span>
+                                        <span>{isChecked ? '' : ''}</span>
                                         <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{subItem}</span>
                                       </button>
                                     );
@@ -1136,7 +1136,7 @@ function LandingPage({
                         >
                           {isSubmitting 
                             ? (isHindi ? 'खाता बन रहा है...' : 'Creating...') 
-                            : (isHindi ? 'खाता बनाएं ✓' : 'Create Account ✓')}
+                            : (isHindi ? 'खाता बनाएं ' : 'Create Account ')}
                         </button>
                       </div>
                     </form>

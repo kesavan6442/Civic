@@ -545,7 +545,7 @@ export const UniversityProblems = ({ user, onBackToDashboard, onBackToLanding })
                   fontSize: '0.8rem',
                   display: 'inline-block'
                 }}>
-                  ⚡ {collabCount} Active Collaborations
+                   {collabCount} Active Collaborations
                 </span>
               ) : (
                 <button
@@ -1119,7 +1119,7 @@ export const UniversityProblems = ({ user, onBackToDashboard, onBackToLanding })
               {(activeChallengeModal.aiStatus || activeChallengeModal.duplicateStatus || activeChallengeModal.matchedUniversitiesCount) && (
                 <div style={{ background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: '10px', padding: '12px 16px', fontSize: '0.8rem', color: '#065F46' }}>
                   <div style={{ fontWeight: 800, marginBottom: '4px', fontSize: '0.82rem' }}>
-                    🤖 AI Audit & Multi-Partner Triage Status
+                    AI Audit & Multi-Partner Triage Status
                   </div>
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
                     {activeChallengeModal.aiStatus && (

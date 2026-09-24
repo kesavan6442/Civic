@@ -89,7 +89,7 @@ export const IndustryPortal = ({ lang, onToggleLang }) => {
 
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <span className="univ-welcome-tag">
-              💼 {isHindi ? 'सत्यापित उद्योग पोर्टल' : 'Verified Industry Network'}
+               {isHindi ? 'सत्यापित उद्योग पोर्टल' : 'Verified Industry Network'}
             </span>
             <span className="univ-welcome-tag" style={{ background: '#036D33', color: '#FFFFFF' }}>
               320+ Industry Partners
