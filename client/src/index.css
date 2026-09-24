@@ -1108,14 +1108,10 @@ body {
 }
 
 .card-brand-crest {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--jh-green-primary) 0%, var(--jh-green-dark) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(3, 109, 51, 0.2);
+  background: transparent;
   flex-shrink: 0;
 }
 

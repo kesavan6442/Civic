@@ -75,21 +75,36 @@ export const InfoIcon = ({ size = 20, className = '' }) => (
 );
 
 export const JharkhandCrest = ({ size = 38, className = '' }) => (
-  <img
-    src="/civic_logo.png"
-    alt="CivicConnect Official Logo"
-    width={size}
-    height={size}
-    className={className}
+  <span
+    className={`civic-logo-circle-badge ${className}`}
     style={{
       width: `${size}px`,
       height: `${size}px`,
-      objectFit: 'contain',
-      display: 'inline-block',
-      flexShrink: 0,
-      borderRadius: '4px'
+      minWidth: `${size}px`,
+      minHeight: `${size}px`,
+      borderRadius: '50%',
+      backgroundColor: '#FFFFFF',
+      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden',
+      padding: `${Math.max(2, Math.round(size * 0.08))}px`,
+      boxSizing: 'border-box',
+      flexShrink: 0
     }}
-  />
+  >
+    <img
+      src="/civic_logo_transparent.png"
+      alt="CivicConnect Official Logo"
+      style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'contain',
+        display: 'block'
+      }}
+    />
+  </span>
 );
 
 export const EyeIcon = ({ size = 18, className = '' }) => (
