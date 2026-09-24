@@ -121,6 +121,7 @@ function LandingPage({
   onIndustryLogin,
   onAdminLogin
 }) {
+  const navigate = useNavigate();
   const isHindi = lang === 'hi';
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'signup'
   const [signupStep, setSignupStep] = useState(1); // 1 | 2 | 3
@@ -436,126 +437,142 @@ function LandingPage({
                     </div>
                   </div>
 
-                  {selectedRole === 'citizen' && (
+                  {selectedRole === 'citizen' ? (
                     <div style={{
                       background: '#F0FDF4',
-                      border: '1.5px solid #BBF7D0',
-                      borderRadius: '10px',
-                      padding: '12px 14px',
+                      border: '1.5px solid #86EFAC',
+                      borderRadius: '12px',
+                      padding: '20px 18px',
                       display: 'flex',
                       flexDirection: 'column',
-                      gap: '8px'
+                      gap: '14px',
+                      textAlign: 'center',
+                      marginTop: '4px'
                     }}>
-                      <div style={{ fontSize: '0.82rem', color: '#065F46', fontWeight: 600, lineHeight: 1.4 }}>
-                        ✨ {isHindi 
-                          ? 'नागरिक बिना लॉगिन के सीधे समस्याएं दर्ज कर सकते हैं और सार्वजनिक समाधान देख सकते हैं।' 
-                          : 'Citizens can report civic challenges and explore solutions directly without login!'}
+                      <div style={{ fontSize: '2rem', lineHeight: 1 }}>🏛️</div>
+                      <div>
+                        <h3 style={{ margin: '0 0 6px 0', fontSize: '1.05rem', fontWeight: 800, color: '#065F46' }}>
+                          {isHindi ? 'नागरिक सेवा एवं शिकायत पोर्टल' : 'Citizen Civic Portal'}
+                        </h3>
+                        <p style={{ margin: 0, fontSize: '0.84rem', color: '#047857', lineHeight: 1.5 }}>
+                          {isHindi
+                            ? 'नागरिकों को किसी लॉगिन या पासवर्ड की आवश्यकता नहीं है। आप सीधे अपनी नागरिक समस्याएं दर्ज कर सकते हैं और समाधान ट्रैक कर सकते हैं।'
+                            : 'No credentials or login required for citizens! Submit civic challenges directly, track real-time resolution milestones, and explore state solutions.'}
+                        </p>
                       </div>
                       <button
                         type="button"
-                        onClick={() => navigate('/citizen')}
+                        onClick={() => {
+                          if (onCitizenLogin) onCitizenLogin({ role: 'citizen', fullName: 'Citizen User' });
+                          else navigate('/citizen');
+                        }}
                         style={{
                           background: '#036D33',
                           color: '#FFFFFF',
                           border: 'none',
-                          borderRadius: '6px',
-                          padding: '8px 12px',
-                          fontSize: '0.82rem',
-                          fontWeight: 700,
+                          borderRadius: '8px',
+                          padding: '12px 18px',
+                          fontSize: '0.92rem',
+                          fontWeight: 800,
                           cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '6px',
-                          boxShadow: '0 2px 4px rgba(3, 109, 51, 0.2)'
+                          gap: '8px',
+                          boxShadow: '0 4px 10px rgba(3, 109, 51, 0.25)',
+                          transition: 'all 0.2s ease'
                         }}
                       >
                         <span>{isHindi ? 'नागरिक पोर्टल में सीधे जाएं' : 'Enter Citizen Portal Directly (No Login)'}</span>
-                        <span>→</span>
+                        <span style={{ fontSize: '1.1rem' }}>→</span>
                       </button>
                     </div>
-                  )}
+                  ) : (
+                    <>
+                      {/* Email / Username Input */}
+                      <div className="form-group-field">
+                        <label className="input-label">
+                          {isHindi ? 'ईमेल / उपयोगकर्ता नाम' : 'Email / Username'}
+                        </label>
+                        <input
+                          type="text"
+                          className="unified-input"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder={isHindi ? 'ईमेल या यूज़रनेम दर्ज करें' : 'Enter email or username'}
+                          required
+                        />
+                      </div>
 
-                  {/* Email / Username Input */}
-                  <div className="form-group-field">
-                    <label className="input-label">
-                      {isHindi ? 'ईमेल / उपयोगकर्ता नाम' : 'Email / Username'}
-                    </label>
-                    <input
-                      type="text"
-                      className="unified-input"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={isHindi ? 'ईमेल या यूज़रनेम दर्ज करें' : 'Enter email or username'}
-                      required
-                    />
-                  </div>
+                      {/* Password Input */}
+                      <div className="form-group-field">
+                        <label className="input-label">{isHindi ? 'पासवर्ड' : 'Password'}</label>
+                        <div className="password-input-wrapper">
+                          <input
+                            type={showPassword ? 'text' : 'password'}
+                            className="unified-input password-input"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder={isHindi ? 'अपना पासवर्ड दर्ज करें' : 'Enter your password'}
+                            required
+                          />
+                          <button
+                            type="button"
+                            className="password-toggle-btn"
+                            onClick={() => setShowPassword(!showPassword)}
+                            aria-label="Toggle password visibility"
+                          >
+                            {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                          </button>
+                        </div>
+                      </div>
 
-                  {/* Password Input */}
-                  <div className="form-group-field">
-                    <label className="input-label">{isHindi ? 'पासवर्ड' : 'Password'}</label>
-                    <div className="password-input-wrapper">
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        className="unified-input password-input"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder={isHindi ? 'अपना पासवर्ड दर्ज करें' : 'Enter your password'}
-                        required
-                      />
+                      {/* Login Button */}
                       <button
-                        type="button"
-                        className="password-toggle-btn"
-                        onClick={() => setShowPassword(!showPassword)}
-                        aria-label="Toggle password visibility"
+                        type="submit"
+                        className="unified-login-btn"
+                        disabled={isSubmitting}
                       >
-                        {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                        {isSubmitting 
+                          ? (isHindi ? 'प्रवेश हो रहा है...' : 'Authenticating...') 
+                          : (isHindi ? 'लॉग इन' : 'Login')}
                       </button>
-                    </div>
-                  </div>
 
-                  {/* Login Button */}
-                  <button
-                    type="submit"
-                    className="unified-login-btn"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting 
-                      ? (isHindi ? 'प्रवेश हो रहा है...' : 'Authenticating...') 
-                      : (isHindi ? 'लॉग इन' : 'Login')}
-                  </button>
+                      {/* Links Row */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px', fontSize: '0.82rem' }}>
+                        <button
+                          type="button"
+                          className="forgot-pass-btn"
+                          onClick={() => setForgotMsg(!forgotMsg)}
+                        >
+                          {isHindi ? 'पासवर्ड भूल गए?' : 'Forgot Password?'}
+                        </button>
+                        {selectedRole !== 'admin' && (
+                          <button
+                            type="button"
+                            onClick={() => { setAuthMode('signup'); }}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#024D24',
+                              fontWeight: 700,
+                              cursor: 'pointer',
+                              padding: 0
+                            }}
+                          >
+                            {isHindi ? 'नया खाता बनाएं →' : 'Sign Up →'}
+                          </button>
+                        )}
+                      </div>
 
-                  {/* Links Row */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px', fontSize: '0.82rem' }}>
-                    <button
-                      type="button"
-                      className="forgot-pass-btn"
-                      onClick={() => setForgotMsg(!forgotMsg)}
-                    >
-                      {isHindi ? 'पासवर्ड भूल गए?' : 'Forgot Password?'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => { setAuthMode('signup'); if (selectedRole === 'admin') setSelectedRole('citizen'); }}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#024D24',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                        padding: 0
-                      }}
-                    >
-                      {isHindi ? 'नया खाता बनाएं →' : 'Sign Up →'}
-                    </button>
-                  </div>
-
-                  {forgotMsg && (
-                    <div className="forgot-notice-banner">
-                      {isHindi
-                        ? 'पासवर्ड रीसेट के लिए कृपया अपने जिला नोडल अधिकारी या टोल फ्री 181 पर संपर्क करें।'
-                        : 'For password reset assistance, please contact your District Nodal Officer or call Helpline 181.'}
-                    </div>
+                      {forgotMsg && (
+                        <div className="forgot-notice-banner">
+                          {isHindi
+                            ? 'पासवर्ड रीसेट के लिए कृपया अपने जिला नोडल अधिकारी या टोल फ्री 181 पर संपर्क करें।'
+                            : 'For password reset assistance, please contact your District Nodal Officer or call Helpline 181.'}
+                        </div>
+                      )}
+                    </>
                   )}
                 </form>
               )}
