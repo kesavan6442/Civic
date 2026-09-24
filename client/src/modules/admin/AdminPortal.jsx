@@ -7,6 +7,7 @@ import { adminService } from '../../services/adminService';
 import { mcpService } from '../../services/mcpService';
 import { problemsService, JHARKHAND_DISTRICTS, PROBLEM_CATEGORIES, getDeadlineInfo, STANDARD_DOMAINS } from '../../services/problemsService';
 import { authService } from '../../services/authService';
+import { API_BASE_URL } from '../../services/apiConfig';
 
 export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
   const navigate = useNavigate();
@@ -1172,8 +1173,10 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
   // Get Client JSON Configuration Snippet
   const getMcpConfigSnippet = () => {
     const tokenPlaceholder = newlyGeneratedToken || (mcpStatus?.tokenMasked ? mcpStatus.tokenMasked : 'civic_mcp_YOUR_BEARER_TOKEN_HERE');
-    const detectedHost = typeof window !== 'undefined' && window.location ? window.location.hostname : 'localhost';
-    const serverUrl = mcpStatus?.serverUrl || `http://${detectedHost}:5000/mcp`;
+    const defaultMcpUrl = `${API_BASE_URL.replace(/\/api\/?$/, '')}/mcp`;
+    const serverUrl = (mcpStatus?.serverUrl && !mcpStatus.serverUrl.includes('localhost:5000'))
+      ? mcpStatus.serverUrl
+      : defaultMcpUrl;
 
     if (mcpClientType === 'claude') {
       return JSON.stringify({
@@ -5202,15 +5205,15 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                           <h3 style={{ fontSize: '1.02rem', fontWeight: 800, color: '#111827', margin: 0 }}>MCP Server Status</h3>
-                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', borderRadius: '16px', fontSize: '0.78rem', fontWeight: 800, background: mcpStatus?.connected ? '#E8F5EC' : '#FEE2E2', color: mcpStatus?.connected ? '#036D33' : '#991B1B' }}>
-                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: mcpStatus?.connected ? '#10B981' : '#EF4444', display: 'inline-block' }}></span>
-                            {mcpStatus?.connected ? 'Connected' : mcpLoading ? 'Checking...' : 'Not Connected'}
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', borderRadius: '16px', fontSize: '0.78rem', fontWeight: 800, background: (mcpStatus?.connected || (mcpStatus && mcpStatus.enabled !== false)) ? '#E8F5EC' : '#FEE2E2', color: (mcpStatus?.connected || (mcpStatus && mcpStatus.enabled !== false)) ? '#036D33' : '#991B1B' }}>
+                            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: (mcpStatus?.connected || (mcpStatus && mcpStatus.enabled !== false)) ? '#10B981' : '#EF4444', display: 'inline-block' }}></span>
+                            {(mcpStatus?.connected || (mcpStatus && mcpStatus.enabled !== false)) ? 'Connected (Gateway Ready)' : mcpLoading ? 'Checking...' : 'Not Connected'}
                           </span>
                         </div>
                         <p style={{ fontSize: '0.82rem', color: '#6B7280', margin: '0 0 14px 0', lineHeight: 1.45 }}>CivicConnect native MCP server running via Spring Boot on the JSON-RPC 2.0 protocol.</p>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.82rem', marginBottom: '14px' }}>
                           {[
-                            ['Endpoint URL:', <code style={{ color: '#036D33', fontWeight: 700 }}>{mcpStatus?.serverUrl || `http://${typeof window !== 'undefined' ? window.location.hostname : 'localhost'}:5000/mcp`}</code>],
+                            ['Endpoint URL:', <code style={{ color: '#036D33', fontWeight: 700 }}>{(mcpStatus?.serverUrl && !mcpStatus.serverUrl.includes('localhost:5000')) ? mcpStatus.serverUrl : `${API_BASE_URL.replace(/\/api\/?$/, '')}/mcp`}</code>],
                             ['Protocol Spec:', '2024-11-05 (JSON-RPC 2.0)'],
                             ['Active Tools:', <span style={{ color: '#036D33', fontWeight: 800 }}>{mcpStatus?.activeToolsCount || 31} Tools Online</span>],
                             ['Authentication:', 'Bearer Token (SHA-256 Hashed)'],

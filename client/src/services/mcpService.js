@@ -3,6 +3,7 @@ import { API_BASE_URL } from './apiConfig';
 
 const getBaseUrl = () => `${API_BASE_URL}/admin/mcp`;
 const getFallbackUrl = () => `${API_BASE_URL}/mcp`;
+const getMcpGatewayUrl = () => `${API_BASE_URL.replace(/\/api\/?$/, '')}/mcp`;
 
 const getHeaders = () => {
     const token = authService.getToken();
@@ -97,8 +98,7 @@ export const mcpService = {
      * Call an MCP tool directly via the Spring Boot MCP Gateway
      */
     callTool: async (toolName, toolArgs = {}, bearerToken = null) => {
-        const host = getHost();
-        const url = `http://${host}:5000/mcp`;
+        const url = getMcpGatewayUrl();
         
         let token = bearerToken;
         if (!token) {

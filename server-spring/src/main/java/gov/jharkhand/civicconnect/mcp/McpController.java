@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.time.Instant;
 import java.util.*;
 
@@ -57,14 +59,30 @@ public class McpController {
     // ==========================================
 
     @GetMapping({"/api/admin/mcp/status", "/api/mcp/status"})
-    public ResponseEntity<Map<String, Object>> getMcpStatus() {
+    public ResponseEntity<Map<String, Object>> getMcpStatus(HttpServletRequest request) {
         Optional<McpToken> activeToken = tokenService.getActiveTokenMetadata();
         Optional<McpToken> latestToken = tokenService.getLatestTokenMetadata();
 
+        // Dynamically compute the server URL if running behind proxy / on Render
+        String resolvedServerUrl = serverConfig.getServerUrl();
+        if (request != null) {
+            String forwardedProto = request.getHeader("X-Forwarded-Proto");
+            String forwardedHost = request.getHeader("X-Forwarded-Host");
+            if (forwardedHost != null && !forwardedHost.isBlank()) {
+                String proto = (forwardedProto != null && !forwardedProto.isBlank()) ? forwardedProto : "https";
+                resolvedServerUrl = proto + "://" + forwardedHost + "/mcp";
+            } else if (request.getServerName() != null && !request.getServerName().equals("localhost") && !request.getServerName().equals("127.0.0.1")) {
+                String scheme = request.getScheme() != null ? request.getScheme() : "https";
+                int port = request.getServerPort();
+                String portPart = (port == 80 || port == 443 || port <= 0) ? "" : (":" + port);
+                resolvedServerUrl = scheme + "://" + request.getServerName() + portPart + "/mcp";
+            }
+        }
+
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("enabled", serverConfig.isEnabled());
-        response.put("serverUrl", serverConfig.getServerUrl());
-        response.put("connected", activeToken.isPresent() && serverConfig.isEnabled());
+        response.put("serverUrl", resolvedServerUrl);
+        response.put("connected", serverConfig.isEnabled());
         response.put("activeToolsCount", toolRegistry.getToolCount());
         response.put("hasActiveToken", activeToken.isPresent());
 
