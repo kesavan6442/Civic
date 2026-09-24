@@ -74,19 +74,22 @@ export const InfoIcon = ({ size = 20, className = '' }) => (
   </svg>
 );
 
-export const JharkhandCrest = ({ size = 38 }) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
-    {/* Outer Green Ring */}
-    <circle cx="50" cy="50" r="46" fill="#036D33" stroke="#FFFFFF" strokeWidth="3" />
-    {/* Inner Deep Ring */}
-    <circle cx="50" cy="50" r="37" fill="#024D24" />
-    {/* Center Emblem Disc */}
-    <circle cx="50" cy="50" r="28" fill="#FFFFFF" />
-    {/* Ashoka Pillar / Palash / Elephant silhouette motif */}
-    <path d="M50 28 L53 38 L63 38 L55 44 L58 54 L50 48 L42 54 L45 44 L37 38 L47 38 Z" fill="#C62828" />
-    <circle cx="50" cy="62" r="4" fill="#036D33" />
-    <path d="M42 66 Q50 62 58 66" stroke="#024D24" strokeWidth="2" strokeLinecap="round" />
-  </svg>
+export const JharkhandCrest = ({ size = 38, className = '' }) => (
+  <img
+    src="/civic_logo.png"
+    alt="CivicConnect Official Logo"
+    width={size}
+    height={size}
+    className={className}
+    style={{
+      width: `${size}px`,
+      height: `${size}px`,
+      objectFit: 'contain',
+      display: 'inline-block',
+      flexShrink: 0,
+      borderRadius: '4px'
+    }}
+  />
 );
 
 export const EyeIcon = ({ size = 18, className = '' }) => (

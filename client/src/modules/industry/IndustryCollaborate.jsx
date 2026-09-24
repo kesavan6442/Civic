@@ -983,19 +983,13 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
           {/* =====================================================================
               2. MAIN 2-COLUMN / FULL-WIDTH GRID (LEFT: WORK + UPDATES | RIGHT: CHAT)
              ===================================================================== */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: chatOpen ? 'minmax(0, 1fr) 350px' : '1fr',
-            gap: '18px',
-            alignItems: 'stretch',
-            transition: 'all 0.2s ease'
-          }}>
+          <div className={`collab-main-grid ${chatOpen ? 'chat-open' : 'chat-closed'}`}>
             
             {/* LEFT COLUMN: CARDS & STEPPER */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0, width: '100%' }}>
               
               {/* MIDDLE ROW: UNIVERSITY & INDUSTRY SUBMITTED WORK (SIDE-BY-SIDE) */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+              <div className="collab-work-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
                 
                 {/* LEFT: UNIVERSITY WORK & R&D */}
                 <div style={{ background: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', overflow: 'hidden', boxShadow: '0 2px 8px rgba(5, 150, 105, 0.04)', display: 'flex', flexDirection: 'column' }}>
@@ -1429,17 +1423,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
                 RIGHT COLUMN: LIVE COLLABORATION MESSAGING + BOTTOM IDEA CTA
              ===================================================================== */}
             {chatOpen && (
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '14px',
-                position: 'sticky',
-                top: '0px',
-                alignSelf: 'flex-start',
-                height: 'calc(100vh - 120px)',
-                minHeight: '480px',
-                maxHeight: 'calc(100vh - 120px)'
-              }}>
+              <div className="collab-chat-container">
                 
                 {/* Live Collaboration Chat Card (Fixed Height, Header & Input Static, Thread Scrollable) */}
                 <div style={{

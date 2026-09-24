@@ -1616,4 +1616,57 @@
   }
 }
 
+/* Collaboration Main Grid & Chat Responsive Styles */
+.collab-main-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 360px !important;
+  gap: 18px !important;
+  align-items: stretch !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+}
+
+.collab-main-grid.chat-closed {
+  grid-template-columns: 1fr !important;
+}
+
+.collab-chat-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  position: sticky !important;
+  top: 60px !important;
+  align-self: flex-start !important;
+  height: calc(100vh - 130px) !important;
+  min-height: 520px !important;
+  max-height: calc(100vh - 130px) !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1024px) {
+  .collab-main-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  .collab-chat-container {
+    position: static !important;
+    top: auto !important;
+    height: auto !important;
+    min-height: 460px !important;
+    max-height: 540px !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+  }
+
+  .collab-work-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+
 

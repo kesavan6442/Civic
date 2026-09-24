@@ -21,10 +21,10 @@ export const Header = ({ lang, onToggleLang }) => {
   return (
     <header className="admin-topbar" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
       {/* Left side: Crest, Brand & Portal Title */}
-      <div className="admin-topbar-left" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'inherit' }}>
-          <JharkhandCrest size={32} />
-          <div>
+      <div className="admin-topbar-left" style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0, flexShrink: 0 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'inherit', flexShrink: 0 }}>
+          <JharkhandCrest size={34} />
+          <div style={{ flexShrink: 0 }}>
             <div style={{ fontSize: '1.08rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.2px', lineHeight: 1.1 }}>
               CivicConnect
             </div>
@@ -34,9 +34,9 @@ export const Header = ({ lang, onToggleLang }) => {
           </div>
         </Link>
 
-        <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.25)', margin: '0 4px' }} />
+        <div className="header-divider desktop-only" style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.25)', margin: '0 4px' }} />
 
-        <div>
+        <div className="header-entity-info desktop-only">
           <div style={{ fontSize: '0.94rem', fontWeight: 800, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span>{lang === 'hi' ? 'एकीकृत नागरिक एवं संस्थागत पोर्टल' : 'Unified Civic & Institutional Portal'}</span>
           </div>
@@ -47,9 +47,10 @@ export const Header = ({ lang, onToggleLang }) => {
       </div>
 
       {/* Right side: Live Sync Status, Helpline & Language Toggle */}
-      <div className="admin-topbar-right" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="admin-topbar-right" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
         {/* Low Network & Background Sync Indicator */}
         <div 
+          className="header-sync-status"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -72,7 +73,7 @@ export const Header = ({ lang, onToggleLang }) => {
             borderRadius: '50%',
             backgroundColor: !networkStatus.isOnline ? '#ef4444' : (networkStatus.isSyncing ? '#3b82f6' : '#10b981')
           }}></span>
-          <span>
+          <span className="desktop-only">
             {!networkStatus.isOnline 
               ? (lang === 'hi' ? `ऑफ़लाइन (${networkStatus.pendingCount})` : `Offline (${networkStatus.pendingCount})`)
               : (networkStatus.isSyncing
@@ -86,8 +87,8 @@ export const Header = ({ lang, onToggleLang }) => {
           </span>
         </div>
 
-        {/* 24x7 Helpline */}
-        <div style={{
+        {/* 24x7 Helpline (Desktop only to prevent mobile crowding) */}
+        <div className="desktop-only" style={{
           display: 'flex',
           alignItems: 'center',
           gap: '6px',
@@ -128,7 +129,8 @@ export const Header = ({ lang, onToggleLang }) => {
             fontWeight: 800,
             fontSize: '0.82rem',
             cursor: 'pointer',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            flexShrink: 0
           }}
         >
           <GlobeIcon size={14} />
