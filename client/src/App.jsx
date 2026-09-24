@@ -105,10 +105,10 @@ import { JharkhandCrest, EyeIcon, EyeOffIcon, JharkhandMapSilhouette } from './c
 
 // Active credentials for each persona
 const DEMO_CREDENTIALS = {
-  citizen: { email: 'citizen.ranchi@jharkhand.gov.in', password: 'admin123' },
-  university: { email: 'univ.ai01@example.com', password: 'Uni@AI2026#01' },
-  industry: { email: 'csr@tatasteel.com', password: 'admin123' },
-  admin: { email: 'admin@jharkhand.gov.in', password: 'admin123' }
+  citizen: { email: 'citizen', password: 'admin123' },
+  university: { email: 'agri.university@test.civicconnect.in', password: 'admin123' },
+  industry: { email: 'aquagrid.industry@test.civicconnect.in', password: 'admin123' },
+  admin: { email: 'admin', password: 'admin123' }
 };
 
 // Main Landing Page Component with Unified Hero & Single Login / Sign Up Card
@@ -1334,6 +1334,17 @@ export default function App() {
           />
         }
       />
+      <Route
+        path="/university/take challenge/:id"
+        element={
+          <UniversityTeamForm
+            user={universityUser}
+            onBackToProblems={() => navigate('/university/problems')}
+            onBackToDashboard={() => navigate('/university/dashboard')}
+            onBackToLanding={handleBackToLanding}
+          />
+        }
+      />
 
       <Route
         path="/university/collaborate/:id"
@@ -1388,6 +1399,16 @@ export default function App() {
 
       <Route
         path="/industry/take-challenge/:id"
+        element={
+          <IndustryTeamForm
+            user={industryUser}
+            onBackToProblems={() => navigate('/industry/problems')}
+            onBackToDashboard={() => navigate('/industry/dashboard')}
+          />
+        }
+      />
+      <Route
+        path="/industry/take challenge/:id"
         element={
           <IndustryTeamForm
             user={industryUser}

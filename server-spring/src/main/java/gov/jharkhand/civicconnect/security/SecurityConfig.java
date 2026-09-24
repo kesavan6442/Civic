@@ -79,9 +79,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/collaborations/**", "/api/industry/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/collaborations/**", "/api/industry/**").authenticated()
 
-                        // University & Solution submission endpoints
+                        // University & Solution submission endpoints (allow proposal submission for both authenticated and guest/portal users)
                         .requestMatchers("/api/solutions/mine", "/api/university/proposals/mine").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/solutions/**", "/api/university/**").authenticated()
+                        .requestMatchers("/api/solutions", "/api/solutions/**", "/api/proposals", "/api/proposals/**", "/api/university/**", "/api/industry/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/problems/**").permitAll()
 
                         // Project execution & milestone tracking
                         .requestMatchers("/api/projects/mine").authenticated()

@@ -806,14 +806,14 @@ export const IndustryProblems = ({ user, onBackToDashboard, onBackToLanding }) =
                       <button
                         type="button"
                         onClick={() => {
-                          if (isCollabTab) {
+                          if (isCollabTab || collab) {
                             navigate(`/industry/collaborate/${p.id || collab?.problemId}`);
                           } else {
                             setActiveChallengeModal(p);
                           }
                         }}
                         style={{
-                          background: '#024D24',
+                          background: (isCollabTab || collab) ? '#6D28D9' : '#024D24',
                           color: '#FFFFFF',
                           border: 'none',
                           padding: '7px 16px',
@@ -827,7 +827,7 @@ export const IndustryProblems = ({ user, onBackToDashboard, onBackToLanding }) =
                           whiteSpace: 'nowrap'
                         }}
                       >
-                        <span>View Challenge →</span>
+                        <span>{(isCollabTab || collab) ? 'Collaborate Workspace →' : 'View Challenge →'}</span>
                       </button>
                     </div>
 

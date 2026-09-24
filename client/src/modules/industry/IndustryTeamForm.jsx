@@ -77,23 +77,57 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
     setUploadedFiles(mapped);
   };
 
+  // Step Wizard State
+  const [activeStep, setActiveStep] = useState(1);
+
+  const validateStep1 = () => {
+    const stepErrors = {};
+    if (!teamLeadName.trim()) stepErrors.teamLeadName = 'Team Lead Name is required';
+    if (!teamLeadEmail.trim()) stepErrors.teamLeadEmail = 'Team Lead Email is required';
+    if (!teamLeadMobile.trim()) stepErrors.teamLeadMobile = 'Mobile Number is required';
+    members.forEach((m, idx) => {
+      if (!m.name.trim()) stepErrors[`member_${idx}_name`] = `Member #${idx + 1} Name is required`;
+    });
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
+  const validateStep2 = () => {
+    const stepErrors = {};
+    if (!solutionTitle.trim()) stepErrors.solutionTitle = 'Solution Title is required';
+    if (!solutionDescription.trim() || solutionDescription.trim().length < 20) {
+      stepErrors.solutionDescription = 'Please provide a detailed technical methodology (min 20 characters)';
+    }
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
+  const handleNext = () => {
+    if (activeStep === 1) {
+      if (validateStep1()) setActiveStep(2);
+    } else if (activeStep === 2) {
+      if (validateStep2()) setActiveStep(3);
+    }
+  };
+
+  const handlePrev = () => {
+    if (activeStep > 1) {
+      setActiveStep(activeStep - 1);
+    }
+  };
+
   const handleSubmitIdea = async (e) => {
     e.preventDefault();
-    const newErrors = {};
-
-    if (!teamLeadName.trim()) newErrors.teamLeadName = 'Team Lead Name is required';
-    if (!teamLeadEmail.trim()) newErrors.teamLeadEmail = 'Team Lead Email is required';
-    if (!teamLeadMobile.trim()) newErrors.teamLeadMobile = 'Mobile Number is required';
-    if (!solutionTitle.trim()) newErrors.solutionTitle = 'Solution Title is required';
-    if (!solutionDescription.trim()) newErrors.solutionDescription = 'Solution Description is required';
-
-    members.forEach((m, idx) => {
-      if (!m.name.trim()) newErrors[`member_${idx}_name`] = `Member #${idx + 1} Name is required`;
-    });
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      alert('Please fill in all required team and solution proposal details.');
+    if (!validateStep1() || !validateStep2()) {
+      alert('Please fill in all required fields in earlier steps.');
       return;
     }
 
@@ -170,7 +204,7 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
                   CivicConnect
                 </strong>
                 <span className="univ-portal-badge" style={{ background: '#E0F2FE', color: '#0369A1', borderColor: '#BAE6FD' }}>
-                  Team Formation & Idea Submission
+                  Industry Proposal Form
                 </span>
               </div>
               <div style={{ fontSize: '0.74rem', color: '#6B7280' }}>
@@ -200,330 +234,456 @@ export const IndustryTeamForm = ({ user, onBackToProblems, onBackToDashboard }) 
       </header>
 
       {/* Main Container */}
-      <main className="univ-content-container" style={{ padding: '30px 24px', maxWidth: '1000px', margin: '0 auto' }}>
+      <main className="univ-content-container" style={{ padding: '24px 20px', maxWidth: '960px', margin: '0 auto' }}>
         
-        {/* Problem Summary Banner */}
+        {/* Compact Problem Summary Banner */}
         {problem && (
-          <div style={{ background: '#FFFFFF', borderRadius: '16px', border: '1.5px solid #047857', padding: '22px 26px', marginBottom: '28px', boxShadow: '0 4px 16px rgba(4, 120, 87, 0.08)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-              <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#047857', background: '#ECFDF5', padding: '4px 12px', borderRadius: '20px' }}>
+          <div style={{ background: '#FFFFFF', borderRadius: '14px', border: '1.5px solid #047857', padding: '16px 20px', marginBottom: '20px', boxShadow: '0 2px 10px rgba(4, 120, 87, 0.08)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '6px' }}>
+              <span style={{ fontSize: '0.76rem', fontWeight: 800, color: '#047857', background: '#ECFDF5', padding: '3px 10px', borderRadius: '20px' }}>
                 {problem.category}
               </span>
-              <span style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.78rem', color: '#6B7280', fontWeight: 600 }}>
                 ID: {problem.id} • District: <strong>{problem.district}</strong>
               </span>
             </div>
 
-            <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#111827', margin: '0 0 10px 0' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#111827', margin: '0' }}>
               {problem.title}
             </h2>
-
-            <p style={{ fontSize: '0.88rem', color: '#4B5563', lineHeight: 1.5, margin: '0 0 14px 0' }}>
-              {problem.description}
-            </p>
-
-            <div style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '10px', padding: '10px 14px', fontSize: '0.82rem', color: '#374151', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-              <div>👤 <strong>Citizen Submitter:</strong> {problem.citizenName} ({problem.citizenPhone})</div>
-              <div>📅 <strong>Date:</strong> {problem.submissionDate || problem.createdAt?.split('T')[0]}</div>
-              <div>📍 <strong>Location:</strong> {problem.locationAddress || problem.district}</div>
-            </div>
           </div>
         )}
 
-        {/* Team Registration & Idea Submission Card */}
+        {/* Step Wizard Card */}
         <div style={{ background: '#FFFFFF', borderRadius: '18px', border: '1px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
           
-          <div style={{ background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', color: '#FFFFFF', padding: '24px 30px' }}>
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '0 0 6px 0' }}>
-              🏢 1. Form Industry Project Team & 💡 2. Submit Solution Idea
-            </h3>
-            <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.88)', margin: 0 }}>
-              Specify your company team lead, engineers, and detailed solution proposal. Admin will review both university and industry submissions and combine partners for joint implementation.
-            </p>
+          {/* Step Progress Bar Header */}
+          <div className="univ-wizard-steps-bar">
+            {/* Step 1 */}
+            <div 
+              className={`univ-wizard-step-item ${activeStep === 1 ? 'active' : activeStep > 1 ? 'completed' : ''}`}
+              onClick={() => { if (activeStep > 1) setActiveStep(1); }}
+            >
+              <div className="univ-wizard-circle">
+                {activeStep > 1 ? '✓' : '1'}
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 1</span>
+                <span className="step-name-txt">Corporate Team</span>
+              </div>
+            </div>
+
+            <div className={`univ-wizard-connector-line ${activeStep > 1 ? 'completed' : ''}`} />
+
+            {/* Step 2 */}
+            <div 
+              className={`univ-wizard-step-item ${activeStep === 2 ? 'active' : activeStep > 2 ? 'completed' : ''}`}
+              onClick={() => { if (activeStep > 2 || (activeStep === 1 && validateStep1())) setActiveStep(2); }}
+            >
+              <div className="univ-wizard-circle">
+                {activeStep > 2 ? '✓' : '2'}
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 2</span>
+                <span className="step-name-txt">Solution Blueprint</span>
+              </div>
+            </div>
+
+            <div className={`univ-wizard-connector-line ${activeStep > 2 ? 'completed' : ''}`} />
+
+            {/* Step 3 */}
+            <div 
+              className={`univ-wizard-step-item ${activeStep === 3 ? 'active' : ''}`}
+              onClick={() => { if (validateStep1() && validateStep2()) setActiveStep(3); }}
+            >
+              <div className="univ-wizard-circle">
+                3
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 3</span>
+                <span className="step-name-txt">CSR Budget & Review</span>
+              </div>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmitIdea} style={{ padding: '30px' }}>
+          <form onSubmit={handleSubmitIdea} style={{ padding: '24px 28px' }}>
             
-            {/* SECTION 1: TEAM LEAD */}
-            <div style={{ background: '#F8FAF9', padding: '22px 24px', borderRadius: '14px', border: '1.5px solid #E5E7EB', marginBottom: '26px' }}>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#064E3B', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>👔</span>
-                <span>Section 1: Corporate Team Lead Information</span>
-              </h4>
-
-              <div className="univ-form-grid-2" style={{ marginBottom: '14px' }}>
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Team Lead Name <span className="required">*</span></span>
-                  </label>
-                  <input
-                    type="text"
-                    value={teamLeadName}
-                    onChange={(e) => setTeamLeadName(e.target.value)}
-                    placeholder="e.g. Rajesh Kumar"
-                    className={`univ-form-input ${errors.teamLeadName ? 'input-error' : ''}`}
-                    required
-                  />
-                  {errors.teamLeadName && <span className="error-text">{errors.teamLeadName}</span>}
+            {/* ========================================================================= */}
+            {/* STEP 1: CORPORATE TEAM LEAD & ENGINEERS */}
+            {/* ========================================================================= */}
+            {activeStep === 1 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>👔</span> Corporate Project Lead & Engineering Team
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Provide contact details for the project lead and technical team members executing the deployment.
+                  </p>
                 </div>
 
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Official Email <span className="required">*</span></span>
-                  </label>
-                  <input
-                    type="email"
-                    value={teamLeadEmail}
-                    onChange={(e) => setTeamLeadEmail(e.target.value)}
-                    placeholder="e.g. rajesh.k@tatasteel.com"
-                    className={`univ-form-input ${errors.teamLeadEmail ? 'input-error' : ''}`}
-                    required
-                  />
-                  {errors.teamLeadEmail && <span className="error-text">{errors.teamLeadEmail}</span>}
-                </div>
-              </div>
+                {/* Team Lead Fields */}
+                <div style={{ background: '#F8FAF9', padding: '18px 20px', borderRadius: '12px', border: '1.5px solid #E5E7EB', marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: '0 0 14px 0' }}>
+                    Project Lead Information
+                  </h4>
 
-              <div className="univ-form-grid-2">
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Mobile Phone Number <span className="required">*</span></span>
-                  </label>
-                  <input
-                    type="tel"
-                    value={teamLeadMobile}
-                    onChange={(e) => setTeamLeadMobile(e.target.value)}
-                    placeholder="e.g. +91 98765 43210"
-                    className={`univ-form-input ${errors.teamLeadMobile ? 'input-error' : ''}`}
-                    required
-                  />
-                  {errors.teamLeadMobile && <span className="error-text">{errors.teamLeadMobile}</span>}
-                </div>
-
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Designation / Role in Company</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={teamLeadDesignation}
-                    onChange={(e) => setTeamLeadDesignation(e.target.value)}
-                    placeholder="e.g. Principal Engineer / CSR Project Lead"
-                    className="univ-form-input"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* SECTION 2: TEAM MEMBERS COUNT & ROSTER */}
-            <div style={{ marginBottom: '26px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
-                <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#064E3B', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span>👥</span>
-                  <span>Section 2: Team Members ({membersCount} Members)</span>
-                </h4>
-
-                <div className="stepper-actions">
-                  <span style={{ fontSize: '0.84rem', fontWeight: 700, color: '#4B5563', marginRight: '6px' }}>Members Count:</span>
-                  <button
-                    type="button"
-                    className="stepper-btn"
-                    disabled={membersCount <= 0}
-                    onClick={() => handleMemberCountChange(membersCount - 1)}
-                  >
-                    -
-                  </button>
-                  <span className="stepper-value">{membersCount}</span>
-                  <button
-                    type="button"
-                    className="stepper-btn"
-                    disabled={membersCount >= 10}
-                    onClick={() => handleMemberCountChange(membersCount + 1)}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {members.map((member, idx) => (
-                <div key={idx} className="roster-card" style={{ borderColor: '#A7F3D0', background: '#F0FDF4' }}>
-                  <div className="roster-badge" style={{ background: '#047857', color: '#FFFFFF' }}>
-                    👤 Team Member #{idx + 1}
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-                    <div>
-                      <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                        <span>Full Name <span className="required">*</span></span>
+                  <div className="univ-form-grid-2" style={{ marginBottom: '12px' }}>
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Lead Name <span className="required">*</span></span>
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Ananya Sen"
-                        value={member.name}
-                        onChange={(e) => handleMemberFieldChange(idx, 'name', e.target.value)}
-                        className="univ-form-input"
+                        value={teamLeadName}
+                        onChange={(e) => setTeamLeadName(e.target.value)}
+                        placeholder="e.g. Rajesh Kumar"
+                        className={`univ-form-input ${errors.teamLeadName ? 'input-error' : ''}`}
                         required
                       />
+                      {errors.teamLeadName && <span className="error-text">{errors.teamLeadName}</span>}
                     </div>
 
-                    <div>
-                      <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                        <span>Designation</span>
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Official Email <span className="required">*</span></span>
                       </label>
                       <input
-                        type="text"
-                        placeholder="e.g. Senior Specialist"
-                        value={member.designation}
-                        onChange={(e) => handleMemberFieldChange(idx, 'designation', e.target.value)}
-                        className="univ-form-input"
+                        type="email"
+                        value={teamLeadEmail}
+                        onChange={(e) => setTeamLeadEmail(e.target.value)}
+                        placeholder="e.g. rajesh.k@tatasteel.com"
+                        className={`univ-form-input ${errors.teamLeadEmail ? 'input-error' : ''}`}
+                        required
                       />
+                      {errors.teamLeadEmail && <span className="error-text">{errors.teamLeadEmail}</span>}
+                    </div>
+                  </div>
+
+                  <div className="univ-form-grid-2">
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Mobile Phone Number <span className="required">*</span></span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={teamLeadMobile}
+                        onChange={(e) => setTeamLeadMobile(e.target.value)}
+                        placeholder="e.g. +91 98765 43210"
+                        className={`univ-form-input ${errors.teamLeadMobile ? 'input-error' : ''}`}
+                        required
+                      />
+                      {errors.teamLeadMobile && <span className="error-text">{errors.teamLeadMobile}</span>}
                     </div>
 
-                    <div>
-                      <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                        <span>Department / Domain</span>
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Designation / Role in Company</span>
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. IoT & Hardware / Environmental Engg"
-                        value={member.department}
-                        onChange={(e) => handleMemberFieldChange(idx, 'department', e.target.value)}
+                        value={teamLeadDesignation}
+                        onChange={(e) => setTeamLeadDesignation(e.target.value)}
+                        placeholder="e.g. Principal Engineer / CSR Project Lead"
                         className="univ-form-input"
                       />
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
 
-            {/* SECTION 3: DETAILED IDEA & SOLUTION PROPOSAL */}
-            <div style={{ background: '#ECFDF5', padding: '24px', borderRadius: '16px', border: '1.5px solid #6EE7B7', marginBottom: '26px' }}>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#065F46', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>💡</span>
-                <span>Section 3: Detailed Solution Idea & Technical Proposal</span>
-              </h4>
+                {/* Team Members */}
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: 0 }}>
+                      👥 Additional Team Members ({membersCount})
+                    </h4>
 
-              {/* Solution Title */}
-              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
-                <label className="univ-form-label">
-                  <span>Solution / Idea Title <span className="required">*</span></span>
-                </label>
-                <input
-                  type="text"
-                  value={solutionTitle}
-                  onChange={(e) => setSolutionTitle(e.target.value)}
-                  placeholder="e.g. Solar IoT Continuous Water Filtration & Supply System"
-                  className={`univ-form-input ${errors.solutionTitle ? 'input-error' : ''}`}
-                  required
-                />
-                {errors.solutionTitle && <span className="error-text">{errors.solutionTitle}</span>}
+                    <div className="stepper-actions">
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4B5563', marginRight: '6px' }}>Count:</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={membersCount <= 0}
+                        onClick={() => handleMemberCountChange(membersCount - 1)}
+                      >
+                        -
+                      </button>
+                      <span className="stepper-value">{membersCount}</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={membersCount >= 8}
+                        onClick={() => handleMemberCountChange(membersCount + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gap: '10px' }}>
+                    {members.map((member, idx) => (
+                      <div key={idx} className="roster-card" style={{ borderColor: '#A7F3D0', background: '#F0FDF4', padding: '12px 16px', margin: 0 }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', alignItems: 'center' }}>
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Member #{idx + 1} Full Name <span className="required">*</span></span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Ananya Sen"
+                              value={member.name}
+                              onChange={(e) => handleMemberFieldChange(idx, 'name', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Designation</span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Senior Specialist"
+                              value={member.designation}
+                              onChange={(e) => handleMemberFieldChange(idx, 'designation', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Department / Domain</span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. IoT & Hardware"
+                              value={member.department}
+                              onChange={(e) => handleMemberFieldChange(idx, 'department', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Step 1 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/industry/problems')}
+                    className="univ-btn-secondary"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '220px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)' }}
+                  >
+                    <span>Next: Solution Blueprint →</span>
+                  </button>
+                </div>
               </div>
+            )}
 
-              {/* Detailed Description */}
-              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
-                <label className="univ-form-label">
-                  <span>Detailed Solution Methodology & Implementation Plan <span className="required">*</span></span>
-                </label>
-                <textarea
-                  rows={5}
-                  value={solutionDescription}
-                  onChange={(e) => setSolutionDescription(e.target.value)}
-                  placeholder="Describe your technical architecture, manufacturing/procurement approach, field deployment plan, and industrial capability committed..."
-                  className={`univ-form-textarea ${errors.solutionDescription ? 'input-error' : ''}`}
-                  required
-                />
-                {errors.solutionDescription && <span className="error-text">{errors.solutionDescription}</span>}
-              </div>
+            {/* ========================================================================= */}
+            {/* STEP 2: TECHNICAL PROPOSAL & METHODOLOGY */}
+            {/* ========================================================================= */}
+            {activeStep === 2 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>💡</span> Solution Blueprint & Technical Proposal
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Define the proposed industrial solution architecture, technical specifications, and implementation strategy.
+                  </p>
+                </div>
 
-              {/* Budget & Timeline */}
-              <div className="univ-form-grid-2" style={{ marginBottom: '16px' }}>
-                <div className="univ-form-group" style={{ margin: 0 }}>
+                {/* Solution Title */}
+                <div className="univ-form-group" style={{ marginBottom: '16px' }}>
                   <label className="univ-form-label">
-                    <span>Estimated Budget / CSR Allocation</span>
+                    <span>Solution / Blueprint Title <span className="required">*</span></span>
                   </label>
                   <input
                     type="text"
-                    value={estimatedCost}
-                    onChange={(e) => setEstimatedCost(e.target.value)}
-                    placeholder="e.g. ₹ 6.0 Lakhs"
-                    className="univ-form-input"
+                    value={solutionTitle}
+                    onChange={(e) => setSolutionTitle(e.target.value)}
+                    placeholder="e.g. Solar IoT Continuous Water Filtration & Supply System"
+                    className={`univ-form-input ${errors.solutionTitle ? 'input-error' : ''}`}
+                    required
                   />
+                  {errors.solutionTitle && <span className="error-text">{errors.solutionTitle}</span>}
                 </div>
 
-                <div className="univ-form-group" style={{ margin: 0 }}>
+                {/* Detailed Description */}
+                <div className="univ-form-group" style={{ marginBottom: '16px' }}>
                   <label className="univ-form-label">
-                    <span>Duration in Weeks</span>
+                    <span>Detailed Solution Methodology & Industrial Plan <span className="required">*</span></span>
+                    <span style={{ fontSize: '0.74rem', color: solutionDescription.trim().length >= 20 ? '#059669' : '#DC2626' }}>
+                      {solutionDescription.trim().length} chars (min 20)
+                    </span>
+                  </label>
+                  <textarea
+                    rows={6}
+                    value={solutionDescription}
+                    onChange={(e) => setSolutionDescription(e.target.value)}
+                    placeholder="Describe your technical architecture, manufacturing/procurement approach, field deployment plan, and industrial capability committed..."
+                    className={`univ-form-textarea ${errors.solutionDescription ? 'input-error' : ''}`}
+                    required
+                  />
+                  {errors.solutionDescription && <span className="error-text">{errors.solutionDescription}</span>}
+                </div>
+
+                {/* Step 2 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="univ-btn-secondary"
+                  >
+                    ← Back to Team
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '220px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)' }}
+                  >
+                    <span>Next: Budget & Submit →</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ========================================================================= */}
+            {/* STEP 3: BUDGET, TIMELINE, ATTACHMENTS & SUBMIT */}
+            {/* ========================================================================= */}
+            {activeStep === 3 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>📊</span> CSR Budget, Timeline & Submission
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Specify estimated CSR allocation, timeline, attach documents and submit for Admin evaluation.
+                  </p>
+                </div>
+
+                {/* Budget & Timeline */}
+                <div className="univ-form-grid-2" style={{ marginBottom: '16px' }}>
+                  <div className="univ-form-group" style={{ margin: 0 }}>
+                    <label className="univ-form-label">
+                      <span>Estimated Budget / CSR Allocation</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={estimatedCost}
+                      onChange={(e) => setEstimatedCost(e.target.value)}
+                      placeholder="e.g. ₹ 6.0 Lakhs"
+                      className="univ-form-input"
+                    />
+                  </div>
+
+                  <div className="univ-form-group" style={{ margin: 0 }}>
+                    <label className="univ-form-label">
+                      <span>Duration in Weeks</span>
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={52}
+                      value={estimatedTimeWeeks}
+                      onChange={(e) => setEstimatedTimeWeeks(e.target.value)}
+                      className="univ-form-input"
+                    />
+                  </div>
+                </div>
+
+                {/* File Attachment */}
+                <div className="univ-form-group" style={{ marginBottom: '14px' }}>
+                  <label className="univ-form-label">
+                    <span>Attach Deliverables / Schematics / Files</span>
                   </label>
                   <input
-                    type="number"
-                    min={1}
-                    max={52}
-                    value={estimatedTimeWeeks}
-                    onChange={(e) => setEstimatedTimeWeeks(e.target.value)}
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    className="univ-form-input"
+                    style={{ padding: '8px' }}
+                  />
+                  {uploadedFiles.length > 0 && (
+                    <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {uploadedFiles.map((f, i) => (
+                        <span key={i} style={{ background: '#D1FAE5', color: '#065F46', border: '1px solid #6EE7B7', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
+                          📎 {f.name} ({f.size})
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Folder Link */}
+                <div className="univ-form-group" style={{ marginBottom: '18px' }}>
+                  <label className="univ-form-label">
+                    <span>Project Folder / Drive / Repository Link (Optional)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={folderLink}
+                    onChange={(e) => setFolderLink(e.target.value)}
+                    placeholder="https://drive.google.com/... or https://github.com/..."
                     className="univ-form-input"
                   />
                 </div>
-              </div>
 
-              {/* File Attachment / Folder Upload */}
-              <div className="univ-form-group" style={{ marginBottom: '14px' }}>
-                <label className="univ-form-label">
-                  <span>Attach Project Deliverables / Schematics / Files</span>
-                </label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={handleFileChange}
-                  className="univ-form-input"
-                  style={{ padding: '8px' }}
-                />
-                {uploadedFiles.length > 0 && (
-                  <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {uploadedFiles.map((f, i) => (
-                      <span key={i} style={{ background: '#D1FAE5', color: '#065F46', border: '1px solid #6EE7B7', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
-                        📎 {f.name} ({f.size})
-                      </span>
-                    ))}
+                {/* Proposal Summary Preview Card */}
+                <div style={{ background: '#F8FAF9', borderRadius: '12px', border: '1.5px solid #D1D5DB', padding: '16px', marginBottom: '18px' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#064E3B', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                    📋 Proposal Overview Before Submission
                   </div>
-                )}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.82rem', color: '#374151' }}>
+                    <div><strong>Solution:</strong> {solutionTitle || 'Untitled'}</div>
+                    <div><strong>Project Lead:</strong> {teamLeadName || 'Not specified'}</div>
+                    <div><strong>Team Size:</strong> {members.length + 1} Members</div>
+                    <div><strong>Budget:</strong> {estimatedCost}</div>
+                    <div><strong>Timeline:</strong> {estimatedTimeWeeks} Weeks</div>
+                  </div>
+                </div>
+
+                {/* Step 3 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    className="univ-btn-secondary"
+                  >
+                    ← Back to Blueprint
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '240px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
+                  >
+                    <span>
+                      {isSubmitting ? 'Submitting Solution Idea...' : '🚀 Submit Corporate Proposal'}
+                    </span>
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
               </div>
-
-              {/* Folder / Drive Link */}
-              <div className="univ-form-group" style={{ margin: 0 }}>
-                <label className="univ-form-label">
-                  <span>Or Provide Project Folder / Google Drive / Repository Link</span>
-                </label>
-                <input
-                  type="url"
-                  value={folderLink}
-                  onChange={(e) => setFolderLink(e.target.value)}
-                  placeholder="https://drive.google.com/... or https://github.com/..."
-                  className="univ-form-input"
-                />
-              </div>
-            </div>
-
-            {/* SUBMIT BUTTON */}
-            <div style={{ display: 'flex', gap: '14px', justifyContent: 'flex-end', borderTop: '1.5px solid #E5E7EB', paddingTop: '22px' }}>
-              <button
-                type="button"
-                onClick={() => navigate('/industry/problems')}
-                className="univ-btn-secondary"
-              >
-                Cancel
-              </button>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="univ-btn-primary"
-                style={{ width: 'auto', minWidth: '260px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
-              >
-                <span>
-                  {isSubmitting ? 'Submitting Solution Idea...' : '🚀 Submit Idea'}
-                </span>
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            )}
           </form>
         </div>
 

@@ -7716,5 +7716,1466 @@
     "recommendation": "Recommended for verification",
     "human_decision": "Pending Admin Review",
     "timestamp": "2026-09-22T03:40:38.521558"
+  },
+  {
+    "log_id": "AUDIT-15F727DC",
+    "problem_id": "JH-CHLG-2026-1001",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1001",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.85,
+      "keywords": [
+        "water",
+        "drinking",
+        "rural",
+        "village",
+        "residents",
+        "quality",
+        "unsafe",
+        "are"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 85% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-22T03:59:22.492998"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T03:59:24.301627"
+    },
+    "confidence": 0.85,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T03:59:24.303862"
+  },
+  {
+    "log_id": "AUDIT-973EDA50",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Women & Child Welfare Safety",
+      "category": "Library Resources",
+      "urgency": "High",
+      "confidence": 0.19,
+      "keywords": [
+        "private",
+        "commercial",
+        "advertising",
+        "billboard",
+        "grievance",
+        "shop",
+        "sign",
+        "board"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:06:57.082211"
+    },
+    "confidence": 0.19,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:06:57.082211"
+  },
+  {
+    "log_id": "AUDIT-98AD23A7",
+    "problem_id": "JH-CHLG-2026-1004",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1004",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "rural",
+        "drinking",
+        "filtration",
+        "failure",
+        "severe",
+        "siltation",
+        "fluoride"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1001 (92%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1001",
+          "problem_title": "Unsafe Drinking Water in Rural Village",
+          "similarity": 0.92,
+          "reason": "High semantic similarity (92%). Same municipal vicinity (0.0 km) \u2022 Identical civic category",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:06:57.631810"
+    },
+    "confidence": 1.0,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:06:57.632315"
+  },
+  {
+    "log_id": "AUDIT-1A9C0A95",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Critical",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1004",
+          "problem_title": "Rural Drinking Water Filtration Failure",
+          "similarity": 0.6,
+          "reason": "High semantic similarity (60%). ",
+          "geographical_distance_km": 124.78
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-Civic-v1.4",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:06:58.007715"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:06:58.007715"
+  },
+  {
+    "log_id": "AUDIT-32816FE4",
+    "problem_id": "JH-CHLG-2026-1006",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1006",
+      "domain": "Renewable Energy & Solar Microgrids",
+      "category": "Solar Inverter Defect",
+      "urgency": "High",
+      "confidence": 0.77,
+      "keywords": [
+        "solar",
+        "powered",
+        "iot",
+        "water",
+        "pumping",
+        "units",
+        "design",
+        "installation"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Latehar with 77% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:06:59.485019"
+    },
+    "confidence": 0.77,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:06:59.485019"
+  },
+  {
+    "log_id": "AUDIT-FA835DAB",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Women & Child Welfare Safety",
+      "category": "Library Resources",
+      "urgency": "High",
+      "confidence": 0.19,
+      "keywords": [
+        "private",
+        "commercial",
+        "advertising",
+        "billboard",
+        "grievance",
+        "shop",
+        "sign",
+        "board"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:19:50.581937"
+    },
+    "confidence": 0.19,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:19:50.581937"
+  },
+  {
+    "log_id": "AUDIT-C6117B05",
+    "problem_id": "JH-CHLG-2026-1004",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1004",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 1.0,
+      "keywords": [
+        "water",
+        "rural",
+        "drinking",
+        "filtration",
+        "failure",
+        "severe",
+        "siltation",
+        "fluoride"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1001 (92%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1001",
+          "problem_title": "Unsafe Drinking Water in Rural Village",
+          "similarity": 0.92,
+          "reason": "High semantic similarity (92%). Same municipal vicinity (0.0 km) \u2022 Identical civic category",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:19:51.255064"
+    },
+    "confidence": 1.0,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:19:51.255064"
+  },
+  {
+    "log_id": "AUDIT-C0C236BB",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Unknown/Suspicious",
+      "category": "Invalid",
+      "urgency": "Critical",
+      "confidence": 0.4,
+      "keywords": [],
+      "missing_information": [
+        "Valid civic problem description"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Needs more information",
+      "verification_reason": "Syntactic irregularity detected: Syntactic test pattern or gibberish keywords detected.",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1004",
+          "problem_title": "Rural Drinking Water Filtration Failure",
+          "similarity": 0.6,
+          "reason": "High semantic similarity (60%). ",
+          "geographical_distance_km": 124.78
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-Civic-v1.4",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:19:51.775914"
+    },
+    "confidence": 0.4,
+    "recommendation": "Needs more information",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:19:51.775914"
+  },
+  {
+    "log_id": "AUDIT-04D5DC52",
+    "problem_id": "JH-CHLG-2026-1006",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1006",
+      "domain": "Renewable Energy & Solar Microgrids",
+      "category": "Solar Inverter Defect",
+      "urgency": "High",
+      "confidence": 0.77,
+      "keywords": [
+        "solar",
+        "powered",
+        "iot",
+        "water",
+        "pumping",
+        "units",
+        "design",
+        "installation"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Latehar with 77% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-22T04:19:54.223216"
+    },
+    "confidence": 0.77,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-22T04:19:54.223216"
+  },
+  {
+    "log_id": "AUDIT-845257A9",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Medium",
+      "confidence": 0.69,
+      "keywords": [
+        "water",
+        "manage",
+        "open",
+        "frictionless",
+        "citizens",
+        "can",
+        "report",
+        "civic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 69% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:01:23.451815"
+    },
+    "confidence": 0.69,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:01:23.451815"
+  },
+  {
+    "log_id": "AUDIT-993A1D54",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Medium",
+      "confidence": 0.79,
+      "keywords": [
+        "water",
+        "manage",
+        "open",
+        "frictionless",
+        "citizens",
+        "can",
+        "report",
+        "civic"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 79% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:01:39.642666"
+    },
+    "confidence": 0.79,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:01:39.642666"
+  },
+  {
+    "log_id": "AUDIT-31FD28B2",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.64,
+      "keywords": [
+        "water",
+        "ai",
+        "duplication",
+        "broken",
+        "pipeline",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:29:28.084335"
+    },
+    "confidence": 0.64,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:29:28.084335"
+  },
+  {
+    "log_id": "AUDIT-5F2DBA54",
+    "problem_id": "JH-TEMP-5681",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-5681",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.92,
+      "keywords": [
+        "water",
+        "unsafe",
+        "drinking",
+        "rural",
+        "village",
+        "management"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1001 (98%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1001",
+          "problem_title": "Unsafe Drinking Water in Rural Village",
+          "similarity": 0.98,
+          "reason": "High semantic similarity (98%). Same municipal vicinity (0.0 km) \u2022 Identical civic category",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:30:03.241026"
+    },
+    "confidence": 0.92,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:30:03.241026"
+  },
+  {
+    "log_id": "AUDIT-D95E7724",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:30:46.577133"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:30:46.577133"
+  },
+  {
+    "log_id": "AUDIT-01DC5CE5",
+    "problem_id": "JH-CHLG-2026-1002",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1002",
+      "domain": "Public Healthcare & Disease Sensors",
+      "category": "Primary Health Centre Equipment",
+      "urgency": "High",
+      "confidence": 0.95,
+      "keywords": [
+        "healthcare",
+        "remote",
+        "lack",
+        "access",
+        "rural",
+        "area",
+        "people",
+        "villages"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in East Singhbhum with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "UNCERTAIN",
+        "confidence": 0.5,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": false,
+        "rejection_reason": "Unable to load image for forensic analysis.",
+        "forensic_signals": {},
+        "checked_at": "2026-09-23T04:31:57.476493"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:31:57.953271"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:31:57.954349"
+  },
+  {
+    "log_id": "AUDIT-69DE166B",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:32:02.912518"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:32:02.912518"
+  },
+  {
+    "log_id": "AUDIT-5B652194",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:32:17.775243"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:32:17.775243"
+  },
+  {
+    "log_id": "AUDIT-98E3545C",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:32:25.546351"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:32:25.546351"
+  },
+  {
+    "log_id": "AUDIT-60A85A5C",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:32:34.009969"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:32:34.009969"
+  },
+  {
+    "log_id": "AUDIT-7547A43A",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:33:01.224067"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:33:01.224067"
+  },
+  {
+    "log_id": "AUDIT-2B10E15B",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.66,
+      "keywords": [
+        "pipeline",
+        "ai",
+        "duplication",
+        "broken",
+        "water",
+        "citizens",
+        "can",
+        "report"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 66% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T04:40:28.797144"
+    },
+    "confidence": 0.66,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T04:40:28.797144"
+  },
+  {
+    "log_id": "AUDIT-6B8770BA",
+    "problem_id": "JH-CHLG-2026-1002",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1002",
+      "domain": "Public Healthcare & Disease Sensors",
+      "category": "Primary Health Centre Equipment",
+      "urgency": "High",
+      "confidence": 0.95,
+      "keywords": [
+        "healthcare",
+        "remote",
+        "lack",
+        "access",
+        "rural",
+        "area",
+        "people",
+        "villages"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in East Singhbhum with 95% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "UNCERTAIN",
+        "confidence": 0.5,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": false,
+        "rejection_reason": "Unable to load image for forensic analysis.",
+        "forensic_signals": {},
+        "checked_at": "2026-09-23T08:03:21.791095"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T08:03:22.906666"
+    },
+    "confidence": 0.95,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T08:03:22.908666"
+  },
+  {
+    "log_id": "AUDIT-C64F952C",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "Medium",
+      "confidence": 0.77,
+      "keywords": [
+        "pothole",
+        "disturbing",
+        "public",
+        "urban",
+        "infrastructure"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Deoghar with 77% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:15:33.902599"
+    },
+    "confidence": 0.77,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:15:33.903704"
+  },
+  {
+    "log_id": "AUDIT-21D508A9",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "Medium",
+      "confidence": 0.98,
+      "keywords": [
+        "pothole",
+        "disturbing",
+        "public",
+        "potholes"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:16:12.458705"
+    },
+    "confidence": 0.98,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:16:12.458705"
+  },
+  {
+    "log_id": "AUDIT-2C484392",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "Medium",
+      "confidence": 0.98,
+      "keywords": [
+        "pothole",
+        "disturbing",
+        "public",
+        "potholes"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:16:42.449554"
+    },
+    "confidence": 0.98,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:16:42.449554"
+  },
+  {
+    "log_id": "AUDIT-FB1D94B8",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "Medium",
+      "confidence": 0.98,
+      "keywords": [
+        "pothole",
+        "disturbing",
+        "public",
+        "potholes"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Low confidence",
+      "verification_reason": "Basic description provided without sufficient operational detail. Recommended for quick Admin manual triage.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:18:51.954625"
+    },
+    "confidence": 0.98,
+    "recommendation": "Low confidence",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:18:51.954625"
+  },
+  {
+    "log_id": "AUDIT-A3EA68CC",
+    "problem_id": "JH-CHLG-2026-1004",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1004",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.78,
+      "keywords": [
+        "water",
+        "management",
+        "broken",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Chatra with 78% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:21:19.282441"
+    },
+    "confidence": 0.78,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:21:19.282441"
+  },
+  {
+    "log_id": "AUDIT-17A29B0F",
+    "problem_id": "JH-TEMP-9399",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-TEMP-9399",
+      "domain": "Roads, Potholes & Bridges",
+      "category": "Potholes",
+      "urgency": "High",
+      "confidence": 1.0,
+      "keywords": [
+        "pothole",
+        "roads",
+        "potholes",
+        "bridges"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue",
+        "Specific street/ward landmark or on-site visual evidence"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1003 (96%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1003",
+          "problem_title": "pothole",
+          "similarity": 0.96,
+          "reason": "High semantic similarity (96%). Same municipal vicinity (0.0 km) \u2022 Identical civic category",
+          "geographical_distance_km": 0.0
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:21:26.355126"
+    },
+    "confidence": 1.0,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:21:26.356126"
+  },
+  {
+    "log_id": "AUDIT-A4349D2A",
+    "problem_id": "JH-CHLG-2026-1004",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1004",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.87,
+      "keywords": [
+        "broken",
+        "water",
+        "management",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Chatra with 87% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:21:36.633448"
+    },
+    "confidence": 0.87,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:21:36.633448"
+  },
+  {
+    "log_id": "AUDIT-3C2BCF03",
+    "problem_id": "JH-CHLG-2026-1004",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1004",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "High",
+      "confidence": 0.87,
+      "keywords": [
+        "broken",
+        "water",
+        "management",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Chatra with 87% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:57:37.749537"
+    },
+    "confidence": 0.87,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:57:37.750674"
+  },
+  {
+    "log_id": "AUDIT-C31FD21A",
+    "problem_id": "JH-CHLG-2026-1001",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "multimodal",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1001",
+      "domain": "Water Management & Drainage",
+      "category": "Drinking Water Contamination",
+      "urgency": "Critical",
+      "confidence": 0.85,
+      "keywords": [
+        "water",
+        "drinking",
+        "rural",
+        "village",
+        "residents",
+        "quality",
+        "unsafe",
+        "are"
+      ],
+      "missing_information": [
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Ranchi with 85% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": {
+        "status": "REAL",
+        "confidence": 0.85,
+        "model_name": "CivicForensics-MultiSignal-v2.1",
+        "model_version": "2.1.0",
+        "is_acceptable_evidence": true,
+        "rejection_reason": null,
+        "forensic_signals": {
+          "high_freq_energy": 136.6764,
+          "mid_freq_energy": 175.7661,
+          "freq_ratio": 0.7776,
+          "color_variance": 4198.1942
+        },
+        "checked_at": "2026-09-23T09:58:52.968180"
+      },
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T09:58:54.417836"
+    },
+    "confidence": 0.85,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T09:58:54.417836"
+  },
+  {
+    "log_id": "AUDIT-BDCE17F9",
+    "problem_id": "JH-CHLG-2026-1005",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1005",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Medium",
+      "confidence": 0.36,
+      "keywords": [
+        "leakage",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues",
+        "immediately",
+        "without"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": true,
+      "verification_recommendation": "Possible duplicate",
+      "verification_reason": "High similarity match found with problem JH-CHLG-2026-1004 (76%).",
+      "duplicate_candidates": [
+        {
+          "problem_id": "JH-CHLG-2026-1004",
+          "problem_title": "broken water management",
+          "similarity": 0.76,
+          "reason": "High semantic similarity (76%). ",
+          "geographical_distance_km": 181.3
+        }
+      ],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T10:47:44.458873"
+    },
+    "confidence": 0.36,
+    "recommendation": "Possible duplicate",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T10:47:44.459972"
+  },
+  {
+    "log_id": "AUDIT-5A726FB5",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Medium",
+      "confidence": 0.76,
+      "keywords": [
+        "water",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues",
+        "immediately",
+        "without"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Simdega with 76% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T11:38:05.895243"
+    },
+    "confidence": 0.76,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T11:38:05.896243"
+  },
+  {
+    "log_id": "AUDIT-F99A5C98",
+    "problem_id": "JH-CHLG-2026-1003",
+    "model_name": "CivicOrchestrator-v2",
+    "model_version": "2.0.0",
+    "input_type": "text",
+    "prediction": {
+      "problem_id": "JH-CHLG-2026-1003",
+      "domain": "Water Management & Drainage",
+      "category": "Pipeline Leakage",
+      "urgency": "Medium",
+      "confidence": 0.86,
+      "keywords": [
+        "water",
+        "citizens",
+        "can",
+        "report",
+        "civic",
+        "issues",
+        "immediately",
+        "without"
+      ],
+      "missing_information": [
+        "Estimated affected population or number of households",
+        "Duration of the issue"
+      ],
+      "needs_human_review": false,
+      "verification_recommendation": "Recommended for verification",
+      "verification_reason": "Verified genuine complaint in Simdega with 86% AI confidence and valid evidence.",
+      "duplicate_candidates": [],
+      "image_authenticity": null,
+      "multimodal_conflict": false,
+      "model_version": "XLM-RoBERTa-CivicConnect-Master-v3.2",
+      "analysis_status": "COMPLETED",
+      "analyzed_at": "2026-09-23T11:38:30.549691"
+    },
+    "confidence": 0.86,
+    "recommendation": "Recommended for verification",
+    "human_decision": "Pending Admin Review",
+    "timestamp": "2026-09-23T11:38:30.549691"
   }
 ]

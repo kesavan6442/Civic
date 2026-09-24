@@ -645,8 +645,8 @@ export const UniversityAuth = ({ onLoginSuccess, onBackToLanding }) => {
               {/* Seed Demo Account Helper Box */}
               <div style={{ marginTop: '18px', background: '#F8FAF9', border: '1.5px solid #E5E7EB', borderRadius: '10px', padding: '12px 14px', fontSize: '0.8rem', color: '#4B5563' }}>
                 <strong style={{ color: '#024D24', display: 'block', marginBottom: '4px' }}>🏛️ Verified Institutional Accounts:</strong>
-                <div style={{ margin: '2px 0' }}>• Agri Institute: <code>agri.university@test.civicconnect.in</code> | Pass: <code>Uni@12345</code></div>
-                <div style={{ margin: '2px 0' }}>• Health Institute: <code>health.university@test.civicconnect.in</code> | Pass: <code>Uni@12345</code></div>
+                <div style={{ margin: '2px 0' }}>• Agri Institute: <code>agri.university@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
+                <div style={{ margin: '2px 0' }}>• Health Institute: <code>health.university@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0', opacity: 0.85 }}>• CUJ Ranchi: <code>civic.lab@cuj.ac.in</code> | Pass: <code>admin123</code></div>
               </div>
 

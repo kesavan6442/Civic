@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net" modified="2026-09-24T15:05:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="CivicConnect-Arch" name="CivicConnect Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="CivicConnect - Simple Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0F2C59;" vertex="1" parent="1">
+          <mxGeometry x="300" y="30" width="500" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- Box 1: User Portals & Auth -->
+        <mxCell id="box1" value="&lt;b&gt;1. User Portals &amp;amp; Auth&lt;/b&gt;&lt;br/&gt;&lt;hr style=&quot;border: 0.5px solid #d4a373;&quot;/&gt;• Citizen &amp;amp; Stakeholder Login (JWT)&lt;br/&gt;• Problem &amp;amp; Photo Submission" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF08A;strokeColor=#EAB308;strokeWidth=2;fontSize=13;fontColor=#713F12;align=left;spacingLeft=15;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Box 2: Centralized Backend Server -->
+        <mxCell id="box2" value="&lt;b&gt;2. Centralized Backend Server&lt;/b&gt;&lt;br/&gt;&lt;hr style=&quot;border: 0.5px solid #ea580c;&quot;/&gt;• Spring Boot 3.4 REST API&lt;br/&gt;• Role-Based Access Control (RBAC)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FED7AA;strokeColor=#EA580C;strokeWidth=2;fontSize=13;fontColor=#7C2D12;align=left;spacingLeft=15;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="120" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Box 3: AI Verification & NLP -->
+        <mxCell id="box3" value="&lt;b&gt;3. AI Verification &amp;amp; NLP&lt;/b&gt;&lt;br/&gt;&lt;hr style=&quot;border: 0.5px solid #0284c7;&quot;/&gt;• ELA Photo Authenticity Check&lt;br/&gt;• Multilingual NLP &amp;amp; Deduplication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BAE6FD;strokeColor=#0284C7;strokeWidth=2;fontSize=13;fontColor=#0369A1;align=left;spacingLeft=15;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="290" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Box 4: AI & MCP Decision Engine -->
+        <mxCell id="box4" value="&lt;b&gt;4. AI &amp;amp; MCP Decision Engine&lt;/b&gt;&lt;br/&gt;&lt;hr style=&quot;border: 0.5px solid #7c3aed;&quot;/&gt;• University R&amp;amp;D &amp;amp; CSR Matchmaking&lt;br/&gt;• MCP Decision Support (72 Tools)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DDD6FE;strokeColor=#7C3AED;strokeWidth=2;fontSize=13;fontColor=#5B21B6;align=left;spacingLeft=15;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="460" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Box 5: Output & Resolution -->
+        <mxCell id="box5" value="&lt;b&gt;5. Output: Resolved Civic Issue&lt;/b&gt;&lt;br/&gt;&lt;hr style=&quot;border: 0.5px solid #c2410c;&quot;/&gt;• SLA Milestone Tracking&lt;br/&gt;• Verified Problem Resolution" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#C2410C;strokeWidth=2;fontSize=13;fontColor=#9A3412;align=left;spacingLeft=15;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="460" y="630" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Connecting Arrows -->
+        <!-- Box 1 -> Box 2 -->
+        <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box1" target="box2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Box 2 -> Box 3 -->
+        <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box2" target="box3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Box 3 -> Box 4 -->
+        <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box3" target="box4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Box 4 -> Box 5 -->
+        <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box4" target="box5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

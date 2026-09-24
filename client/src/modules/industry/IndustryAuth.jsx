@@ -490,8 +490,8 @@ export const IndustryAuth = ({ onLoginSuccess, onBackToLanding }) => {
               {/* Seed Demo Account Helper */}
               <div style={{ marginTop: '18px', background: '#F8FAF9', border: '1.5px solid #E5E7EB', borderRadius: '10px', padding: '12px 14px', fontSize: '0.8rem', color: '#4B5563' }}>
                 <strong style={{ color: '#047857', display: 'block', marginBottom: '4px' }}>💼 Verified Corporate Accounts:</strong>
-                <div style={{ margin: '2px 0' }}>• AquaGrid CSR: <code>aquagrid.industry@test.civicconnect.in</code> | Pass: <code>Ind@12345</code></div>
-                <div style={{ margin: '2px 0' }}>• GreenVolt Solar: <code>greenvolt.industry@test.civicconnect.in</code> | Pass: <code>Ind@12345</code></div>
+                <div style={{ margin: '2px 0' }}>• AquaGrid CSR: <code>aquagrid.industry@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
+                <div style={{ margin: '2px 0' }}>• GreenVolt Solar: <code>greenvolt.industry@test.civicconnect.in</code> | Pass: <code>admin123</code></div>
                 <div style={{ margin: '2px 0', opacity: 0.85 }}>• Tata Steel CSR: <code>csr@tatasteel.com</code> | Pass: <code>admin123</code></div>
               </div>
 

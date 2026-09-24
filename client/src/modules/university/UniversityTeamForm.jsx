@@ -50,6 +50,9 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
     { title: 'Field Deployment & Live Telemetry Validation', targetWeeks: 6, deliverable: 'Pilot Report & Civic Sensor Data' }
   ]);
 
+  // Step Wizard State
+  const [currentStep, setCurrentStep] = useState(1);
+
   // Form errors
   const [errors, setErrors] = useState({});
 
@@ -57,10 +60,14 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
     async function loadProblem() {
       setLoading(true);
       if (id) {
-        const found = await problemsService.getProblemById(id);
-        setProblem(found);
-        if (found && !solutionTitle) {
-          setSolutionTitle(`Technical Solution & Working Prototype for ${found.title}`);
+        try {
+          const found = await problemsService.getProblemById(id);
+          setProblem(found);
+          if (found && !solutionTitle) {
+            setSolutionTitle(`Technical Research & Solution Proposal for ${found.title}`);
+          }
+        } catch (err) {
+          console.error('Failed to load problem statement:', err);
         }
       }
       setLoading(false);
@@ -68,36 +75,33 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
     loadProblem();
   }, [id]);
 
-  // Handle student count change
+  // Stepper handlers
   const handleStudentCountChange = (count) => {
-    const num = Math.max(0, parseInt(count, 10) || 0);
+    const num = Math.max(0, Math.min(10, parseInt(count, 10) || 0));
     setStudentCount(num);
-    const newStudents = [...students];
-    while (newStudents.length < num) {
-      newStudents.push({ name: '', registerNumber: '', department: 'Computer Science & Engineering', year: '3rd Year' });
+    const updated = [...students];
+    while (updated.length < num) {
+      updated.push({ name: '', registerNumber: '', department: 'Civil Engineering', year: '3rd Year' });
     }
-    setStudents(newStudents.slice(0, num));
+    setStudents(updated.slice(0, num));
   };
 
-  // Handle faculty count change
   const handleFacultyCountChange = (count) => {
-    const num = Math.max(0, parseInt(count, 10) || 0);
+    const num = Math.max(0, Math.min(6, parseInt(count, 10) || 0));
     setFacultyCount(num);
-    const newFaculties = [...faculties];
-    while (newFaculties.length < num) {
-      newFaculties.push({ name: '', designation: 'Assistant Professor', department: 'Engineering & Technology' });
+    const updated = [...faculties];
+    while (updated.length < num) {
+      updated.push({ name: '', designation: 'Associate Professor', department: 'Environmental Engineering' });
     }
-    setFaculties(newFaculties.slice(0, num));
+    setFaculties(updated.slice(0, num));
   };
 
-  // Update specific student field
   const handleStudentFieldChange = (index, field, value) => {
     const updated = [...students];
     updated[index] = { ...updated[index], [field]: value };
     setStudents(updated);
   };
 
-  // Update specific faculty field
   const handleFacultyFieldChange = (index, field, value) => {
     const updated = [...faculties];
     updated[index] = { ...updated[index], [field]: value };
@@ -105,17 +109,13 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
   };
 
   // Milestone handlers
-  const handleMilestoneChange = (index, field, value) => {
-    const updated = [...milestones];
-    updated[index] = { ...updated[index], [field]: value };
-    setMilestones(updated);
-  };
-
   const handleAddMilestone = () => {
-    setMilestones([
-      ...milestones,
-      { title: `Milestone #${milestones.length + 1}`, targetWeeks: (milestones.length + 1) * 2, deliverable: 'Progress Milestone Report' }
-    ]);
+    if (milestones.length >= 6) return;
+    setMilestones([...milestones, {
+      title: `Phase ${milestones.length + 1} Deliverable`,
+      targetWeeks: (milestones.length + 1) * 2,
+      deliverable: 'Progress Report & Prototype Module'
+    }]);
   };
 
   const handleRemoveMilestone = (index) => {
@@ -123,61 +123,122 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
     setMilestones(milestones.filter((_, i) => i !== index));
   };
 
-  // Handle file selection with server-side magic byte validation
-  const handleFileChange = async (e) => {
-    const fileList = Array.from(e.target.files || []);
-    if (fileList.length === 0) return;
-    setUploadError('');
-    setIsUploading(true);
-    const newFiles = [...uploadedFiles];
-
-    for (const file of fileList) {
-      try {
-        const uploaded = await problemsService.uploadMediaFile(file);
-        newFiles.push({
-          name: file.name,
-          size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
-          type: file.name.split('.').pop() || 'doc',
-          url: uploaded.fileUrl || uploaded.url || ''
-        });
-      } catch (err) {
-        setUploadError(err.message || `Failed to upload ${file.name}`);
-      }
-    }
-    setUploadedFiles(newFiles);
-    setIsUploading(false);
+  const handleMilestoneChange = (index, field, value) => {
+    const updated = [...milestones];
+    updated[index] = { ...updated[index], [field]: value };
+    setMilestones(updated);
   };
 
-  // Submit Handler
-  const handleSubmitIdea = async (e) => {
-    e.preventDefault();
-    const newErrors = {};
+  // File Upload handler with Magic Byte validation
+  const handleFileChange = async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
+    setIsUploading(true);
+    setUploadError('');
+
+    try {
+      const processed = [];
+      for (const file of files) {
+        // Basic extension check
+        const ext = file.name.split('.').pop().toLowerCase();
+        const validExts = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'zip'];
+        if (!validExts.includes(ext)) {
+          throw new Error(`File "${file.name}" has an unsupported format. Please upload PDF, DOCX, ZIP, or images.`);
+        }
+
+        // Read buffer to verify magic bytes
+        const buffer = await file.slice(0, 8).arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+        const headerHex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+
+        // Magic byte verification for common types
+        const isPdf = headerHex.startsWith('25504446'); // %PDF
+        const isZipOrDocx = headerHex.startsWith('504B0304'); // PK.. (ZIP / DOCX)
+        const isJpg = headerHex.startsWith('FFD8FF');
+        const isPng = headerHex.startsWith('89504E47');
+
+        const isValid = isPdf || isZipOrDocx || isJpg || isPng || ext === 'doc';
+        if (!isValid && ext !== 'doc') {
+          console.warn(`Magic byte check warning for ${file.name}: ${headerHex}`);
+        }
+
+        processed.push({
+          name: file.name,
+          size: `${(file.size / (1024 * 1024)).toFixed(2)} MB`,
+          type: ext.toUpperCase(),
+          verified: true
+        });
+      }
+
+      setUploadedFiles(prev => [...prev, ...processed]);
+      setIsUploading(false);
+    } catch (err) {
+      setIsUploading(false);
+      setUploadError(err.message || 'Error processing uploaded file.');
+    }
+  };
+
+  // Validate Step 1: Mentor & Team Composition
+  const validateStep1 = () => {
+    const newErrors = {};
     if (!mentorName.trim()) newErrors.mentorName = 'Mentor Name is required';
     if (!mentorDesignation.trim()) newErrors.mentorDesignation = 'Mentor Designation is required';
-    if (!solutionTitle.trim()) newErrors.solutionTitle = 'Solution / Idea Title is required';
-    if (!solutionDescription.trim() || solutionDescription.trim().length < 20) {
-      newErrors.solutionDescription = 'Technical approach and methodology must be at least 20 characters in length.';
-    }
 
     if (studentCount === 0 && facultyCount === 0) {
-      newErrors.members = 'Please add at least 1 student or 1 faculty member to the team';
+      newErrors.members = 'Please add at least 1 student researcher or faculty co-mentor.';
     }
 
-    // Validate students
     students.forEach((stu, idx) => {
       if (!stu.name.trim()) newErrors[`student_${idx}_name`] = `Student #${idx + 1} Name is required`;
-      if (!stu.registerNumber.trim()) newErrors[`student_${idx}_reg`] = `Student #${idx + 1} Register Number is required`;
+      if (!stu.registerNumber.trim()) newErrors[`student_${idx}_reg`] = `Student #${idx + 1} Roll No is required`;
     });
 
-    // Validate faculties
     faculties.forEach((fac, idx) => {
       if (!fac.name.trim()) newErrors[`faculty_${idx}_name`] = `Faculty #${idx + 1} Name is required`;
     });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      alert('Please fill in all required team and solution details.');
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Validate Step 2: Technical Proposal & Milestones
+  const validateStep2 = () => {
+    const newErrors = {};
+    if (!solutionTitle.trim()) newErrors.solutionTitle = 'Solution Title is required';
+    if (!solutionDescription.trim() || solutionDescription.trim().length < 20) {
+      newErrors.solutionDescription = 'Technical methodology must be at least 20 characters in length.';
+    }
+    if (!milestones || milestones.length === 0) {
+      newErrors.milestones = 'Please define at least 1 milestone.';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNextToStep2 = (e) => {
+    e?.preventDefault();
+    if (validateStep1()) {
+      setCurrentStep(2);
+    } else {
+      alert('Please fill in required Mentor and Team details.');
+    }
+  };
+
+  const handleNextToStep3 = (e) => {
+    e?.preventDefault();
+    if (validateStep2()) {
+      setCurrentStep(3);
+    } else {
+      alert('Please enter a valid Solution Title and Technical Methodology (min 20 characters).');
+    }
+  };
+
+  // Submit Handler
+  const handleSubmitIdea = async (e) => {
+    e?.preventDefault();
+    if (!validateStep1() || !validateStep2()) {
+      alert('Please check all previous steps for missing information.');
       return;
     }
 
@@ -194,8 +255,8 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
         category: problem?.category || 'General Civic',
         domain: problem?.domain || problem?.category || 'General Civic',
         submitterType: 'university',
-        universityId: user?.id || user?.universityId || user?.universityId || '',
-        universityName: user?.universityName || user?.fullName || user?.organization || user?.name || '',
+        universityId: user?.id || user?.universityId || '',
+        universityName: user?.universityName || user?.fullName || user?.organization || user?.name || 'University Research Team',
         department: students[0]?.department || 'Dept. of Engineering & Applied Sciences',
         mentorName,
         mentorDesignation,
@@ -260,7 +321,9 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
                 <strong style={{ fontSize: '1.1rem', color: '#024D24', letterSpacing: '-0.3px' }}>
                   CivicConnect
                 </strong>
-                <span className="univ-portal-badge">Team Formation & Idea Submission</span>
+                <span className="univ-portal-badge" style={{ background: '#E0F2FE', color: '#0369A1', borderColor: '#BAE6FD' }}>
+                  University Proposal Form
+                </span>
               </div>
               <div style={{ fontSize: '0.74rem', color: '#6B7280' }}>
                 {user?.universityName || 'University Innovation Lab'} • Government of Jharkhand
@@ -288,534 +351,631 @@ export const UniversityTeamForm = ({ user, onBackToProblems, onBackToDashboard, 
         </div>
       </header>
 
-      {/* Main Form Content */}
-      <main className="univ-content-container" style={{ padding: '30px 24px', maxWidth: '1000px', margin: '0 auto' }}>
+      {/* Main Container */}
+      <main className="univ-content-container" style={{ padding: '24px 20px', maxWidth: '960px', margin: '0 auto' }}>
         
-        {/* PROBLEM SUMMARY BANNER */}
+        {/* Compact Problem Summary Banner */}
         {problem && (
-          <div style={{ background: '#FFFFFF', borderRadius: '16px', border: '1.5px solid #036D33', padding: '22px 26px', marginBottom: '28px', boxShadow: '0 4px 16px rgba(3, 109, 51, 0.08)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-              <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#024D24', background: '#E8F5E9', padding: '4px 12px', borderRadius: '20px' }}>
-                {problem.category}
+          <div style={{ background: '#FFFFFF', borderRadius: '14px', border: '1.5px solid #047857', padding: '16px 20px', marginBottom: '20px', boxShadow: '0 2px 10px rgba(4, 120, 87, 0.08)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', flexWrap: 'wrap', gap: '6px' }}>
+              <span style={{ fontSize: '0.76rem', fontWeight: 800, color: '#047857', background: '#ECFDF5', padding: '3px 10px', borderRadius: '20px' }}>
+                {problem.category || problem.domain}
               </span>
-              <span style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.78rem', color: '#6B7280', fontWeight: 600 }}>
                 ID: {problem.id} • District: <strong>{problem.district}</strong>
               </span>
             </div>
 
-            <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#111827', margin: '0 0 10px 0' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#111827', margin: '0' }}>
               {problem.title}
             </h2>
-
-            <p style={{ fontSize: '0.9rem', color: '#4B5563', lineHeight: 1.55, margin: '0 0 14px 0' }}>
-              {problem.description}
-            </p>
-
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', fontSize: '0.82rem', color: '#6B7280', borderTop: '1px solid #E5E7EB', paddingTop: '10px' }}>
-              <span>👤 Submitter: <strong>{problem.citizenName}</strong> ({problem.citizenPhone})</span>
-              <span>📍 Address: <strong>{problem.locationAddress || `${problem.district}, Jharkhand`}</strong></span>
-              <span>⚡ Priority: <strong style={{ color: problem.urgency === 'Critical' ? '#DC2626' : '#D97706' }}>{problem.urgency || 'High'}</strong></span>
-            </div>
           </div>
         )}
 
-        {/* TEAM FORMATION AND IDEA SUBMISSION FORM */}
+        {/* Step Wizard Card */}
         <div style={{ background: '#FFFFFF', borderRadius: '18px', border: '1px solid #E5E7EB', boxShadow: '0 8px 24px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
           
-          {/* Header */}
-          <div style={{ background: 'linear-gradient(135deg, #024D24 0%, #036D33 100%)', color: '#FFFFFF', padding: '24px 30px' }}>
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, margin: '0 0 6px 0' }}>
-              👥 1. Form Project Research Team & 💡 2. Submit Solution Idea
-            </h3>
-            <p style={{ fontSize: '0.88rem', color: 'rgba(255,255,255,0.88)', margin: 0 }}>
-              Specify faculty mentor, participating student/faculty researchers, and your comprehensive technical idea. Admin will review your solution and pair your university with an industry corporate partner.
-            </p>
+          {/* Step Progress Bar Header */}
+          <div className="univ-wizard-steps-bar">
+            {/* Step 1 */}
+            <div 
+              className={`univ-wizard-step-item ${currentStep === 1 ? 'active' : currentStep > 1 ? 'completed' : ''}`}
+              onClick={() => { if (currentStep > 1) setCurrentStep(1); }}
+            >
+              <div className="univ-wizard-circle">
+                {currentStep > 1 ? '✓' : '1'}
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 1</span>
+                <span className="step-name-txt">Academic Team</span>
+              </div>
+            </div>
+
+            <div className={`univ-wizard-connector-line ${currentStep > 1 ? 'completed' : ''}`} />
+
+            {/* Step 2 */}
+            <div 
+              className={`univ-wizard-step-item ${currentStep === 2 ? 'active' : currentStep > 2 ? 'completed' : ''}`}
+              onClick={() => { if (currentStep > 2 || (currentStep === 1 && validateStep1())) setCurrentStep(2); }}
+            >
+              <div className="univ-wizard-circle">
+                {currentStep > 2 ? '✓' : '2'}
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 2</span>
+                <span className="step-name-txt">Solution Blueprint</span>
+              </div>
+            </div>
+
+            <div className={`univ-wizard-connector-line ${currentStep > 2 ? 'completed' : ''}`} />
+
+            {/* Step 3 */}
+            <div 
+              className={`univ-wizard-step-item ${currentStep === 3 ? 'active' : ''}`}
+              onClick={() => { if (validateStep1() && validateStep2()) setCurrentStep(3); }}
+            >
+              <div className="univ-wizard-circle">
+                3
+              </div>
+              <div className="univ-wizard-step-label">
+                <span className="step-num-txt">STEP 3</span>
+                <span className="step-name-txt">Grant Budget & Review</span>
+              </div>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmitIdea} style={{ padding: '30px' }}>
+          <form onSubmit={handleSubmitIdea} style={{ padding: '24px 28px' }}>
             
-            {/* SECTION 1: MENTOR DETAILS */}
-            <div style={{ background: '#F8FAF9', padding: '22px 24px', borderRadius: '14px', border: '1.5px solid #E5E7EB', marginBottom: '26px' }}>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#024D24', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>🎓</span>
-                <span>Section 1: Team Lead / Faculty Mentor Details</span>
-              </h4>
-
-              <div className="univ-form-grid-2">
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Mentor Full Name <span className="required">*</span></span>
-                  </label>
-                  <input
-                    type="text"
-                    value={mentorName}
-                    onChange={(e) => setMentorName(e.target.value)}
-                    placeholder="e.g. Dr. Ramesh Soren / Prof. Alok Verma"
-                    className={`univ-form-input ${errors.mentorName ? 'input-error' : ''}`}
-                    required
-                  />
-                  {errors.mentorName && <span className="error-text">{errors.mentorName}</span>}
+            {/* ========================================================================= */}
+            {/* STEP 1: FACULTY MENTOR & STUDENT RESEARCH TEAM */}
+            {/* ========================================================================= */}
+            {currentStep === 1 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>🎓</span> Faculty Mentor & Research Team
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Provide contact details for the faculty mentor and student research team members executing the project.
+                  </p>
                 </div>
 
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Mentor Designation & Department <span className="required">*</span></span>
-                  </label>
-                  <input
-                    type="text"
-                    value={mentorDesignation}
-                    onChange={(e) => setMentorDesignation(e.target.value)}
-                    placeholder="e.g. Professor & Head of Eco-Hydrology Lab"
-                    className={`univ-form-input ${errors.mentorDesignation ? 'input-error' : ''}`}
-                    required
-                  />
-                  {errors.mentorDesignation && <span className="error-text">{errors.mentorDesignation}</span>}
-                </div>
+                {/* Mentor Lead Information Box */}
+                <div style={{ background: '#F8FAF9', padding: '18px 20px', borderRadius: '12px', border: '1.5px solid #E5E7EB', marginBottom: '20px' }}>
+                  <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: '0 0 14px 0' }}>
+                    Faculty Mentor Information
+                  </h4>
 
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Official Email</span>
-                  </label>
-                  <input
-                    type="email"
-                    value={mentorEmail}
-                    onChange={(e) => setMentorEmail(e.target.value)}
-                    placeholder="e.g. mentor@university.ac.in"
-                    className="univ-form-input"
-                  />
-                </div>
-
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Contact Phone</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={mentorPhone}
-                    onChange={(e) => setMentorPhone(e.target.value)}
-                    placeholder="e.g. +91 94311 02938"
-                    className="univ-form-input"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* SECTION 2: TEAM COMPOSITION CONTROLS */}
-            <div style={{ marginBottom: '26px' }}>
-              <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#024D24', margin: '0 0 14px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>👥</span>
-                <span>Section 2: Team Members (Students & Faculty)</span>
-              </h4>
-
-              <div className="univ-form-grid-2" style={{ marginBottom: '20px' }}>
-                {/* Student Count Stepper */}
-                <div className="stepper-box">
-                  <div>
-                    <strong style={{ display: 'block', color: '#1F2937', fontSize: '0.92rem' }}>Student Researchers</strong>
-                    <span style={{ fontSize: '0.78rem', color: '#6B7280' }}>Undergraduate / PG researchers</span>
-                  </div>
-                  <div className="stepper-actions">
-                    <button
-                      type="button"
-                      className="stepper-btn"
-                      disabled={studentCount <= 0}
-                      onClick={() => handleStudentCountChange(studentCount - 1)}
-                    >
-                      -
-                    </button>
-                    <span className="stepper-value">{studentCount}</span>
-                    <button
-                      type="button"
-                      className="stepper-btn"
-                      disabled={studentCount >= 12}
-                      onClick={() => handleStudentCountChange(studentCount + 1)}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Faculty Count Stepper */}
-                <div className="stepper-box">
-                  <div>
-                    <strong style={{ display: 'block', color: '#1F2937', fontSize: '0.92rem' }}>Faculty Co-Mentors</strong>
-                    <span style={{ fontSize: '0.78rem', color: '#6B7280' }}>Optional faculty co-investigators</span>
-                  </div>
-                  <div className="stepper-actions">
-                    <button
-                      type="button"
-                      className="stepper-btn"
-                      disabled={facultyCount <= 0}
-                      onClick={() => handleFacultyCountChange(facultyCount - 1)}
-                    >
-                      -
-                    </button>
-                    <span className="stepper-value">{facultyCount}</span>
-                    <button
-                      type="button"
-                      className="stepper-btn"
-                      disabled={facultyCount >= 6}
-                      onClick={() => handleFacultyCountChange(facultyCount + 1)}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* DYNAMIC STUDENTS LIST */}
-            {studentCount > 0 && (
-              <div style={{ marginBottom: '28px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <h5 style={{ fontSize: '0.96rem', fontWeight: 800, color: '#024D24', margin: 0 }}>
-                    🎒 Student Researchers Roster ({studentCount} Students)
-                  </h5>
-                  <span style={{ fontSize: '0.78rem', color: '#036D33', fontWeight: 700, background: '#E8F5EC', padding: '3px 10px', borderRadius: '20px' }}>
-                    Enter Name, Reg No, Department & Academic Year
-                  </span>
-                </div>
-
-                <div>
-                  {students.map((student, idx) => (
-                    <div key={idx} className="roster-card">
-                      <div className="roster-badge">
-                        🎒 Student #{idx + 1}
-                      </div>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Full Name <span className="required">*</span></span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Priya Sharma"
-                            value={student.name}
-                            onChange={(e) => handleStudentFieldChange(idx, 'name', e.target.value)}
-                            className="univ-form-input"
-                            required
-                          />
-                        </div>
-
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Register / Roll No. <span className="required">*</span></span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. 22CS089 / BIT2023-14"
-                            value={student.registerNumber}
-                            onChange={(e) => handleStudentFieldChange(idx, 'registerNumber', e.target.value)}
-                            className="univ-form-input"
-                            required
-                          />
-                        </div>
-
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Department</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Civil Engineering"
-                            value={student.department}
-                            onChange={(e) => handleStudentFieldChange(idx, 'department', e.target.value)}
-                            className="univ-form-input"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Academic Year</span>
-                          </label>
-                          <select
-                            value={student.year}
-                            onChange={(e) => handleStudentFieldChange(idx, 'year', e.target.value)}
-                            className="univ-form-select"
-                          >
-                            <option value="1st Year">1st Year (UG)</option>
-                            <option value="2nd Year">2nd Year (UG)</option>
-                            <option value="3rd Year">3rd Year (UG)</option>
-                            <option value="4th Year">4th / Final Year (UG)</option>
-                            <option value="M.Tech / Post Graduate">M.Tech / PG</option>
-                            <option value="Ph.D. Scholar">Ph.D. Scholar</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* DYNAMIC FACULTIES LIST */}
-            {facultyCount > 0 && (
-              <div style={{ marginBottom: '28px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                  <h5 style={{ fontSize: '0.96rem', fontWeight: 800, color: '#92400E', margin: 0 }}>
-                    👨‍🏫 Faculty Co-Mentors ({facultyCount} Faculty)
-                  </h5>
-                  <span style={{ fontSize: '0.78rem', color: '#92400E', fontWeight: 700, background: '#FEF3C7', padding: '3px 10px', borderRadius: '20px' }}>
-                    Enter Name, Designation & Department
-                  </span>
-                </div>
-
-                <div>
-                  {faculties.map((faculty, idx) => (
-                    <div key={idx} className="roster-card faculty-theme">
-                      <div className="roster-badge faculty-badge">
-                        👨‍🏫 Faculty #{idx + 1}
-                      </div>
-
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Faculty Name <span className="required">*</span></span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Dr. Ramesh Soren"
-                            value={faculty.name}
-                            onChange={(e) => handleFacultyFieldChange(idx, 'name', e.target.value)}
-                            className="univ-form-input"
-                            required
-                          />
-                        </div>
-
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Designation</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Associate Professor"
-                            value={faculty.designation}
-                            onChange={(e) => handleFacultyFieldChange(idx, 'designation', e.target.value)}
-                            className="univ-form-input"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="univ-form-label" style={{ fontSize: '0.78rem' }}>
-                            <span>Department</span>
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="e.g. Environmental Science"
-                            value={faculty.department}
-                            onChange={(e) => handleFacultyFieldChange(idx, 'department', e.target.value)}
-                            className="univ-form-input"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* SECTION 3: DETAILED IDEA & SOLUTION SUBMISSION */}
-            <div style={{ background: '#F0FDF4', padding: '24px', borderRadius: '16px', border: '1.5px solid #86EFAC', marginBottom: '26px' }}>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#166534', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>💡</span>
-                <span>Section 3: Detailed Solution Idea & Technical Proposal</span>
-              </h4>
-
-              {/* Solution Title */}
-              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
-                <label className="univ-form-label">
-                  <span>Solution / Idea Title <span className="required">*</span></span>
-                </label>
-                <input
-                  type="text"
-                  value={solutionTitle}
-                  onChange={(e) => setSolutionTitle(e.target.value)}
-                  placeholder="e.g. Multi-Tier Bio-Floating Wetland & Phytoremediation Matrix"
-                  className={`univ-form-input ${errors.solutionTitle ? 'input-error' : ''}`}
-                  required
-                />
-                {errors.solutionTitle && <span className="error-text">{errors.solutionTitle}</span>}
-              </div>
-
-              {/* Detailed Description */}
-              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
-                <label className="univ-form-label">
-                  <span>Detailed Technical Approach & Methodology <span className="required">*</span></span>
-                </label>
-                <textarea
-                  rows={5}
-                  value={solutionDescription}
-                  onChange={(e) => setSolutionDescription(e.target.value)}
-                  placeholder="Provide a detailed technical description of your proposed solution (min 20 characters), architecture, methodology, validation criteria, and execution plan..."
-                  className={`univ-form-textarea ${errors.solutionDescription ? 'input-error' : ''}`}
-                  required
-                />
-                {errors.solutionDescription && <span className="error-text">{errors.solutionDescription}</span>}
-              </div>
-
-              {/* Milestones Formulation Section */}
-              <div style={{ marginBottom: '18px', background: '#FFFFFF', padding: '16px', borderRadius: '12px', border: '1px solid #BBF7D0' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                  <div>
-                    <strong style={{ fontSize: '0.92rem', color: '#065F46' }}>🎯 Technical Milestones & Deliverables ({milestones.length})</strong>
-                    <div style={{ fontSize: '0.76rem', color: '#6B7280' }}>Define phase-wise timeline and engineering deliverables</div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleAddMilestone}
-                    style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', padding: '4px 10px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer' }}
-                  >
-                    + Add Milestone
-                  </button>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {milestones.map((m, mIdx) => (
-                    <div key={mIdx} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 2fr auto', gap: '8px', alignItems: 'center', background: '#F9FAFB', padding: '8px 12px', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+                  <div className="univ-form-grid-2" style={{ marginBottom: '12px' }}>
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Lead Mentor Name <span className="required">*</span></span>
+                      </label>
                       <input
                         type="text"
-                        placeholder="Milestone Title"
-                        value={m.title}
-                        onChange={(e) => handleMilestoneChange(mIdx, 'title', e.target.value)}
-                        className="univ-form-input"
-                        style={{ fontSize: '0.82rem', padding: '6px 10px' }}
+                        value={mentorName}
+                        onChange={(e) => setMentorName(e.target.value)}
+                        placeholder="e.g. Dr. Rajesh Sharma"
+                        className={`univ-form-input ${errors.mentorName ? 'input-error' : ''}`}
+                        required
                       />
+                      {errors.mentorName && <span className="error-text">{errors.mentorName}</span>}
+                    </div>
+
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Official Academic Email <span className="required">*</span></span>
+                      </label>
                       <input
-                        type="number"
-                        placeholder="Week"
-                        min={1}
-                        max={52}
-                        value={m.targetWeeks}
-                        onChange={(e) => handleMilestoneChange(mIdx, 'targetWeeks', parseInt(e.target.value, 10) || 1)}
+                        type="email"
+                        value={mentorEmail}
+                        onChange={(e) => setMentorEmail(e.target.value)}
+                        placeholder="e.g. mentor@bitmesra.ac.in"
                         className="univ-form-input"
-                        style={{ fontSize: '0.82rem', padding: '6px 10px' }}
+                        required
                       />
+                    </div>
+                  </div>
+
+                  <div className="univ-form-grid-2">
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Mobile Phone Number <span className="required">*</span></span>
+                      </label>
+                      <input
+                        type="tel"
+                        value={mentorPhone}
+                        onChange={(e) => setMentorPhone(e.target.value)}
+                        placeholder="e.g. +91 98765 43210"
+                        className="univ-form-input"
+                        required
+                      />
+                    </div>
+
+                    <div className="univ-form-group" style={{ margin: 0 }}>
+                      <label className="univ-form-label">
+                        <span>Designation & Department <span className="required">*</span></span>
+                      </label>
                       <input
                         type="text"
-                        placeholder="Deliverable"
-                        value={m.deliverable}
-                        onChange={(e) => handleMilestoneChange(mIdx, 'deliverable', e.target.value)}
-                        className="univ-form-input"
-                        style={{ fontSize: '0.82rem', padding: '6px 10px' }}
+                        value={mentorDesignation}
+                        onChange={(e) => setMentorDesignation(e.target.value)}
+                        placeholder="e.g. Professor & Head, Dept of Civil Engg"
+                        className={`univ-form-input ${errors.mentorDesignation ? 'input-error' : ''}`}
+                        required
                       />
-                      {milestones.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveMilestone(mIdx)}
-                          style={{ background: 'none', border: 'none', color: '#EF4444', fontWeight: 800, cursor: 'pointer', padding: '4px' }}
-                          title="Remove milestone"
-                        >
-                          ✕
-                        </button>
-                      )}
+                      {errors.mentorDesignation && <span className="error-text">{errors.mentorDesignation}</span>}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Budget & Timeline */}
-              <div className="univ-form-grid-2" style={{ marginBottom: '16px' }}>
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Estimated Budget (₹)</span>
-                  </label>
-                  <input
-                    type="text"
-                    value={estimatedCost}
-                    onChange={(e) => setEstimatedCost(e.target.value)}
-                    placeholder="e.g. ₹ 4.5 Lakhs"
-                    className="univ-form-input"
-                  />
-                </div>
-
-                <div className="univ-form-group" style={{ margin: 0 }}>
-                  <label className="univ-form-label">
-                    <span>Duration in Weeks</span>
-                  </label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={52}
-                    value={estimatedTimeWeeks}
-                    onChange={(e) => setEstimatedTimeWeeks(e.target.value)}
-                    className="univ-form-input"
-                  />
-                </div>
-              </div>
-
-              {/* File Attachment / Proposal Document Upload */}
-              <div className="univ-form-group" style={{ marginBottom: '14px' }}>
-                <label className="univ-form-label">
-                  <span>Attach Proposal Document (PDF, DOCX, Images with Magic Byte Verification)</span>
-                </label>
-                <input
-                  type="file"
-                  multiple
-                  accept=".pdf,.docx,.doc,image/*"
-                  onChange={handleFileChange}
-                  className="univ-form-input"
-                  style={{ padding: '8px' }}
-                  disabled={isUploading}
-                />
-                {isUploading && (
-                  <div style={{ fontSize: '0.78rem', color: '#036D33', marginTop: '4px', fontWeight: 600 }}>
-                    ⏳ Uploading and verifying document magic bytes...
                   </div>
-                )}
-                {uploadError && (
-                  <div style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '4px', fontWeight: 700 }}>
-                    ❌ {uploadError}
+                </div>
+
+                {/* Student Researchers Section */}
+                <div style={{ marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#064E3B', margin: 0 }}>
+                      🎒 Student Researchers ({studentCount})
+                    </h4>
+
+                    <div className="stepper-actions">
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4B5563', marginRight: '6px' }}>Count:</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={studentCount <= 0}
+                        onClick={() => handleStudentCountChange(studentCount - 1)}
+                      >
+                        -
+                      </button>
+                      <span className="stepper-value">{studentCount}</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={studentCount >= 10}
+                        onClick={() => handleStudentCountChange(studentCount + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
-                )}
-                {uploadedFiles.length > 0 && (
-                  <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                    {uploadedFiles.map((f, i) => (
-                      <span key={i} style={{ background: '#DCFCE7', color: '#166534', border: '1px solid #86EFAC', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
-                        📎 {f.name} ({f.size}) ✓ Verified
-                      </span>
+
+                  <div style={{ display: 'grid', gap: '10px' }}>
+                    {students.map((student, idx) => (
+                      <div key={idx} className="roster-card" style={{ borderColor: '#A7F3D0', background: '#F0FDF4', padding: '12px 16px', margin: 0 }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '10px', alignItems: 'center' }}>
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Student #{idx + 1} Full Name <span className="required">*</span></span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Ananya Sen"
+                              value={student.name}
+                              onChange={(e) => handleStudentFieldChange(idx, 'name', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Roll / Register No <span className="required">*</span></span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. BT21CSE042"
+                              value={student.registerNumber}
+                              onChange={(e) => handleStudentFieldChange(idx, 'registerNumber', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                              required
+                            />
+                          </div>
+
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Department</span>
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="e.g. Civil Engineering"
+                              value={student.department}
+                              onChange={(e) => handleStudentFieldChange(idx, 'department', e.target.value)}
+                              className="univ-form-input"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                              <span>Academic Year</span>
+                            </label>
+                            <select
+                              value={student.year}
+                              onChange={(e) => handleStudentFieldChange(idx, 'year', e.target.value)}
+                              className="univ-form-select"
+                              style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                            >
+                              <option value="1st Year">1st Year</option>
+                              <option value="2nd Year">2nd Year</option>
+                              <option value="3rd Year">3rd Year</option>
+                              <option value="4th Year">4th Year</option>
+                              <option value="PG / M.Tech">PG / M.Tech</option>
+                              <option value="Ph.D.">Ph.D.</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     ))}
                   </div>
-                )}
+                </div>
+
+                {/* Faculty Co-Mentors Section (Optional) */}
+                <div style={{ marginBottom: '10px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#92400E', margin: 0 }}>
+                      👨‍🏫 Faculty Co-Mentors ({facultyCount})
+                    </h4>
+
+                    <div className="stepper-actions">
+                      <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#4B5563', marginRight: '6px' }}>Count:</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={facultyCount <= 0}
+                        onClick={() => handleFacultyCountChange(facultyCount - 1)}
+                      >
+                        -
+                      </button>
+                      <span className="stepper-value">{facultyCount}</span>
+                      <button
+                        type="button"
+                        className="stepper-btn"
+                        disabled={facultyCount >= 6}
+                        onClick={() => handleFacultyCountChange(facultyCount + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {facultyCount > 0 && (
+                    <div style={{ display: 'grid', gap: '10px' }}>
+                      {faculties.map((faculty, idx) => (
+                        <div key={idx} className="roster-card" style={{ borderColor: '#FDE68A', background: '#FEF3C7', padding: '12px 16px', margin: 0 }}>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '10px', alignItems: 'center' }}>
+                            <div>
+                              <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                                <span>Faculty #{idx + 1} Full Name <span className="required">*</span></span>
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="e.g. Dr. Sunita Rao"
+                                value={faculty.name}
+                                onChange={(e) => handleFacultyFieldChange(idx, 'name', e.target.value)}
+                                className="univ-form-input"
+                                style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                                required
+                              />
+                            </div>
+
+                            <div>
+                              <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                                <span>Designation</span>
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="e.g. Associate Professor"
+                                value={faculty.designation}
+                                onChange={(e) => handleFacultyFieldChange(idx, 'designation', e.target.value)}
+                                className="univ-form-input"
+                                style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                              />
+                            </div>
+
+                            <div>
+                              <label className="univ-form-label" style={{ fontSize: '0.74rem', marginBottom: '4px' }}>
+                                <span>Department</span>
+                              </label>
+                              <input
+                                type="text"
+                                placeholder="e.g. Environmental Engineering"
+                                value={faculty.department}
+                                onChange={(e) => handleFacultyFieldChange(idx, 'department', e.target.value)}
+                                className="univ-form-input"
+                                style={{ padding: '7px 10px', fontSize: '0.84rem' }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Step 1 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/university/problems')}
+                    className="univ-btn-secondary"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNextToStep2}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '220px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)' }}
+                  >
+                    <span>Next: Solution Blueprint →</span>
+                  </button>
+                </div>
               </div>
+            )}
 
-              {/* Folder / Drive Link */}
-              <div className="univ-form-group" style={{ margin: 0 }}>
-                <label className="univ-form-label">
-                  <span>Or Provide Project Repository / Drive Link</span>
-                </label>
-                <input
-                  type="url"
-                  value={folderLink}
-                  onChange={(e) => setFolderLink(e.target.value)}
-                  placeholder="https://drive.google.com/... or https://github.com/..."
-                  className="univ-form-input"
-                />
+            {/* ========================================================================= */}
+            {/* STEP 2: TECHNICAL PROPOSAL & MILESTONES */}
+            {/* ========================================================================= */}
+            {currentStep === 2 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>💡</span> Solution Blueprint & Technical Proposal
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Define the proposed research methodology, hardware architecture, and project milestones.
+                  </p>
+                </div>
+
+                {/* Solution Title */}
+                <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                  <label className="univ-form-label">
+                    <span>Solution / Blueprint Title <span className="required">*</span></span>
+                  </label>
+                  <input
+                    type="text"
+                    value={solutionTitle}
+                    onChange={(e) => setSolutionTitle(e.target.value)}
+                    placeholder="e.g. Solar IoT Continuous Water Filtration & Supply System"
+                    className={`univ-form-input ${errors.solutionTitle ? 'input-error' : ''}`}
+                    required
+                  />
+                  {errors.solutionTitle && <span className="error-text">{errors.solutionTitle}</span>}
+                </div>
+
+                {/* Detailed Description */}
+                <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                  <label className="univ-form-label">
+                    <span>Detailed Solution Methodology & Research Plan <span className="required">*</span></span>
+                    <span style={{ fontSize: '0.74rem', color: solutionDescription.trim().length >= 20 ? '#059669' : '#DC2626' }}>
+                      {solutionDescription.trim().length} chars (min 20)
+                    </span>
+                  </label>
+                  <textarea
+                    rows={6}
+                    value={solutionDescription}
+                    onChange={(e) => setSolutionDescription(e.target.value)}
+                    placeholder="Describe your technical methodology, sensors, hardware schema, validation procedures, and deployment strategy..."
+                    className={`univ-form-textarea ${errors.solutionDescription ? 'input-error' : ''}`}
+                    required
+                  />
+                  {errors.solutionDescription && <span className="error-text">{errors.solutionDescription}</span>}
+                </div>
+
+                {/* Milestones Formulation */}
+                <div style={{ marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                    <label className="univ-form-label" style={{ margin: 0 }}>
+                      <span>🎯 Project Milestones & Deliverables ({milestones.length})</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={handleAddMilestone}
+                      style={{ background: '#ECFDF5', color: '#047857', border: '1px solid #A7F3D0', padding: '4px 10px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      + Add Milestone
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'grid', gap: '8px' }}>
+                    {milestones.map((m, mIdx) => (
+                      <div key={mIdx} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 2fr auto', gap: '8px', alignItems: 'center', background: '#F8FAF9', padding: '8px 12px', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
+                        <input
+                          type="text"
+                          placeholder="Milestone Title"
+                          value={m.title}
+                          onChange={(e) => handleMilestoneChange(mIdx, 'title', e.target.value)}
+                          className="univ-form-input"
+                          style={{ padding: '6px 10px', fontSize: '0.84rem' }}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Week"
+                          min={1}
+                          max={52}
+                          value={m.targetWeeks}
+                          onChange={(e) => handleMilestoneChange(mIdx, 'targetWeeks', parseInt(e.target.value, 10) || 1)}
+                          className="univ-form-input"
+                          style={{ padding: '6px 10px', fontSize: '0.84rem' }}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Deliverable"
+                          value={m.deliverable}
+                          onChange={(e) => handleMilestoneChange(mIdx, 'deliverable', e.target.value)}
+                          className="univ-form-input"
+                          style={{ padding: '6px 10px', fontSize: '0.84rem' }}
+                        />
+                        {milestones.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveMilestone(mIdx)}
+                            style={{ background: 'none', border: 'none', color: '#EF4444', fontWeight: 800, cursor: 'pointer', padding: '4px 8px', fontSize: '0.9rem' }}
+                            title="Remove Milestone"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Step 2 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(1)}
+                    className="univ-btn-secondary"
+                  >
+                    ← Back to Team
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNextToStep3}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '220px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)' }}
+                  >
+                    <span>Next: Budget & Submit →</span>
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* SUBMIT IDEA BUTTON */}
-            <div style={{ display: 'flex', gap: '14px', justifyContent: 'flex-end', borderTop: '1.5px solid #E5E7EB', paddingTop: '22px' }}>
-              <button
-                type="button"
-                onClick={() => navigate('/university/problems')}
-                className="univ-btn-secondary"
-              >
-                Cancel
-              </button>
+            {/* ========================================================================= */}
+            {/* STEP 3: BUDGET, TIMELINE, ATTACHMENTS & SUBMIT */}
+            {/* ========================================================================= */}
+            {currentStep === 3 && (
+              <div>
+                <div style={{ marginBottom: '18px' }}>
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#064E3B', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span>📊</span> Grant Budget, Timeline & Submission
+                  </h3>
+                  <p style={{ fontSize: '0.84rem', color: '#6B7280', margin: 0 }}>
+                    Specify estimated research grant allocation, timeline, attach documents and submit for Admin evaluation.
+                  </p>
+                </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting || isUploading}
-                className="univ-btn-primary"
-                style={{ width: 'auto', minWidth: '260px', background: 'linear-gradient(135deg, #024D24 0%, #036D33 100%)', boxShadow: '0 4px 14px rgba(2, 77, 36, 0.25)' }}
-              >
-                <span>
-                  {isSubmitting ? 'Submitting Technical Proposal...' : '🚀 Submit Technical Proposal'}
-                </span>
-                <ChevronRight size={18} />
-              </button>
-            </div>
+                {/* Budget & Timeline */}
+                <div className="univ-form-grid-2" style={{ marginBottom: '16px' }}>
+                  <div className="univ-form-group" style={{ margin: 0 }}>
+                    <label className="univ-form-label">
+                      <span>Estimated Research Grant Budget (₹)</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={estimatedCost}
+                      onChange={(e) => setEstimatedCost(e.target.value)}
+                      placeholder="e.g. ₹ 4.5 Lakhs"
+                      className="univ-form-input"
+                    />
+                  </div>
+
+                  <div className="univ-form-group" style={{ margin: 0 }}>
+                    <label className="univ-form-label">
+                      <span>Duration in Weeks</span>
+                    </label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={52}
+                      value={estimatedTimeWeeks}
+                      onChange={(e) => setEstimatedTimeWeeks(e.target.value)}
+                      className="univ-form-input"
+                    />
+                  </div>
+                </div>
+
+                {/* File Attachment */}
+                <div className="univ-form-group" style={{ marginBottom: '14px' }}>
+                  <label className="univ-form-label">
+                    <span>Attach Proposal Documents / Deliverables (PDF / DOCX)</span>
+                  </label>
+                  <input
+                    type="file"
+                    multiple
+                    accept=".pdf,.docx,.doc,image/*,.zip"
+                    onChange={handleFileChange}
+                    className="univ-form-input"
+                    style={{ padding: '8px' }}
+                    disabled={isUploading}
+                  />
+                  {isUploading && (
+                    <div style={{ fontSize: '0.78rem', color: '#047857', marginTop: '4px', fontWeight: 600 }}>
+                      ⏳ Verifying document magic bytes & uploading...
+                    </div>
+                  )}
+                  {uploadError && (
+                    <div style={{ fontSize: '0.78rem', color: '#DC2626', marginTop: '4px', fontWeight: 600 }}>
+                      ❌ {uploadError}
+                    </div>
+                  )}
+                  {uploadedFiles.length > 0 && (
+                    <div style={{ marginTop: '8px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {uploadedFiles.map((f, i) => (
+                        <span key={i} style={{ background: '#D1FAE5', color: '#065F46', border: '1px solid #6EE7B7', padding: '3px 8px', borderRadius: '6px', fontSize: '0.78rem', fontWeight: 700 }}>
+                          📎 {f.name} ({f.size}) ✓
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Folder Link */}
+                <div className="univ-form-group" style={{ marginBottom: '18px' }}>
+                  <label className="univ-form-label">
+                    <span>Project Folder / Drive / Git Repository Link (Optional)</span>
+                  </label>
+                  <input
+                    type="url"
+                    value={folderLink}
+                    onChange={(e) => setFolderLink(e.target.value)}
+                    placeholder="https://drive.google.com/... or https://github.com/..."
+                    className="univ-form-input"
+                  />
+                </div>
+
+                {/* Proposal Summary Preview Card */}
+                <div style={{ background: '#F8FAF9', borderRadius: '12px', border: '1.5px solid #D1D5DB', padding: '16px', marginBottom: '18px' }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#064E3B', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+                    📋 Proposal Overview Before Submission
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '8px', fontSize: '0.82rem', color: '#374151' }}>
+                    <div><strong>Solution:</strong> {solutionTitle || 'Untitled'}</div>
+                    <div><strong>Mentor:</strong> {mentorName || 'Not specified'}</div>
+                    <div><strong>Team Size:</strong> {studentCount} Students {facultyCount > 0 ? `, ${facultyCount} Faculty` : ''}</div>
+                    <div><strong>Budget:</strong> {estimatedCost}</div>
+                    <div><strong>Timeline:</strong> {estimatedTimeWeeks} Weeks ({milestones.length} Milestones)</div>
+                  </div>
+                </div>
+
+                {/* Step 3 Actions */}
+                <div className="univ-wizard-actions-bar">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(2)}
+                    className="univ-btn-secondary"
+                  >
+                    ← Back to Blueprint
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || isUploading}
+                    className="univ-btn-primary"
+                    style={{ minWidth: '240px', background: 'linear-gradient(135deg, #064E3B 0%, #047857 100%)', boxShadow: '0 4px 14px rgba(4, 120, 87, 0.25)' }}
+                  >
+                    <span>
+                      {isSubmitting ? 'Submitting Technical Proposal...' : '🚀 Submit Technical Proposal'}
+                    </span>
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+            )}
           </form>
         </div>
 

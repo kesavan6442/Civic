@@ -240,14 +240,23 @@ public class AdminController {
         collab.setId("COLLAB-" + System.currentTimeMillis());
         collab.setProblemId((String) payload.get("problemId"));
         collab.setProblemTitle((String) payload.get("problemTitle"));
+        collab.setDomain((String) payload.get("domain"));
+        collab.setCategory((String) payload.get("category"));
         collab.setUniversityId((String) payload.get("universityId"));
         collab.setUniversityName((String) payload.get("universityName"));
-        collab.setIndustryId((String) payload.get("companyId"));
-        collab.setCompanyName((String) payload.get("companyName"));
+        
+        String indId = (String) payload.get("industryId");
+        if (indId == null) indId = (String) payload.get("companyId");
+        collab.setIndustryId(indId);
+
+        String compName = (String) payload.get("companyName");
+        if (compName == null) compName = (String) payload.get("industryName");
+        collab.setCompanyName(compName);
+
         collab.setFundingAmount("CSR Co-Funding Sanctioned");
         collab.setStatus("Active Collaboration");
         collab.setSolutionStatus("In Progress");
-        collab.setCollaborationDate(java.time.LocalDate.now().toString());
+        collab.setCollaboratedDate(java.time.LocalDate.now().toString());
 
         Collaboration saved = collaborationRepository.save(collab);
 
@@ -255,8 +264,16 @@ public class AdminController {
             Problem p = problemRepository.findById(collab.getProblemId()).orElse(null);
             if (p != null) {
                 p.setStatus("Currently Working");
+                p.setApprovalStatus("COLLABORATION_APPROVED");
                 p.setAdoptedByUniversity(collab.getUniversityName());
                 p.setAdoptedByIndustry(collab.getCompanyName());
+                Map<String, Object> assigned = new HashMap<>();
+                assigned.put("universityId", collab.getUniversityId());
+                assigned.put("universityName", collab.getUniversityName());
+                assigned.put("industryId", collab.getIndustryId());
+                assigned.put("companyName", collab.getCompanyName());
+                assigned.put("assignedDate", java.time.LocalDate.now().toString());
+                p.setAssignedTo(assigned);
                 problemRepository.save(p);
             }
         }
@@ -934,9 +951,9 @@ public class AdminController {
 
         String universityProposalId = (String) payload.get("universityProposalId");
         String industryProposalId = (String) payload.get("industryProposalId");
-        String universityId = (String) payload.get("universityId");
-        String industryId = (String) payload.get("industryId");
-        String adminDecisionNotes = (String) payload.getOrDefault("decisionNotes", "Approved optimal University + Industry hybrid collaboration");
+        final String universityId = payload.get("universityId") != null ? (String) payload.get("universityId") : (String) payload.get("selectedUniversityId");
+        final String industryId = payload.get("industryId") != null ? (String) payload.get("industryId") : (String) payload.get("selectedIndustryId");
+        String adminDecisionNotes = (String) payload.getOrDefault("decisionNotes", (String) payload.getOrDefault("rationale", "Approved optimal University + Industry hybrid collaboration"));
         String adminUser = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
 
         // Check duplicate active project prevention

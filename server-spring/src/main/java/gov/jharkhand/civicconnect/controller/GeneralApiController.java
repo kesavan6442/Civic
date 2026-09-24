@@ -198,23 +198,26 @@ public class GeneralApiController {
     public ResponseEntity<ApiResponse<List<Collaboration>>> getCollaborations(
             @RequestParam(required = false) String universityId,
             @RequestParam(required = false) String industryId,
+            @RequestParam(required = false) String problemId,
             @RequestParam(required = false) String userId,
             @RequestParam(required = false) String companyName,
             @RequestParam(required = false) String universityName
     ) {
-        String authUserId = SecurityUtils.getCurrentUserId();
-        String effectiveUserId = authUserId != null ? authUserId : userId;
         List<Collaboration> list = industryService.getAllCollaborations();
+        if (problemId != null && !problemId.trim().isEmpty()) {
+            list = list.stream().filter(c -> problemId.equalsIgnoreCase(c.getProblemId())).toList();
+        }
         if (universityId != null && !universityId.trim().isEmpty()) {
             list = list.stream().filter(c -> universityId.equalsIgnoreCase(c.getUniversityId())).toList();
-        } else if (industryId != null && !industryId.trim().isEmpty()) {
+        }
+        if (industryId != null && !industryId.trim().isEmpty()) {
             list = list.stream().filter(c -> industryId.equalsIgnoreCase(c.getIndustryId())).toList();
-        } else if (effectiveUserId != null && !effectiveUserId.trim().isEmpty()) {
-            list = list.stream().filter(c -> effectiveUserId.equals(c.getUserId())).toList();
-        } else if (companyName != null && !companyName.trim().isEmpty()) {
-            list = list.stream().filter(c -> companyName.equalsIgnoreCase(c.getCompanyName())).toList();
-        } else if (universityName != null && !universityName.trim().isEmpty()) {
-            list = list.stream().filter(c -> universityName.equalsIgnoreCase(c.getUniversityName())).toList();
+        }
+        if (companyName != null && !companyName.trim().isEmpty()) {
+            list = list.stream().filter(c -> c.getCompanyName() != null && (c.getCompanyName().equalsIgnoreCase(companyName) || companyName.toLowerCase().contains(c.getCompanyName().toLowerCase()) || c.getCompanyName().toLowerCase().contains(companyName.toLowerCase()))).toList();
+        }
+        if (universityName != null && !universityName.trim().isEmpty()) {
+            list = list.stream().filter(c -> c.getUniversityName() != null && (c.getUniversityName().equalsIgnoreCase(universityName) || universityName.toLowerCase().contains(c.getUniversityName().toLowerCase()) || c.getUniversityName().toLowerCase().contains(universityName.toLowerCase()))).toList();
         }
         ApiResponse<List<Collaboration>> response = ApiResponse.ok(list);
         response.setCount(list.size());

@@ -15,8 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class RateLimitingFilter extends OncePerRequestFilter {
 
-    private static final int MAX_AUTH_REQUESTS_PER_MINUTE = 30;
-    private static final int MAX_GENERAL_REQUESTS_PER_MINUTE = 300;
+    private static final int MAX_AUTH_REQUESTS_PER_MINUTE = 120;
+    private static final int MAX_GENERAL_REQUESTS_PER_MINUTE = 600;
 
     private static class RequestCounter {
         final long windowStartTime;
@@ -37,11 +37,16 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String clientIp = getClientIP(request);
 
+        // Relax for local development loopback
+        boolean isLocal = "127.0.0.1".equals(clientIp) || "0:0:0:0:0:0:0:1".equals(clientIp) || "localhost".equalsIgnoreCase(clientIp);
+
         boolean isSensitiveAuth = path.startsWith("/api/auth/login") ||
                                   path.startsWith("/api/auth/register") ||
                                   path.startsWith("/api/auth/forgot");
 
-        int limit = isSensitiveAuth ? MAX_AUTH_REQUESTS_PER_MINUTE : MAX_GENERAL_REQUESTS_PER_MINUTE;
+        int limit = isSensitiveAuth 
+                ? (isLocal ? 300 : MAX_AUTH_REQUESTS_PER_MINUTE) 
+                : (isLocal ? 1500 : MAX_GENERAL_REQUESTS_PER_MINUTE);
         String key = (isSensitiveAuth ? "AUTH:" : "GEN:") + clientIp;
 
         long now = System.currentTimeMillis();

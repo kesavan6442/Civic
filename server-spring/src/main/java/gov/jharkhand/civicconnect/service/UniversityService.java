@@ -169,22 +169,32 @@ public class UniversityService {
             return Collections.emptyList();
         }
         UserPrincipal principal = principalOpt.get();
-        String uId = profile != null ? profile.getId() : principal.getUniversityId();
-        String uName = profile != null ? profile.getName() : principal.getUniversityName();
+        String uId = profile != null ? profile.getId() : (principal.getUniversityId() != null ? principal.getUniversityId() : principal.getId());
+        String uName = profile != null ? profile.getName() : (principal.getUniversityName() != null ? principal.getUniversityName() : principal.getOrganization());
 
         Map<String, Collaboration> resultMap = new LinkedHashMap<>();
-        if (uId != null) {
+        if (uId != null && !uId.trim().isEmpty()) {
             for (Collaboration c : collaborationRepository.findByUniversityId(uId)) {
                 if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
             }
         }
-        if (uName != null) {
+        if (principal.getId() != null && !principal.getId().equals(uId)) {
+            for (Collaboration c : collaborationRepository.findByUniversityId(principal.getId())) {
+                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
+            }
+        }
+        if (uName != null && !uName.trim().isEmpty()) {
             for (Collaboration c : collaborationRepository.findByUniversityNameIgnoreCase(uName)) {
                 if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
             }
         }
         if (principal.getId() != null) {
             for (Collaboration c : collaborationRepository.findByUserId(principal.getId())) {
+                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
+            }
+        }
+        if (principal.getEmail() != null) {
+            for (Collaboration c : collaborationRepository.findByUserEmailIgnoreCase(principal.getEmail())) {
                 if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
             }
         }

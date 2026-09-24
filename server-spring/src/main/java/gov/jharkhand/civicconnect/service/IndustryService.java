@@ -68,6 +68,19 @@ public class IndustryService {
         UserPrincipal principal = principalOpt.get();
         Map<String, Collaboration> resultMap = new LinkedHashMap<>();
 
+        String indId = principal.getIndustryId() != null ? principal.getIndustryId() : principal.getId();
+        String compName = principal.getCompanyName() != null ? principal.getCompanyName() : principal.getOrganization();
+
+        if (indId != null && !indId.trim().isEmpty()) {
+            for (Collaboration c : collaborationRepository.findByIndustryId(indId)) {
+                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
+            }
+        }
+        if (compName != null && !compName.trim().isEmpty()) {
+            for (Collaboration c : collaborationRepository.findByCompanyNameIgnoreCase(compName)) {
+                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
+            }
+        }
         if (principal.getId() != null) {
             for (Collaboration c : collaborationRepository.findByUserId(principal.getId())) {
                 if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
@@ -77,27 +90,6 @@ public class IndustryService {
             for (Collaboration c : collaborationRepository.findByUserEmailIgnoreCase(principal.getEmail())) {
                 if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
             }
-        }
-        if (principal.getCompanyName() != null && !principal.getCompanyName().trim().isEmpty()) {
-            for (Collaboration c : collaborationRepository.findByCompanyNameIgnoreCase(principal.getCompanyName())) {
-                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
-            }
-        } else if (principal.getOrganization() != null && !principal.getOrganization().trim().isEmpty()) {
-            for (Collaboration c : collaborationRepository.findByCompanyNameIgnoreCase(principal.getOrganization())) {
-                if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
-            }
-        } else if (principal.getId() != null) {
-            userRepository.findById(principal.getId()).ifPresent(u -> {
-                if (u.getCompanyName() != null && !u.getCompanyName().trim().isEmpty()) {
-                    for (Collaboration c : collaborationRepository.findByCompanyNameIgnoreCase(u.getCompanyName())) {
-                        if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
-                    }
-                } else if (u.getOrganization() != null && !u.getOrganization().trim().isEmpty()) {
-                    for (Collaboration c : collaborationRepository.findByCompanyNameIgnoreCase(u.getOrganization())) {
-                        if (c != null && c.getId() != null) resultMap.put(c.getId(), c);
-                    }
-                }
-            });
         }
 
         return new ArrayList<>(resultMap.values());

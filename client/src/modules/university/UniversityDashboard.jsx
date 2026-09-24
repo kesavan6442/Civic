@@ -776,13 +776,43 @@ export const UniversityDashboard = ({ user, onLogout, onBackToLanding }) => {
                                 </span>
                               </td>
                               <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                                <button
-                                  type="button"
-                                  className="admin-view-btn"
-                                  onClick={() => navigate(`/university/take-challenge/${p.id}`)}
-                                >
-                                  Take Challenge
-                                </button>
+                                {(() => {
+                                  const hasCollab = getProblemCollaborationHelper(p, collaborationsList);
+                                  const hasProposal = getProblemProposalHelper(p, proposalsList, solutionsList);
+                                  if (hasCollab) {
+                                    return (
+                                      <button
+                                        type="button"
+                                        className="admin-view-btn"
+                                        style={{ background: '#6D28D9', color: '#FFFFFF' }}
+                                        onClick={() => navigate(`/university/collaborate/${p.id}`)}
+                                      >
+                                        View Collaboration
+                                      </button>
+                                    );
+                                  }
+                                  if (hasProposal) {
+                                    return (
+                                      <button
+                                        type="button"
+                                        className="admin-view-btn"
+                                        style={{ background: '#D97706', color: '#FFFFFF' }}
+                                        onClick={() => navigate(`/university/take-challenge/${p.id}`)}
+                                      >
+                                        View Proposal
+                                      </button>
+                                    );
+                                  }
+                                  return (
+                                    <button
+                                      type="button"
+                                      className="admin-view-btn"
+                                      onClick={() => navigate(`/university/take-challenge/${p.id}`)}
+                                    >
+                                      Take Challenge
+                                    </button>
+                                  );
+                                })()}
                               </td>
                             </tr>
                           );

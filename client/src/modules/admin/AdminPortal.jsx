@@ -56,6 +56,29 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
   const [analyticsData, setAnalyticsData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sessionExpired, setSessionExpired] = useState(false);
+  const [isReauthenticating, setIsReauthenticating] = useState(false);
+
+  const handleReauthAdmin = async () => {
+    setIsReauthenticating(true);
+    try {
+      const res = await authService.login({
+        username: 'admin',
+        password: 'admin123',
+        role: 'ADMIN'
+      });
+      if (res && res.success) {
+        setSessionExpired(false);
+        await loadAdminData();
+      } else {
+        alert('Could not authenticate as admin. Please log in from the main portal.');
+      }
+    } catch (e) {
+      console.error('Admin reauth error:', e);
+    } finally {
+      setIsReauthenticating(false);
+    }
+  };
 
   // Filters for Problem Management
   const [filterCategory, setFilterCategory] = useState('All');
@@ -348,6 +371,13 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
   const loadAdminData = async () => {
     setLoading(true);
     try {
+      const adminToken = await adminService.ensureAdminToken();
+      if (!adminToken) {
+        setSessionExpired(true);
+        setLoading(false);
+        return;
+      }
+      setSessionExpired(false);
       const [
         problemsRes,
         solutionsRes,
@@ -403,6 +433,11 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
   }, [filterCategory, filterDomain, filterPriority, filterStatus, filterDistrict, sortBy, searchQuery]);
 
   useEffect(() => {
+    if (activeTab === 'solutions') {
+      adminService.getSolutions().then(res => {
+        if (Array.isArray(res)) setSolutions(res);
+      }).catch(err => console.warn('Solutions refresh error:', err));
+    }
     if (activeTab === 'analytics') {
       fetchFilteredAnalytics();
     }
@@ -1728,6 +1763,70 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
         {/* Main Content Area */}
         <div className="admin-main-wrapper">
 
+                {/* Session Expired / Authentication Required Warning Banner */}
+        {sessionExpired && (
+          <div style={{
+            margin: '20px 28px 0',
+            background: '#FFFBEB',
+            border: '1.5px solid #F59E0B',
+            borderRadius: '12px',
+            padding: '16px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            boxShadow: '0 4px 14px rgba(245, 158, 11, 0.15)'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{ background: '#F59E0B', color: '#FFFFFF', width: '32px', height: '32px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>
+                !
+              </div>
+              <div>
+                <strong style={{ color: '#92400E', fontSize: '0.94rem' }}>Admin Authentication Required</strong>
+                <div style={{ color: '#B45309', fontSize: '0.84rem' }}>
+                  Please sign in with administrator privileges to fetch live backend data across all 24 districts.
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={handleReauthAdmin}
+                disabled={isReauthenticating}
+                style={{
+                  background: '#D97706',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '8px 16px',
+                  fontWeight: 700,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                {isReauthenticating ? 'Authenticating...' : 'Sign In as Admin'}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/')}
+                style={{
+                  background: '#FFFFFF',
+                  color: '#92400E',
+                  border: '1px solid #F59E0B',
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontWeight: 600,
+                  fontSize: '0.85rem',
+                  cursor: 'pointer'
+                }}
+              >
+                Go to Home
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Dynamic Toast for Assignment Notifications */}
         {assignmentSuccessToast && (
           <div style={{
@@ -2968,310 +3067,362 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
           {/* =========================================================================
               VIEW E: PROPOSED SOLUTIONS REVIEW & COMPARISON (CRITICAL FEATURE)
              ========================================================================= */}
+          {/* =========================================================================
+              VIEW E: PROPOSED SOLUTIONS REVIEW & COMPARISON (CRITICAL FEATURE)
+             ========================================================================= */}
           {activeTab === 'solutions' && (
             <div>
-              <div className="univ-dashboard-heading" style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <h1 className="univ-heading-title" style={{ fontSize: '1.45rem', color: '#0F172A', fontWeight: 800 }}>
-                    University Solutions
-                  </h1>
-                  <p className="univ-heading-sub" style={{ fontSize: '0.84rem', color: '#64748B', margin: '2px 0 0 0' }}>
-                    Review technical proposals, compare metrics, and assign civic challenges.
-                  </p>
-                </div>
-                <span style={{
-                  background: '#EFF6FF',
-                  color: '#2563EB',
-                  border: '1px solid #BFDBFE',
-                  fontSize: '0.82rem',
-                  fontWeight: 700,
-                  padding: '6px 16px',
-                  borderRadius: '20px'
-                }}>
-                  {solutions.length} Proposals Submitted
-                </span>
-              </div>
+              {(() => {
+                const normKey = (val) => (val || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+                const isMatch = (s, p) => {
+                  if (!s || !p) return false;
+                  const sId = normKey(s.problemId);
+                  const pId = normKey(p.id);
+                  if (sId && pId && (sId === pId || sId.includes(pId) || pId.includes(sId))) return true;
+                  const sTitle = normKey(s.problemTitle);
+                  const pTitle = normKey(p.title);
+                  if (sTitle && pTitle && (sTitle === pTitle || sTitle.includes(pTitle) || pTitle.includes(sTitle))) return true;
+                  return false;
+                };
+                const activeProblemGroups = problems.filter(p => solutions.some(s => isMatch(s, p)));
 
-              {/* Group Solutions by Problem */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {(() => {
-                  const isMatch = (s, p) => (s.problemId && p.id && s.problemId === p.id) || (s.problemTitle && p.title && s.problemTitle.trim().toLowerCase() === p.title.trim().toLowerCase());
-                  const activeProblemGroups = problems.filter(p => solutions.some(s => isMatch(s, p)));
-
-                  // Also check if any solutions exist whose problem isn't in problems array
-                  const orphanSolutions = solutions.filter(s => !problems.some(p => isMatch(s, p)));
-                  const orphanGroups = [];
-                  if (orphanSolutions.length > 0) {
-                    const byTitle = new Map();
-                    orphanSolutions.forEach(s => {
-                      const t = s.problemTitle || s.problemId || 'Civic Problem Statement';
-                      if (!byTitle.has(t)) byTitle.set(t, []);
-                      byTitle.get(t).push(s);
+                // Also check if any solutions exist whose problem isn't in problems array
+                const orphanSolutions = solutions.filter(s => !problems.some(p => isMatch(s, p)));
+                const orphanGroups = [];
+                if (orphanSolutions.length > 0) {
+                  const byTitle = new Map();
+                  orphanSolutions.forEach(s => {
+                    const t = s.problemTitle || s.problemId || 'Civic Problem Statement';
+                    if (!byTitle.has(t)) byTitle.set(t, []);
+                    byTitle.get(t).push(s);
+                  });
+                  byTitle.forEach((sList, title) => {
+                    orphanGroups.push({
+                      id: sList[0].problemId || `PROB-EXT-${title.substring(0, 8)}`,
+                      title: title,
+                      category: sList[0].category || sList[0].domain || 'General Civic',
+                      district: 'Jharkhand',
+                      status: 'Solutions Submitted',
+                      description: sList[0].technicalApproach || sList[0].description || 'Submitted solution proposal',
+                      isVirtual: true
                     });
-                    byTitle.forEach((sList, title) => {
-                      orphanGroups.push({
-                        id: sList[0].problemId || `PROB-EXT-${title.substring(0, 8)}`,
-                        title: title,
-                        category: sList[0].category || sList[0].domain || 'General Civic',
-                        district: 'Jharkhand',
-                        status: 'Solutions Submitted',
-                        description: sList[0].technicalApproach || sList[0].description || 'Submitted solution proposal',
-                        isVirtual: true
-                      });
-                    });
-                  }
+                  });
+                }
 
-                  const allGroupsToRender = [...activeProblemGroups, ...orphanGroups];
+                const allGroupsToRender = [...activeProblemGroups, ...orphanGroups];
 
-                  if (allGroupsToRender.length === 0 && solutions.length === 0) {
-                    return (
-                      <div style={{ textAlign: 'center', padding: '40px 20px', background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
-                        <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '6px' }}>
-                          No Solution Proposals Submitted Yet
-                        </h3>
-                        <p style={{ fontSize: '0.84rem', color: '#6B7280', maxWidth: '480px', margin: '0 auto 16px auto', lineHeight: 1.5 }}>
-                          When universities and industry partners submit proposals, they will appear here grouped by problem for review and approval.
+                return (
+                  <>
+                    <div className="univ-dashboard-heading" style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                      <div>
+                        <h1 className="univ-heading-title" style={{ fontSize: '1.45rem', color: '#0F172A', fontWeight: 800 }}>
+                          University & Industry Proposals
+                        </h1>
+                        <p className="univ-heading-sub" style={{ fontSize: '0.84rem', color: '#64748B', margin: '2px 0 0 0' }}>
+                          Review proposals submitted by universities & corporate partners grouped by problem statement.
                         </p>
-                        <button
-                          type="button"
-                          className="admin-btn-primary"
-                          onClick={() => setActiveTab('problems')}
-                          style={{ padding: '8px 16px', fontSize: '0.84rem' }}
-                        >
-                          <span>View Problems</span>
-                        </button>
                       </div>
-                    );
-                  }
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{
+                          background: '#EFF6FF',
+                          color: '#2563EB',
+                          border: '1px solid #BFDBFE',
+                          fontSize: '0.82rem',
+                          fontWeight: 700,
+                          padding: '6px 16px',
+                          borderRadius: '20px'
+                        }}>
+                          {solutions.length} Total Proposals ({allGroupsToRender.length} Problem Statements)
+                        </span>
+                      </div>
+                    </div>
 
-                  return allGroupsToRender.map((p) => {
-                    const pSols = solutions.filter(s => isMatch(s, p));
-                    if (pSols.length === 0) return null;
+                    {/* Group Solutions by Problem */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                      {allGroupsToRender.length === 0 && solutions.length === 0 ? (
+                        <div style={{ textAlign: 'center', padding: '40px 20px', background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
+                          <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111827', marginBottom: '6px' }}>
+                            No Solution Proposals Submitted Yet
+                          </h3>
+                          <p style={{ fontSize: '0.84rem', color: '#6B7280', maxWidth: '480px', margin: '0 auto 16px auto', lineHeight: 1.5 }}>
+                            When universities and industry partners submit proposals, they will appear here grouped by problem for review and approval.
+                          </p>
+                          <button
+                            type="button"
+                            className="admin-btn-primary"
+                            onClick={() => setActiveTab('problems')}
+                            style={{ padding: '8px 16px', fontSize: '0.84rem' }}
+                          >
+                            <span>View Problems</span>
+                          </button>
+                        </div>
+                      ) : (
+                        allGroupsToRender.map((p) => {
+                          const pSols = solutions.filter(s => isMatch(s, p));
+                          if (pSols.length === 0) return null;
 
-                    const accentColor = p.category?.toLowerCase().includes('water') || p.category?.toLowerCase().includes('healthcare')
-                      ? '#059669'
-                      : p.category?.toLowerCase().includes('energy') || p.category?.toLowerCase().includes('agriculture')
-                        ? '#4F46E5'
-                        : '#2563EB';
+                          const accentColor = p.category?.toLowerCase().includes('water') || p.category?.toLowerCase().includes('healthcare')
+                            ? '#059669'
+                            : p.category?.toLowerCase().includes('energy') || p.category?.toLowerCase().includes('agriculture')
+                              ? '#4F46E5'
+                              : '#2563EB';
 
-                    return (
-                      <div
-                        key={p.id}
-                        style={{
-                          background: '#FFFFFF',
-                          border: '1.5px solid #E5E7EB',
-                          borderRadius: '16px',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)',
-                          position: 'relative',
-                          overflow: 'hidden',
-                          padding: '20px 24px',
-                          borderLeft: `5px solid ${accentColor}`
-                        }}
-                      >
-                        {/* Top Header Row */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                            <span style={{
-                              background: '#ECFDF5',
-                              color: '#065F46',
-                              border: '1px solid #A7F3D0',
-                              padding: '4px 12px',
-                              borderRadius: '20px',
-                              fontSize: '0.78rem',
-                              fontWeight: 700
-                            }}>
-                              {p.category}
-                            </span>
-                            <span style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 600 }}>
-                              ID: {p.id} • {p.district}
-                            </span>
-                            <span style={{
-                              background: '#EFF6FF',
-                              color: '#1D4ED8',
-                              border: '1px solid #BFDBFE',
-                              padding: '4px 10px',
-                              borderRadius: '20px',
-                              fontSize: '0.76rem',
-                              fontWeight: 700
-                            }}>
-                              {p.status}
-                            </span>
-                          </div>
-
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <button
-                              type="button"
-                              onClick={() => handleOpenCollaborationReport(p)}
-                              style={{
-                                background: '#4F46E5',
-                                color: '#FFFFFF',
-                                border: 'none',
-                                padding: '7px 16px',
-                                borderRadius: '8px',
-                                fontSize: '0.82rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'background 0.18s ease'
-                              }}
-                              onMouseEnter={(e) => e.currentTarget.style.background = '#4338CA'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = '#4F46E5'}
-                              title="Generate or view MCP Collaboration Intelligence Synergy Report"
-                            >
-                              <span>✨ MCP Intelligence Report</span>
-                            </button>
-                            {p.approvalStatus === 'COLLABORATION_APPROVED' ? (
-                              <span style={{
-                                background: '#DCFCE7',
-                                color: '#166534',
-                                border: '1px solid #86EFAC',
-                                padding: '7px 16px',
-                                borderRadius: '8px',
-                                fontSize: '0.82rem',
-                                fontWeight: 700
-                              }}>
-                                ✓ Collaboration Approved (Gate 2)
-                              </span>
-                            ) : p.approvalStatus === 'PROJECT_CREATED' || p.status === 'IN_PROGRESS' ? (
-                              <span style={{
-                                background: '#EFF6FF',
-                                color: '#1D4ED8',
-                                border: '1px solid #BFDBFE',
-                                padding: '7px 16px',
-                                borderRadius: '8px',
-                                fontSize: '0.82rem',
-                                fontWeight: 700
-                              }}>
-                                ✓ Project Created
-                              </span>
-                            ) : (
-                              <button
-                                type="button"
-                                onClick={() => handleOpenCollaborationDecision(p)}
-                                style={{
-                                  background: '#059669',
-                                  color: '#FFFFFF',
-                                  border: 'none',
-                                  padding: '7px 16px',
-                                  borderRadius: '8px',
-                                  fontSize: '0.82rem',
-                                  fontWeight: 700,
-                                  cursor: 'pointer',
-                                  transition: 'background 0.18s ease'
-                                }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = '#047857'}
-                                onMouseLeave={(e) => e.currentTarget.style.background = '#059669'}
-                              >
-                                <span>Select Collaboration (Gate 2)</span>
-                              </button>
-                            )}
-                            <button
-                              type="button"
-                              onClick={() => handleOpenCompareSolutions(p)}
+                          return (
+                            <div
+                              key={p.id}
                               style={{
                                 background: '#FFFFFF',
-                                color: '#1F2937',
-                                border: '1px solid #D1D5DB',
-                                padding: '7px 14px',
-                                borderRadius: '8px',
-                                fontSize: '0.82rem',
-                                fontWeight: 700,
-                                cursor: 'pointer',
-                                transition: 'all 0.18s ease'
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.background = '#F9FAFB';
-                                e.currentTarget.style.borderColor = '#9CA3AF';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.background = '#FFFFFF';
-                                e.currentTarget.style.borderColor = '#D1D5DB';
+                                border: '1.5px solid #E5E7EB',
+                                borderRadius: '16px',
+                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)',
+                                position: 'relative',
+                                overflow: 'hidden',
+                                padding: '20px 24px',
+                                borderLeft: `5px solid ${accentColor}`
                               }}
                             >
-                              Compare ({pSols.length})
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Title & Date */}
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
-                          <h3 style={{ fontSize: '1.14rem', fontWeight: 800, color: '#0F172A', margin: 0 }}>
-                            {p.title}
-                          </h3>
-                          <span style={{ fontSize: '0.82rem', color: '#64748B' }}>
-                            {p.submissionDate || p.createdAt?.split('T')[0] || '2026-09-05'}
-                          </span>
-                        </div>
-
-                        {/* Description (Concise single line with ellipsis to prevent clutter) */}
-                        <p style={{
-                          fontSize: '0.82rem',
-                          color: '#64748B',
-                          lineHeight: 1.45,
-                          margin: '0 0 16px 0',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}>
-                          {p.description}
-                        </p>
-
-                        {/* Proposed Solutions List */}
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                          {pSols.map((sol) => {
-                            const isIndustry = sol.submitterType === 'industry' || !!sol.companyName;
-                            const leadName = isIndustry ? (sol.teamLeadName || sol.representativeName || 'CSR Director') : (sol.mentorName || sol.leadName || 'Dr. Sanjeev Hansda');
-                            const solStatusUpper = String(sol.status || sol.approvalStatus || '').toUpperCase();
-                            const isAssignedOrApproved = solStatusUpper === 'ASSIGNED' || solStatusUpper === 'APPROVED' || solStatusUpper === 'ACCEPTED' || solStatusUpper === 'SELECTED' || p.approvalStatus === 'COLLABORATION_APPROVED' || p.approvalStatus === 'PROJECT_CREATED';
-                            const isModRequested = solStatusUpper === 'MODIFICATION REQUESTED' || solStatusUpper === 'MODIFICATION_REQUESTED' || solStatusUpper === 'CHANGES_REQUESTED';
-                            const isRejected = solStatusUpper === 'REJECTED';
-
-                            return (
-                              <div
-                                key={sol.id}
-                                style={{
-                                  background: '#F8FAF9',
-                                  border: '1px solid #E5E7EB',
-                                  borderRadius: '12px',
-                                  padding: '14px 20px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
-                                  flexWrap: 'wrap',
-                                  gap: '16px'
-                                }}
-                              >
-                                {/* Solution Info Columns */}
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '36px', flexWrap: 'wrap' }}>
-                                  <div>
-                                    <div style={{ fontSize: '0.74rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
-                                      Budget Required
-                                    </div>
-                                    <div style={{ fontSize: '0.94rem', fontWeight: 800, color: '#0F172A' }}>
-                                      {sol.estimatedCost || sol.fundingAmount || '₹ 4.8 Lakhs'}
-                                    </div>
-                                  </div>
-
-                                  <div>
-                                    <div style={{ fontSize: '0.74rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
-                                      Timeline
-                                    </div>
-                                    <div style={{ fontSize: '0.94rem', fontWeight: 800, color: '#0F172A' }}>
-                                      {sol.estimatedTimeWeeks || sol.duration || 6} Weeks
-                                    </div>
-                                  </div>
-
-                                  <div>
-                                    <div style={{ fontSize: '0.74rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
-                                      Lead
-                                    </div>
-                                    <div style={{ fontSize: '0.94rem', fontWeight: 800, color: '#0F172A' }}>
-                                      {leadName}
-                                    </div>
-                                  </div>
+                              {/* Top Header Row */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                                  <span style={{
+                                    background: '#ECFDF5',
+                                    color: '#065F46',
+                                    border: '1px solid #A7F3D0',
+                                    padding: '4px 12px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.78rem',
+                                    fontWeight: 700
+                                  }}>
+                                    {p.category}
+                                  </span>
+                                  <span style={{ fontSize: '0.8rem', color: '#6B7280', fontWeight: 600 }}>
+                                    ID: {p.id} • {p.district}
+                                  </span>
+                                  <span style={{
+                                    background: '#EFF6FF',
+                                    color: '#1D4ED8',
+                                    border: '1px solid #BFDBFE',
+                                    padding: '4px 10px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.76rem',
+                                    fontWeight: 700
+                                  }}>
+                                    {p.status}
+                                  </span>
+                                  <span style={{
+                                    background: '#FEF3C7',
+                                    color: '#92400E',
+                                    border: '1px solid #FDE68A',
+                                    padding: '4px 10px',
+                                    borderRadius: '20px',
+                                    fontSize: '0.76rem',
+                                    fontWeight: 800
+                                  }}>
+                                    📝 {pSols.length} {pSols.length === 1 ? 'Proposal' : 'Proposals'}
+                                  </span>
                                 </div>
 
-                                {/* Action on Right */}
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenCollaborationReport(p)}
+                                    style={{
+                                      background: '#4F46E5',
+                                      color: '#FFFFFF',
+                                      border: 'none',
+                                      padding: '7px 16px',
+                                      borderRadius: '8px',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      transition: 'background 0.18s ease'
+                                    }}
+                                    onMouseEnter={(e) => e.currentTarget.style.background = '#4338CA'}
+                                    onMouseLeave={(e) => e.currentTarget.style.background = '#4F46E5'}
+                                    title="Generate or view MCP Collaboration Intelligence Synergy Report"
+                                  >
+                                    <span>✨ MCP Intelligence Report</span>
+                                  </button>
+                                  {p.approvalStatus === 'COLLABORATION_APPROVED' ? (
+                                    <span style={{
+                                      background: '#DCFCE7',
+                                      color: '#166534',
+                                      border: '1px solid #86EFAC',
+                                      padding: '7px 16px',
+                                      borderRadius: '8px',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700
+                                    }}>
+                                      ✓ Collaboration Approved (Gate 2)
+                                    </span>
+                                  ) : p.approvalStatus === 'PROJECT_CREATED' || p.status === 'IN_PROGRESS' ? (
+                                    <span style={{
+                                      background: '#EFF6FF',
+                                      color: '#1D4ED8',
+                                      border: '1px solid #BFDBFE',
+                                      padding: '7px 16px',
+                                      borderRadius: '8px',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700
+                                    }}>
+                                      ✓ Project Created
+                                    </span>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenCollaborationDecision(p)}
+                                      style={{
+                                        background: '#059669',
+                                        color: '#FFFFFF',
+                                        border: 'none',
+                                        padding: '7px 16px',
+                                        borderRadius: '8px',
+                                        fontSize: '0.82rem',
+                                        fontWeight: 700,
+                                        cursor: 'pointer',
+                                        transition: 'background 0.18s ease'
+                                      }}
+                                      onMouseEnter={(e) => e.currentTarget.style.background = '#047857'}
+                                      onMouseLeave={(e) => e.currentTarget.style.background = '#059669'}
+                                    >
+                                      <span>Select Collaboration (Gate 2)</span>
+                                    </button>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenCompareSolutions(p)}
+                                    style={{
+                                      background: '#FFFFFF',
+                                      color: '#1F2937',
+                                      border: '1px solid #D1D5DB',
+                                      padding: '7px 14px',
+                                      borderRadius: '8px',
+                                      fontSize: '0.82rem',
+                                      fontWeight: 700,
+                                      cursor: 'pointer',
+                                      transition: 'all 0.18s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.background = '#F9FAFB';
+                                      e.currentTarget.style.borderColor = '#9CA3AF';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.background = '#FFFFFF';
+                                      e.currentTarget.style.borderColor = '#D1D5DB';
+                                    }}
+                                  >
+                                    Compare ({pSols.length})
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Title & Date */}
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px', flexWrap: 'wrap', gap: '8px' }}>
+                                <h3 style={{ fontSize: '1.14rem', fontWeight: 800, color: '#0F172A', margin: 0 }}>
+                                  {p.title}
+                                </h3>
+                                <span style={{ fontSize: '0.82rem', color: '#64748B' }}>
+                                  {p.submissionDate || p.createdAt?.split('T')[0] || '2026-09-05'}
+                                </span>
+                              </div>
+
+                              {/* Description (Concise single line with ellipsis to prevent clutter) */}
+                              <p style={{
+                                fontSize: '0.82rem',
+                                color: '#64748B',
+                                lineHeight: 1.45,
+                                margin: '0 0 16px 0',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                              }}>
+                                {p.description}
+                              </p>
+
+                              {/* Proposed Solutions List */}
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                {pSols.map((sol, solIdx) => {
+                                  const isIndustry = sol.submitterType === 'industry' || !!sol.companyName;
+                                  const orgName = isIndustry ? (sol.companyName || 'Corporate Partner') : (sol.universityName || 'University Partner');
+                                  const leadName = isIndustry ? (sol.teamLeadName || sol.representativeName || 'CSR Director') : (sol.mentorName || sol.leadName || 'Dr. Sanjeev Hansda');
+                                  const solStatusUpper = String(sol.status || sol.approvalStatus || '').toUpperCase();
+                                  const isAssignedOrApproved = solStatusUpper === 'ASSIGNED' || solStatusUpper === 'APPROVED' || solStatusUpper === 'ACCEPTED' || solStatusUpper === 'SELECTED' || p.approvalStatus === 'COLLABORATION_APPROVED' || p.approvalStatus === 'PROJECT_CREATED';
+                                  const isModRequested = solStatusUpper === 'MODIFICATION REQUESTED' || solStatusUpper === 'MODIFICATION_REQUESTED' || solStatusUpper === 'CHANGES_REQUESTED';
+                                  const isRejected = solStatusUpper === 'REJECTED';
+
+                                  return (
+                                    <div
+                                      key={sol.id || solIdx}
+                                      style={{
+                                        background: '#F8FAF9',
+                                        border: '1.5px solid #E5E7EB',
+                                        borderRadius: '12px',
+                                        padding: '14px 20px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        flexWrap: 'wrap',
+                                        gap: '16px'
+                                      }}
+                                    >
+                                      {/* Left: Proposal Tag & Info */}
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+                                        {/* Proposal Index & Org Badge */}
+                                        <div>
+                                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '3px' }}>
+                                            <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#4B5563', background: '#E5E7EB', padding: '2px 8px', borderRadius: '6px' }}>
+                                              Proposal #{solIdx + 1}
+                                            </span>
+                                            <span style={{
+                                              fontSize: '0.74rem',
+                                              fontWeight: 700,
+                                              padding: '2px 8px',
+                                              borderRadius: '6px',
+                                              background: isIndustry ? '#FEF3C7' : '#EFF6FF',
+                                              color: isIndustry ? '#92400E' : '#1E40AF',
+                                              border: isIndustry ? '1px solid #FDE68A' : '1px solid #BFDBFE'
+                                            }}>
+                                              {isIndustry ? '🏢 Industry' : '🏛️ University'}
+                                            </span>
+                                          </div>
+                                          <div style={{ fontSize: '0.86rem', fontWeight: 800, color: '#111827', maxWidth: '220px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {orgName}
+                                          </div>
+                                        </div>
+
+                                        {/* Solution Info Columns */}
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap' }}>
+                                          <div>
+                                            <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
+                                              Budget Required
+                                            </div>
+                                            <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F172A' }}>
+                                              {sol.estimatedCost || sol.fundingAmount || '₹ 4.8 Lakhs'}
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
+                                              Timeline
+                                            </div>
+                                            <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F172A' }}>
+                                              {sol.estimatedTimeWeeks || sol.duration || 6} Weeks
+                                            </div>
+                                          </div>
+
+                                          <div>
+                                            <div style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 600, marginBottom: '2px' }}>
+                                              Lead
+                                            </div>
+                                            <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0F172A' }}>
+                                              {leadName}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      {/* Action on Right */}
+                                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                   {isAssignedOrApproved ? (
                                     <span style={{
                                       background: '#ECFDF5',
@@ -3376,11 +3527,13 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                         </div>
                       </div>
                     );
-                  });
-                })()}
-              </div>
-            </div>
-          )}
+                  }))}
+                </div>
+              </>
+            );
+          })()}
+        </div>
+      )}
 
           {/* =========================================================================
               VIEW G: DEDICATED COLLABORATIONS & STATE GOVERNANCE AUDIT TRAIL
@@ -3609,7 +3762,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             <td style={{ padding: '12px 14px', fontSize: '0.78rem' }}>
                               {p.assignedTo ? (
                                 <div>
-                                  <strong style={{ color: '#024D24' }}>{p.assignedTo}</strong>
+                                  <strong style={{ color: '#024D24' }}>{typeof p.assignedTo === 'object' ? (p.assignedTo.universityName || p.assignedTo.companyName || p.assignedTo.name || 'Assigned Partner') : String(p.assignedTo)}</strong>
                                 </div>
                               ) : p.matchedUniversities?.length > 0 ? (
                                 <span style={{ color: '#0369A1' }}>{p.matchedUniversities.length} Univs + {p.matchedIndustries?.length || 5} Inds Matched</span>
@@ -4490,13 +4643,14 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                           <div style={{ position: 'relative', width: '160px', height: '160px', flexShrink: 0 }}>
                             <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
                               {(() => {
-                                const total = analyticsData.categoryDistribution.reduce((acc, c) => acc + c.count, 0) || 1;
+                                const catList = Array.isArray(analyticsData?.categoryDistribution) ? analyticsData.categoryDistribution : [];
+                                const total = catList.reduce((acc, c) => acc + (Number(c?.count) || 0), 0) || 1;
                                 const colors = ['#036D33', '#0284C7', '#D97706', '#7C3AED', '#DC2626', '#059669', '#4F46E5', '#9333EA'];
                                 const radius = 38;
                                 const circumference = 2 * Math.PI * radius;
                                 let accumulatedPercent = 0;
 
-                                return analyticsData.categoryDistribution.map((cat, idx) => {
+                                return catList.map((cat, idx) => {
                                   const slicePercent = (cat.count / total);
                                   const strokeDasharray = `${slicePercent * circumference} ${circumference}`;
                                   const strokeDashoffset = -accumulatedPercent * circumference;
@@ -4546,7 +4700,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                             }}>
                               <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#024D24', lineHeight: 1 }}>
                                 {hoveredCategory 
-                                  ? (analyticsData.categoryDistribution.find(c => c.name === hoveredCategory)?.count || 0)
+                                  ? ((Array.isArray(analyticsData?.categoryDistribution) ? analyticsData.categoryDistribution : []).find(c => c.name === hoveredCategory)?.count || 0)
                                   : (analyticsData.kpis?.totalProblems?.value || problems.length || 0)}
                               </span>
                               <span style={{ fontSize: '0.68rem', fontWeight: 700, color: '#4B5563', maxWidth: '80px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -4557,7 +4711,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
                           {/* Donut Legend */}
                           <div style={{ flex: 1, minWidth: '180px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                            {analyticsData.categoryDistribution.slice(0, 5).map((cat, idx) => {
+                            {(Array.isArray(analyticsData?.categoryDistribution) ? analyticsData.categoryDistribution : []).slice(0, 5).map((cat, idx) => {
                               const colors = ['#036D33', '#0284C7', '#D97706', '#7C3AED', '#DC2626', '#059669', '#4F46E5'];
                               const color = colors[idx % colors.length];
                               const isHovered = hoveredCategory === cat.name;
@@ -4609,7 +4763,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                         </span>
                       </div>
 
-                      {(!analyticsData.districtList || analyticsData.districtList.length === 0) ? (
+                      {(!Array.isArray(analyticsData?.districtList) || analyticsData.districtList.length === 0) ? (
                         <div style={{ textAlign: 'center', padding: '40px', color: '#6B7280' }}>No district records found</div>
                       ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }}>
@@ -4697,8 +4851,8 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       </div>
 
                       {(() => {
-                        const topDistricts = (analyticsData.districtList || []).slice(0, 5).map(d => d.district);
-                        const topCategories = (analyticsData.categoryDistribution || []).slice(0, 4).map(c => c.name);
+                        const topDistricts = (Array.isArray(analyticsData?.districtList) ? analyticsData.districtList : []).slice(0, 5).map(d => d.district);
+                        const topCategories = (Array.isArray(analyticsData?.categoryDistribution) ? analyticsData.categoryDistribution : []).slice(0, 4).map(c => c.name);
 
                         if (topDistricts.length === 0 || topCategories.length === 0) {
                           return <div style={{ textAlign: 'center', padding: '30px', color: '#6B7280' }}>No cluster data available</div>;

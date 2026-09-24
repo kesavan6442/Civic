@@ -1,0 +1,111 @@
+<mxfile host="app.diagrams.net" modified="2026-09-24T15:14:00.000Z" agent="Mozilla/5.0" version="21.0.0" type="device">
+  <diagram id="CivicConnect-Dark-Workflow" name="Societal Problem Solution Workflow Dark">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1100" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b style=&quot;font-size:24px; color:#0F172A;&quot;&gt;CIVICCONNECT&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:14px; color:#475569; font-weight:bold; letter-spacing:1px;&quot;&gt;SOCIETAL PROBLEM ➔ SOLUTION PLATFORM&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- 1. Citizen Problem -->
+        <mxCell id="box_citizen" value="&lt;b style=&quot;font-size:14px;&quot;&gt;CITIZEN PROBLEM&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#E2E8F0;&quot;&gt;Bilingual Text &amp;amp; Photo Evidence&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E293B;strokeColor=#0F172A;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="180" y="100" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- 2. AI Analysis -->
+        <mxCell id="box_ai" value="&lt;b style=&quot;font-size:14px;&quot;&gt;AI ANALYSIS&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#E0F2FE;&quot;&gt;ELA Fake Check &amp;amp; NLP Urgency&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0369A1;strokeColor=#075985;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="490" y="100" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- 3. Admin Gate 1 -->
+        <mxCell id="box_gate1" value="&lt;b style=&quot;font-size:14px;&quot;&gt;ADMIN GATE 1&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#FFEDD5;&quot;&gt;Problem Verification &amp;amp; Approval&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C2410C;strokeColor=#9A3412;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="800" y="100" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows Top Row -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_citizen" target="box_ai">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_ai" target="box_gate1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 4. Smart Matching -->
+        <mxCell id="box_matching" value="&lt;b style=&quot;font-size:14px;&quot;&gt;SMART MATCHING&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#EDE9FE;&quot;&gt;MCDA Discovery of Capable Partners&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4338CA;strokeColor=#3730A3;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="470" y="220" width="260" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow Gate 1 -> Smart Matching -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1E293B;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="box_gate1" target="box_matching">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 5. University Proposal -->
+        <mxCell id="box_univ" value="&lt;b style=&quot;font-size:14px;&quot;&gt;UNIVERSITY PROPOSAL&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#CCFBF1;&quot;&gt;Technical Methodology &amp;amp; BOM&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F766E;strokeColor=#115E59;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="320" y="340" width="240" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- 6. Industry Proposal -->
+        <mxCell id="box_ind" value="&lt;b style=&quot;font-size:14px;&quot;&gt;INDUSTRY PROPOSAL&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#DBEAFE;&quot;&gt;CSR Funding &amp;amp; Equipment Pledge&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1E3A8A;strokeColor=#172554;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="640" y="340" width="240" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows to Proposals -->
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_matching" target="box_univ">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_matching" target="box_ind">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 7. MCP Analysis -->
+        <mxCell id="box_mcp" value="&lt;b style=&quot;font-size:14px;&quot;&gt;MCP ANALYSIS&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#FCE7F3;&quot;&gt;Compare • Analyse • Recommend Pair&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#701A75;strokeColor=#4A044E;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="470" y="460" width="260" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_univ" target="box_mcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_ind" target="box_mcp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 8. Admin Gate 2 -->
+        <mxCell id="box_gate2" value="&lt;b style=&quot;font-size:14px;&quot;&gt;ADMIN GATE 2&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#FFEDD5;&quot;&gt;Final Partnership Confirmation&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C2410C;strokeColor=#9A3412;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="470" y="580" width="260" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_mcp" target="box_gate2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 9. Joint Execution -->
+        <mxCell id="box_exec" value="&lt;b style=&quot;font-size:14px;&quot;&gt;JOINT EXECUTION&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#FEF08A;&quot;&gt;University R&amp;amp;D + Industry CSR Implementation&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#854D0E;strokeColor=#713F12;strokeWidth=2;fontColor=#FFFFFF;align=center;shadow=1;arcSize=14;" vertex="1" parent="1">
+          <mxGeometry x="470" y="700" width="260" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;strokeColor=#1E293B;" edge="1" parent="1" source="box_gate2" target="box_exec">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- 10. Resolved -->
+        <mxCell id="box_resolved" value="&lt;b style=&quot;font-size:16px;&quot;&gt;RESOLVED&lt;/b&gt;&lt;br/&gt;&lt;span style=&quot;font-size:11px; color:#DCFCE7;&quot;&gt;Verified &amp;amp; SLA Closed&lt;/span&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#14532D;strokeColor=#052E16;strokeWidth=3;fontColor=#FFFFFF;align=center;shadow=1;arcSize=16;" vertex="1" parent="1">
+          <mxGeometry x="490" y="820" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeWidth=3;strokeColor=#14532D;" edge="1" parent="1" source="box_exec" target="box_resolved">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Bottom Highlight Banner -->
+        <mxCell id="banner" value="&lt;b style=&quot;font-size:14px; color:#93C5FD;&quot;&gt;AI + MCP  ➔  REDUCES ADMIN WORK&lt;/b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;|&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;font-size:14px; color:#FDE047;&quot;&gt;ADMIN  ➔  FINAL DECISION (HUMAN-IN-THE-LOOP)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;strokeColor=#1E293B;strokeWidth=2;align=center;fontColor=#FFFFFF;shadow=1;arcSize=20;" vertex="1" parent="1">
+          <mxGeometry x="250" y="930" width="700" height="50" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

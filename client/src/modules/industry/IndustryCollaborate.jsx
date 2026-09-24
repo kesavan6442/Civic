@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../admin/admin.css';
 import '../university/university.css';
 import { JharkhandCrest, CloseIcon, ChevronRight } from '../../components/Icons';
-import { problemsService } from '../../services/problemsService';
+import { problemsService, isProblemMatchingUniversityDomains, normalizeTitle } from '../../services/problemsService';
 
 // =========================================================================
 // SVG HELPER ICONS (MATCHING USER REFERENCE UI)
@@ -208,6 +208,11 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
   };
 
   const [allAvailableProblems, setAllAvailableProblems] = useState([]);
+  const [navMetrics, setNavMetrics] = useState({
+    matched: 0,
+    proposals: 0,
+    collaborations: 0
+  });
 
   const loadData = async () => {
     setLoading(true);
@@ -216,6 +221,55 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
     const allSols = await problemsService.getSolutions();
     const allCollabs = await problemsService.getCollaborations();
     setAllAvailableProblems(allProblems);
+
+    // Compute dynamic sidebar counts to match Dashboard & Problems views exactly
+    if (isUniv) {
+      const universityExpertise = activeUser?.areasOfExpertise || activeUser?.departmentSpecialization || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
+      const activeUnivName = (activeUser?.universityName || activeUser?.name || '').toLowerCase();
+      
+      const isMatchedUniv = (p) => {
+        if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
+        if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
+        if (!activeUser || (!activeUser.universityName && !activeUser.name && !activeUser.id)) return true;
+        const hasSol = allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id));
+        const hasCol = allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
+        if (hasSol || hasCol) return true;
+        return isProblemMatchingUniversityDomains(p, universityExpertise);
+      };
+
+      const matchedProblems = allProblems.filter(isMatchedUniv);
+      const myProposals = matchedProblems.filter(p => allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (!activeUnivName || !s.universityName || s.universityName.toLowerCase().includes(activeUnivName) || s.userId === activeUser?.id)));
+      const activeCollabs = matchedProblems.filter(p => allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
+
+      setNavMetrics({
+        matched: matchedProblems.length,
+        proposals: myProposals.length,
+        collaborations: activeCollabs.length
+      });
+    } else {
+      const industryExpertise = activeUser?.areasOfExpertise || activeUser?.industryExpertise || ['Environment', 'Water Management', 'Healthcare', 'Agriculture'];
+      const activeCompName = (activeUser?.companyName || activeUser?.name || '').toLowerCase();
+
+      const isMatchedInd = (p) => {
+        if (p.approvalStatus === 'PENDING_ADMIN_REVIEW' || p.approvalStatus === 'REJECTED_BY_ADMIN') return false;
+        if (p.status === 'Pending Admin Review' || p.status === 'REJECTED' || p.status === 'MORE_INFO_REQUESTED') return false;
+        if (!activeUser || (!activeUser.companyName && !activeUser.name && !activeUser.id)) return true;
+        const hasSol = allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id));
+        const hasCol = allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title)));
+        if (hasSol || hasCol) return true;
+        return isProblemMatchingUniversityDomains(p, industryExpertise);
+      };
+
+      const matchedProblems = allProblems.filter(isMatchedInd);
+      const myProposals = matchedProblems.filter(p => allSols.some(s => (s.problemId === p.id || (s.problemTitle && p.title && normalizeTitle(s.problemTitle) === normalizeTitle(p.title))) && (s.submitterType === 'industry' || s.companyName) && (!activeCompName || !s.companyName || s.companyName.toLowerCase().includes(activeCompName) || s.userId === activeUser?.id)));
+      const activeCollabs = matchedProblems.filter(p => allCollabs.some(c => c.problemId === p.id || c.id === p.id || (p.title && c.problemTitle && normalizeTitle(c.problemTitle) === normalizeTitle(p.title))));
+
+      setNavMetrics({
+        matched: matchedProblems.length,
+        proposals: myProposals.length,
+        collaborations: activeCollabs.length
+      });
+    }
 
     // 1. Try to find existing collaboration by exact ID
     let foundCollab = allCollabs.find(c => 
@@ -471,7 +525,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F0F8F8', fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#F0F8F8' }}>
         <p style={{ color: '#036D33', fontWeight: 700, fontSize: '1.1rem' }}>Loading collaboration workspace...</p>
       </div>
     );
@@ -481,7 +535,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
   const indWork = collab?.industrySolution || {};
 
   return (
-    <div className="admin-layout-container" style={{ background: '#F0F8F8', fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+    <div className="admin-layout-container" style={{ background: '#F0F8F8' }}>
       
       {/* Mobile Backdrop Overlay */}
       {mobileMenuOpen && (
@@ -528,7 +582,7 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
 
           <div>
             <div style={{ fontSize: '0.96rem', fontWeight: 800, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>{isUniv ? 'University Innovation & Academic Dashboard' : 'Industry CSR & Joint Innovation'}</span>
+              <span>{isUniv ? 'Academic R&D Challenges' : 'Joint Innovation & Active Collaborations'}</span>
               <span style={{ fontSize: '0.74rem', background: 'rgba(255, 255, 255, 0.2)', color: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.35)', padding: '2px 8px', borderRadius: '6px', fontWeight: 800 }}>
                 Active Collaboration
               </span>
@@ -543,26 +597,17 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
           <button
             type="button"
             className="admin-topbar-btn"
-            onClick={onBackToProblems || (() => navigate(isUniv ? '/university/problems' : '/industry/problems'))}
-            title="View Problems"
-          >
-            View Problems
-          </button>
-
-          <button
-            type="button"
-            className="admin-topbar-btn"
             onClick={onBackToDashboard || (() => navigate(isUniv ? '/university/dashboard' : '/industry/dashboard'))}
-            title="Dashboard"
+            title="Return to Dashboard Overview"
           >
-            Dashboard
+            <span>← Dashboard Overview</span>
           </button>
 
           <button
             type="button"
             className="admin-topbar-btn danger"
             onClick={() => navigate('/')}
-            title="Logout"
+            title="Logout and Exit"
           >
             Logout
           </button>
@@ -579,14 +624,14 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
           
           <div style={{ padding: '12px 14px 8px 14px', borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#024D24', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-              Navigation Menu
+              {isUniv ? 'Academic Portal' : 'CSR Navigation'}
             </span>
             <span style={{ fontSize: '0.65rem', fontWeight: 800, background: isUniv ? '#ECFDF5' : '#FEF3C7', color: isUniv ? '#047857' : '#92400E', padding: '2px 6px', borderRadius: '4px' }}>
-              {isUniv ? 'ACADEMIC' : 'INDUSTRY CSR'}
+              AUTHENTICATED
             </span>
           </div>
 
-          {/* Sidebar Nav List */}
+          {/* Sidebar Nav List (Unified 4-item navigation structure) */}
           <nav className="admin-sidebar-nav" style={{ flex: 1, padding: '12px 10px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <button
               type="button"
@@ -601,8 +646,21 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
               className="admin-nav-item"
               onClick={() => { navigate(isUniv ? '/university/problems?tab=all' : '/industry/problems?tab=all'); setMobileMenuOpen(false); }}
             >
-              <span className="admin-nav-label">Problems</span>
-              <span className="admin-nav-count">11</span>
+              <span className="admin-nav-label">{isUniv ? 'Matched Problems' : 'Matched Opportunities'}</span>
+              <span className="admin-nav-count" style={{ background: '#E6F4EA', color: '#137333', border: '1px solid #CEEAD6' }}>
+                {navMetrics.matched}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className="admin-nav-item"
+              onClick={() => { navigate(isUniv ? '/university/problems?tab=proposals' : '/industry/problems?tab=working'); setMobileMenuOpen(false); }}
+            >
+              <span className="admin-nav-label">{isUniv ? 'My Proposals' : 'CSR Proposals'}</span>
+              <span className="admin-nav-count" style={{ background: '#FEF3C7', color: '#B45309', border: '1px solid #FDE68A' }}>
+                {navMetrics.proposals}
+              </span>
             </button>
 
             <button
@@ -611,49 +669,25 @@ export const IndustryCollaborate = ({ user, userRole: propRole, onBackToProblems
               onClick={() => { navigate(isUniv ? '/university/problems?tab=collaborations' : '/industry/problems?tab=collaborations'); setMobileMenuOpen(false); }}
             >
               <span className="admin-nav-label">Active Collaborations</span>
-              <span className="admin-nav-count" style={{ background: '#EDE9FE', color: '#6D28D9' }}>6</span>
-            </button>
-
-            <button
-              type="button"
-              className="admin-nav-item"
-              onClick={() => { navigate(isUniv ? '/university/problems?tab=proposals' : '/industry/problems?tab=working'); setMobileMenuOpen(false); }}
-            >
-              <span className="admin-nav-label">{isUniv ? 'Submitted Proposals' : 'Submitted Solutions'}</span>
-              <span className="admin-nav-count" style={{ background: '#FEF3C7', color: '#B45309' }}>1</span>
-            </button>
-
-            <button
-              type="button"
-              className="admin-nav-item"
-              onClick={() => { navigate(isUniv ? '/university/problems?tab=collaborations' : '/industry/problems?tab=collaborations'); setMobileMenuOpen(false); }}
-            >
-              <span className="admin-nav-label">Updates & Notices</span>
-              <span className="admin-nav-count" style={{ background: '#E0F2FE', color: '#0369A1' }}>3</span>
+              <span className="admin-nav-count" style={{ background: '#EDE9FE', color: '#6D28D9', border: '1px solid #DDD6FE' }}>
+                {navMetrics.collaborations}
+              </span>
             </button>
           </nav>
 
-          {/* Sidebar Officer Footer */}
-          <div className="admin-sidebar-footer">
-            <div className="admin-officer-card" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '8px',
-                background: isUniv ? '#036D33' : '#6D28D9',
-                color: '#FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: '0.82rem',
-                flexShrink: 0
-              }}>
+          {/* Profile Card in Sidebar */}
+          <div className="admin-sidebar-footer" style={{ padding: '14px' }}>
+            <div className="admin-user-profile" style={{ marginBottom: '10px' }}>
+              <div className="admin-avatar" style={{ background: 'linear-gradient(135deg, #024D24 0%, #059669 100%)', color: '#FFFFFF', width: '34px', height: '34px', fontSize: '0.82rem' }}>
                 {displayInitials}
               </div>
-              <div className="admin-officer-info">
-                <div className="admin-officer-name">{displayName}</div>
-                <div className="admin-officer-role">{isUniv ? 'Higher Education • Academic R&D' : 'Corporate Partner • CSR Division'}</div>
+              <div className="admin-user-details">
+                <div className="admin-user-name" style={{ fontSize: '0.84rem' }}>
+                  {displayName}
+                </div>
+                <div className="admin-user-role" style={{ fontSize: '0.72rem' }}>
+                  {isUniv ? 'Academic Research Partner' : 'Industrial CSR Partner'}
+                </div>
               </div>
             </div>
 
