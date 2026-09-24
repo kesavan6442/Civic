@@ -151,7 +151,7 @@ public class ProblemService {
         if (input.getCreatedAt() == null) input.setCreatedAt(Instant.now().toString());
         if (input.getSubmissionDate() == null) input.setSubmissionDate(LocalDate.now().toString());
         if (input.getPriority() == null) input.setPriority(input.getUrgency() != null ? input.getUrgency() : "High");
-        if (input.getStatus() == null) input.setStatus("Pending Admin Review");
+        if (input.getStatus() == null || input.getStatus().trim().isEmpty()) input.setStatus("NEW");
         input.setAiStatus("SUBMITTED");
 
         // 1. Save immediately to MongoDB first so citizen submission is never lost

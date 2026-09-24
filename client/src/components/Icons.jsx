@@ -84,24 +84,25 @@ export const JharkhandCrest = ({ size = 38, className = '' }) => (
       minHeight: `${size}px`,
       borderRadius: '50%',
       backgroundColor: '#FFFFFF',
-      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
+      boxShadow: '0 2px 6px rgba(0, 0, 0, 0.12)',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-      padding: `${Math.max(2, Math.round(size * 0.08))}px`,
+      padding: 0,
       boxSizing: 'border-box',
       flexShrink: 0
     }}
   >
     <img
-      src="/civic_logo_transparent.png"
+      src="/civic_logo_circle.png"
       alt="CivicConnect Official Logo"
       style={{
         width: '100%',
         height: '100%',
-        objectFit: 'contain',
-        display: 'block'
+        objectFit: 'cover',
+        display: 'block',
+        borderRadius: '50%'
       }}
     />
   </span>

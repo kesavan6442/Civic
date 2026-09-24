@@ -1167,4 +1167,271 @@ public class AdminController {
 
         return ResponseEntity.ok(ApiResponse.ok("Hybrid University + Industry collaboration activated and project initialized.", respData));
     }
+
+    // ==========================================
+    // LIFECYCLE WORKFLOW APIS (NEW -> ROUTED -> PROPOSAL_SUBMITTED -> APPROVED -> IN_PROGRESS -> COMPLETED)
+    // ==========================================
+
+    @PostMapping("/problems/{id}/route")
+    public ResponseEntity<ApiResponse<Problem>> routeProblem(
+            @PathVariable String id,
+            @RequestBody Map<String, Object> payload
+    ) {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        String targetType = (String) payload.getOrDefault("targetType", "UNIVERSITY");
+        String orgId = (String) payload.get("orgId");
+        String orgName = (String) payload.get("orgName");
+        String routingNotes = (String) payload.get("routingNotes");
+        String nowStr = java.time.Instant.now().toString();
+
+        problem.setStatus("ROUTED");
+        problem.setApprovalStatus("ROUTED");
+        problem.setRoutedAt(nowStr);
+        problem.setRoutedToOrgId(orgId);
+        problem.setRoutedToOrgName(orgName != null ? orgName : "Assigned Organization");
+        problem.setRoutedToOrgType(targetType);
+
+        Map<String, Object> assignedMap = new HashMap<>();
+        assignedMap.put("id", orgId);
+        assignedMap.put("name", orgName != null ? orgName : "Assigned Organization");
+        assignedMap.put("type", targetType);
+        assignedMap.put("routedAt", nowStr);
+        assignedMap.put("notes", routingNotes);
+        problem.setAssignedTo(assignedMap);
+
+        if ("UNIVERSITY".equalsIgnoreCase(targetType)) {
+            problem.setAdoptedByUniversity(orgName);
+            List<String> unis = problem.getMatchedUniversityIds() != null ? new ArrayList<>(problem.getMatchedUniversityIds()) : new ArrayList<>();
+            if (orgId != null && !unis.contains(orgId)) unis.add(orgId);
+            if (orgName != null && !unis.contains(orgName)) unis.add(orgName);
+            problem.setMatchedUniversityIds(unis);
+        } else if ("INDUSTRY".equalsIgnoreCase(targetType)) {
+            problem.setAdoptedByIndustry(orgName);
+            List<String> inds = problem.getMatchedIndustryIds() != null ? new ArrayList<>(problem.getMatchedIndustryIds()) : new ArrayList<>();
+            if (orgId != null && !inds.contains(orgId)) inds.add(orgId);
+            if (orgName != null && !inds.contains(orgName)) inds.add(orgName);
+            problem.setMatchedIndustryIds(inds);
+        }
+
+        Map<String, Object> dispatch = problem.getDispatchStatus() != null ? new HashMap<>(problem.getDispatchStatus()) : new HashMap<>();
+        dispatch.put("routedTo", orgName);
+        dispatch.put("routedAt", nowStr);
+        dispatch.put("waitingProposal", true);
+        problem.setDispatchStatus(dispatch);
+
+        Problem saved = problemRepository.save(problem);
+
+        Notification notif = new Notification();
+        notif.setRecipientRole("INDUSTRY".equalsIgnoreCase(targetType) ? "ROLE_INDUSTRY" : "ROLE_UNIVERSITY");
+        notif.setRecipientUserId(orgId != null ? orgId : orgName);
+        notif.setTitle("Civic Problem Routed: " + problem.getTitle());
+        notif.setMessage("State Administration has routed a civic problem to your organization for proposal formulation.");
+        notif.setReferenceId(problem.getId());
+        notif.setType("PROBLEM_ROUTED");
+        notif.setCreatedAt(nowStr);
+        notificationRepository.save(notif);
+
+        return ResponseEntity.ok(ApiResponse.ok("Problem routed successfully to " + (orgName != null ? orgName : targetType), saved));
+    }
+
+    @PostMapping("/problems/{id}/approve-proposal")
+    public ResponseEntity<ApiResponse<Problem>> approveProblemProposal(
+            @PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> payload
+    ) {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        String proposalId = payload != null ? (String) payload.get("proposalId") : null;
+        String decisionNotes = payload != null ? (String) payload.getOrDefault("decisionNotes", "Proposal approved by State Administration") : "Proposal approved by State Administration";
+        String adminUser = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
+        String nowStr = java.time.Instant.now().toString();
+
+        Solution sol = null;
+        if (proposalId != null) {
+            sol = solutionRepository.findById(proposalId).orElse(null);
+        }
+        if (sol == null) {
+            List<Solution> sols = solutionRepository.findByProblemId(id);
+            if (!sols.isEmpty()) sol = sols.get(0);
+        }
+
+        if (sol != null) {
+            sol.setStatus("APPROVED");
+            sol.setAssignedDate(java.time.LocalDate.now().toString());
+            sol.setAssignedBy(adminUser != null ? adminUser : "State Administration");
+            solutionRepository.save(sol);
+        }
+
+        problem.setStatus("IN_PROGRESS");
+        problem.setApprovalStatus("APPROVED");
+        problem.setApprovedAt(nowStr);
+        problem.setApprovedBy(adminUser != null ? adminUser : "State Administration");
+        problem.setProjectProgress(0);
+
+        Map<String, Object> appMap = new HashMap<>();
+        appMap.put("proposalId", sol != null ? sol.getId() : proposalId);
+        appMap.put("proposalTitle", sol != null ? sol.getSolutionTitle() : problem.getTitle());
+        appMap.put("approvedAt", nowStr);
+        appMap.put("notes", decisionNotes);
+        String orgName = sol != null ? (sol.getUniversityName() != null ? sol.getUniversityName() : sol.getCompanyName()) : (problem.getRoutedToOrgName() != null ? problem.getRoutedToOrgName() : "Partner Institution");
+        appMap.put("orgName", orgName);
+        problem.setApprovedProposal(appMap);
+
+        List<Project> existingProjects = projectRepository.findByProblemId(id);
+        Project project = existingProjects != null && !existingProjects.isEmpty() ? existingProjects.get(0) : null;
+        if (project == null) {
+            project = new Project();
+            project.setId("PROJ-" + System.currentTimeMillis());
+            project.setProblemId(problem.getId());
+            project.setProblemTitle(problem.getTitle());
+            project.setDomain(problem.getDomain());
+            project.setCategory(problem.getCategory());
+            project.setDistrict(problem.getDistrict());
+            project.setUniversityName(orgName);
+            project.setStatus("IN_PROGRESS");
+            project.setProgress(0);
+            project.setStartDate(java.time.LocalDate.now().toString());
+            project.setDeadlineDate(java.time.LocalDate.now().plusDays(90).toString());
+            project.setApprovedSlaDays(90);
+            project.setCreatedAt(nowStr);
+        } else {
+            project.setStatus("IN_PROGRESS");
+            project.setProgress(0);
+        }
+        projectRepository.save(project);
+        problem.setActiveProjectId(project.getId());
+
+        Problem saved = problemRepository.save(problem);
+
+        if (problem.getUserId() != null || problem.getCitizenEmail() != null) {
+            Notification cn = new Notification();
+            cn.setRecipientRole("ROLE_CITIZEN");
+            cn.setRecipientUserId(problem.getUserId() != null ? problem.getUserId() : problem.getCitizenEmail());
+            cn.setTitle("Proposal Approved: " + problem.getTitle());
+            cn.setMessage("State Administration approved the implementation proposal from " + orgName + ". Project is now in progress.");
+            cn.setReferenceId(problem.getId());
+            cn.setType("PROPOSAL_APPROVED");
+            cn.setCreatedAt(nowStr);
+            notificationRepository.save(cn);
+        }
+
+        return ResponseEntity.ok(ApiResponse.ok("Proposal approved and active project initialized", saved));
+    }
+
+    @PostMapping("/problems/{id}/reject-proposal")
+    public ResponseEntity<ApiResponse<Problem>> rejectProblemProposal(
+            @PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> payload
+    ) {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        String proposalId = payload != null ? (String) payload.get("proposalId") : null;
+        String rejectionReason = payload != null ? (String) payload.getOrDefault("rejectionReason", "Proposal does not meet feasibility standards") : "Proposal does not meet feasibility standards";
+
+        if (proposalId != null) {
+            solutionRepository.findById(proposalId).ifPresent(s -> {
+                s.setStatus("REJECTED");
+                s.setRejectionReason(rejectionReason);
+                solutionRepository.save(s);
+            });
+        }
+
+        problem.setStatus("ROUTED");
+        problem.setProposal(null);
+        Problem saved = problemRepository.save(problem);
+
+        return ResponseEntity.ok(ApiResponse.ok("Proposal rejected. Problem returned to Routed queue.", saved));
+    }
+
+    @PostMapping("/problems/{id}/complete")
+    public ResponseEntity<ApiResponse<Problem>> completeProblemLifecycle(
+            @PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> payload
+    ) {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        String nowStr = java.time.Instant.now().toString();
+        String implementedSolution = payload != null && payload.get("implementedSolution") != null ? (String) payload.get("implementedSolution") : "Verified technological and on-ground civic solution deployed.";
+        String impactResult = payload != null && payload.get("impactResult") != null ? (String) payload.get("impactResult") : "100% resolution verified across district.";
+        String completedByOrg = payload != null && payload.get("completedByOrg") != null ? (String) payload.get("completedByOrg") : (problem.getRoutedToOrgName() != null ? problem.getRoutedToOrgName() : "Partner Institution");
+
+        problem.setStatus("COMPLETED");
+        problem.setApprovalStatus("COMPLETED");
+        problem.setCompletedAt(nowStr);
+        problem.setResolvedAt(nowStr);
+        problem.setImplementedSolution(implementedSolution);
+        problem.setImpactResult(impactResult);
+        problem.setCompletedByOrg(completedByOrg);
+        problem.setProjectProgress(100);
+
+        List<Project> projects = projectRepository.findByProblemId(id);
+        if (projects != null) {
+            for (Project project : projects) {
+                project.setStatus("RESOLVED");
+                project.setProgress(100);
+                project.setResolvedAt(nowStr);
+                projectRepository.save(project);
+            }
+        }
+
+        Problem saved = problemRepository.save(problem);
+
+        if (problem.getUserId() != null || problem.getCitizenEmail() != null) {
+            Notification cn = new Notification();
+            cn.setRecipientRole("ROLE_CITIZEN");
+            cn.setRecipientUserId(problem.getUserId() != null ? problem.getUserId() : problem.getCitizenEmail());
+            cn.setTitle("Civic Problem Resolved: " + problem.getTitle());
+            cn.setMessage("Your reported grievance has been fully resolved by " + completedByOrg + ". Solution: " + implementedSolution);
+            cn.setReferenceId(problem.getId());
+            cn.setType("PROBLEM_COMPLETED");
+            cn.setCreatedAt(nowStr);
+            notificationRepository.save(cn);
+        }
+
+        return ResponseEntity.ok(ApiResponse.ok("Problem marked COMPLETED and preserved as historical record.", saved));
+    }
+
+    @PostMapping("/problems/{id}/update-progress")
+    public ResponseEntity<ApiResponse<Problem>> updateProblemProgress(
+            @PathVariable String id,
+            @RequestBody Map<String, Object> payload
+    ) {
+        Problem problem = problemRepository.findById(id).orElse(null);
+        if (problem == null) {
+            return ResponseEntity.status(404).body(ApiResponse.error("Problem not found: " + id));
+        }
+
+        int progress = payload.get("progress") instanceof Number ? ((Number) payload.get("progress")).intValue() : 50;
+        problem.setProjectProgress(Math.min(100, Math.max(0, progress)));
+        if (progress >= 100) {
+            problem.setStatus("COMPLETED");
+            problem.setCompletedAt(java.time.Instant.now().toString());
+            problem.setResolvedAt(java.time.Instant.now().toString());
+        }
+
+        List<Project> projects = projectRepository.findByProblemId(id);
+        if (projects != null) {
+            for (Project project : projects) {
+                project.setProgress(progress);
+                if (progress >= 100) project.setStatus("RESOLVED");
+                projectRepository.save(project);
+            }
+        }
+
+        Problem saved = problemRepository.save(problem);
+        return ResponseEntity.ok(ApiResponse.ok("Project progress updated to " + progress + "%", saved));
+    }
 }

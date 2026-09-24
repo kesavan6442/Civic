@@ -245,13 +245,28 @@ public class SolutionService {
         // 6. Save Solution to MongoDB
         Solution saved = solutionRepository.save(solution);
 
-        // 7. Atomically Update Problem Solution Count & State Transition
+        // 7. Atomically Update Problem Solution Count & Lifecycle State Transition
         long currentCount = solutionRepository.findByProblemId(problem.getId()).size();
         problem.setSolutionsCount((int) currentCount);
-        if (!"Currently Working".equalsIgnoreCase(problem.getStatus()) &&
-            !"Assigned".equalsIgnoreCase(problem.getStatus()) &&
+        if (!"IN_PROGRESS".equalsIgnoreCase(problem.getStatus()) &&
+            !"Currently Working".equalsIgnoreCase(problem.getStatus()) &&
+            !"COMPLETED".equalsIgnoreCase(problem.getStatus()) &&
             !"Resolved".equalsIgnoreCase(problem.getStatus())) {
-            problem.setStatus("Solutions Submitted");
+            problem.setStatus("PROPOSAL_SUBMITTED");
+            problem.setProposalSubmittedAt(Instant.now().toString());
+            String submitterName = saved.getUniversityName() != null ? saved.getUniversityName() : (saved.getCompanyName() != null ? saved.getCompanyName() : "Partner Institution");
+            problem.setProposalSubmittedBy(submitterName);
+
+            Map<String, Object> propMap = new HashMap<>();
+            propMap.put("id", saved.getId());
+            propMap.put("title", saved.getSolutionTitle() != null ? saved.getSolutionTitle() : problem.getTitle());
+            propMap.put("description", saved.getDescription());
+            propMap.put("technicalApproach", saved.getTechnicalApproach());
+            propMap.put("submittedBy", submitterName);
+            propMap.put("submittedAt", Instant.now().toString());
+            propMap.put("budgetEstimate", saved.getEstimatedCost());
+            propMap.put("durationMonths", saved.getEstimatedTimeWeeks());
+            problem.setProposal(propMap);
         }
         problemRepository.save(problem);
 

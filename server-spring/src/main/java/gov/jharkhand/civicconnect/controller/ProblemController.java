@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -265,5 +266,64 @@ public class ProblemController {
         auditLogService.logSecurityEvent(AuditLogService.Action.PROBLEM_UPDATED, problem.getUserId(), problem.getCitizenName(), problem.getId(), clientIp, "Citizen responded to MORE_INFO_REQUESTED");
 
         return ResponseEntity.ok(ApiResponse.ok("Clarification submitted successfully. Queued for Admin Gate 1 review.", updated));
+    }
+
+    @PostMapping("/{id}/route")
+    public ResponseEntity<ApiResponse<Problem>> routeProblem(
+            @PathVariable String id,
+            @RequestBody Map<String, Object> payload
+    ) {
+        Problem problem = problemService.getProblemById(id);
+        if (problem == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Problem not found"));
+
+        String targetType = (String) payload.getOrDefault("targetType", "UNIVERSITY");
+        String orgId = (String) payload.get("orgId");
+        String orgName = (String) payload.get("orgName");
+        String nowStr = java.time.Instant.now().toString();
+
+        problem.setStatus("ROUTED");
+        problem.setApprovalStatus("ROUTED");
+        problem.setRoutedAt(nowStr);
+        problem.setRoutedToOrgId(orgId);
+        problem.setRoutedToOrgName(orgName != null ? orgName : "Assigned Organization");
+        problem.setRoutedToOrgType(targetType);
+
+        Map<String, Object> assignedMap = new HashMap<>();
+        assignedMap.put("id", orgId);
+        assignedMap.put("name", orgName != null ? orgName : "Assigned Organization");
+        assignedMap.put("type", targetType);
+        assignedMap.put("routedAt", nowStr);
+        problem.setAssignedTo(assignedMap);
+
+        if ("UNIVERSITY".equalsIgnoreCase(targetType)) {
+            problem.setAdoptedByUniversity(orgName);
+        } else if ("INDUSTRY".equalsIgnoreCase(targetType)) {
+            problem.setAdoptedByIndustry(orgName);
+        }
+
+        Problem updated = problemService.updateProblem(problem);
+        return ResponseEntity.ok(ApiResponse.ok("Problem routed successfully to " + orgName, updated));
+    }
+
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<ApiResponse<Problem>> completeProblem(
+            @PathVariable String id,
+            @RequestBody(required = false) Map<String, Object> payload
+    ) {
+        Problem problem = problemService.getProblemById(id);
+        if (problem == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error("Problem not found"));
+
+        String nowStr = java.time.Instant.now().toString();
+        problem.setStatus("COMPLETED");
+        problem.setApprovalStatus("COMPLETED");
+        problem.setCompletedAt(nowStr);
+        problem.setResolvedAt(nowStr);
+        if (payload != null && payload.get("implementedSolution") != null) problem.setImplementedSolution((String) payload.get("implementedSolution"));
+        if (payload != null && payload.get("impactResult") != null) problem.setImpactResult((String) payload.get("impactResult"));
+        if (payload != null && payload.get("completedByOrg") != null) problem.setCompletedByOrg((String) payload.get("completedByOrg"));
+        problem.setProjectProgress(100);
+
+        Problem updated = problemService.updateProblem(problem);
+        return ResponseEntity.ok(ApiResponse.ok("Problem marked as COMPLETED", updated));
     }
 }

@@ -4,6 +4,7 @@ import '../admin/admin.css';
 import '../university/university.css';
 import { JharkhandCrest, CloseIcon, ChevronRight } from '../../components/Icons';
 import { problemsService, isProblemMatchingUniversityDomains, normalizeTitle } from '../../services/problemsService';
+import { authService } from '../../services/authService';
 
 // =========================================================================
 // SVG HELPER ICONS (MATCHING USER REFERENCE UI)

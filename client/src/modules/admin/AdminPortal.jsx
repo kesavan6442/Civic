@@ -173,8 +173,35 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
   const [overrideNotes, setOverrideNotes] = useState('');
   const [isSubmittingOverride, setIsSubmittingOverride] = useState(false);
 
-  // Continuous SLA Monitoring & Resolution Audit State
-  const [projectSlaModalOpen, setProjectSlaModalOpen] = useState(false);
+  // Problem Lifecycle Workflow State ('all' | 'new' | 'routed' | 'proposals' | 'active' | 'completed')
+  const [workflowTab, setWorkflowTab] = useState('all');
+
+  // Lifecycle Modal States
+  const [routeModalOpen, setRouteModalOpen] = useState(false);
+  const [routingProblem, setRoutingProblem] = useState(null);
+  const [selectedRouteOrgType, setSelectedRouteOrgType] = useState('university'); // 'university' | 'industry'
+  const [selectedRouteOrgId, setSelectedRouteOrgId] = useState('');
+  const [selectedRouteOrgName, setSelectedRouteOrgName] = useState('');
+  const [routeNotes, setRouteNotes] = useState('');
+  const [isRoutingLoading, setIsRoutingLoading] = useState(false);
+
+  const [reviewProposalModalOpen, setReviewProposalModalOpen] = useState(false);
+  const [reviewingProblem, setReviewingProblem] = useState(null);
+  const [proposalActionNotes, setProposalActionNotes] = useState('');
+  const [isReviewingProposalLoading, setIsReviewingProposalLoading] = useState(false);
+
+  const [completeModalOpen, setCompleteModalOpen] = useState(false);
+  const [completingProblem, setCompletingProblem] = useState(null);
+  const [completeImplementedSolution, setCompleteImplementedSolution] = useState('');
+  const [completeImpactResult, setCompleteImpactResult] = useState('');
+  const [completeOrgName, setCompleteOrgName] = useState('');
+  const [isCompletingLoading, setIsCompletingLoading] = useState(false);
+
+  const [updateProgressModalOpen, setUpdateProgressModalOpen] = useState(false);
+  const [progressProblem, setProgressProblem] = useState(null);
+  const [progressPercent, setProgressPercent] = useState(50);
+  const [progressNotes, setProgressNotes] = useState('');
+  const [isUpdatingProgressLoading, setIsUpdatingProgressLoading] = useState(false);
 
   // Admin Gate 1: Approve for Matching Modal State
   const [approveModalOpen, setApproveModalOpen] = useState(false);
@@ -213,6 +240,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
   const [problemMatchesData, setProblemMatchesData] = useState(null);
   const [isLoadingMatches, setIsLoadingMatches] = useState(false);
+  const [projectSlaModalOpen, setProjectSlaModalOpen] = useState(false);
   const [selectedProjectForSla, setSelectedProjectForSla] = useState(null);
   const [projectSlaData, setProjectSlaData] = useState(null);
   const [isSlaLoading, setIsSlaLoading] = useState(false);
@@ -447,27 +475,275 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
     }
   }, [analyticsDateRange, analyticsDistrict, analyticsCategory, analyticsStatus, analyticsUniversity, activeTab]);
 
+  // Lifecycle Stage Categorizer (NEW -> ROUTED -> PROPOSAL_SUBMITTED -> APPROVED / IN_PROGRESS -> COMPLETED)
+  const getProblemLifecycleStage = (p) => {
+    if (!p) return 'new';
+    const st = (p.status || '').toUpperCase();
+    if (st === 'COMPLETED' || st === 'RESOLVED') return 'completed';
+    if (st === 'IN_PROGRESS' || st === 'APPROVED' || st === 'CURRENTLY WORKING' || st === 'ASSIGNED' || st === 'COLLABORATION_APPROVED') return 'active';
+    if (st === 'PROPOSAL_SUBMITTED' || st === 'SOLUTIONS SUBMITTED' || st === 'SOLUTION SUBMITTED' || (p.proposal && Object.keys(p.proposal).length > 0)) return 'proposals';
+    if (st === 'ROUTED' || st === 'BROADCASTED TO UNIVERSITIES' || st === 'AWAITING_PROPOSALS' || p.routedToOrgId || p.routedToOrgName) return 'routed';
+    return 'new';
+  };
+
+  const newProblemsList = problems.filter(p => getProblemLifecycleStage(p) === 'new');
+  const routedProblemsList = problems.filter(p => getProblemLifecycleStage(p) === 'routed');
+  const proposalsProblemsList = problems.filter(p => getProblemLifecycleStage(p) === 'proposals');
+  const activeProjectsList = problems.filter(p => getProblemLifecycleStage(p) === 'active');
+  const completedProblemsList = problems.filter(p => getProblemLifecycleStage(p) === 'completed');
+
   // Dynamically derived metrics from real data arrays
   const totalProblemsCount = problems.length;
-  const newProblemsCount = problems.filter(p => 
-    p.status === 'Pending Admin Review' || 
-    p.status === 'Under AI Analysis' ||
-    p.status === 'New' || 
-    p.status === 'Pending'
-  ).length;
+  const newProblemsCount = newProblemsList.length;
+  const routedProblemsCount = routedProblemsList.length;
+  const proposalsCount = proposalsProblemsList.length;
+  const activeProjectsCount = activeProjectsList.length;
+  const completedProblemsCount = completedProblemsList.length;
+
   const underAIAnalysisCount = problems.filter(p => p.status === 'Under AI Analysis').length;
-  const pendingUniversityResponsesCount = problems.filter(p => 
-    !p.status?.includes('Assigned') && 
-    !p.status?.includes('Progress') && 
-    !p.status?.includes('Resolved') && 
-    (!p.solutionsCount || p.solutionsCount === 0)
-  ).length;
-  const solutionsSubmittedCount = solutions.length;
-  const problemsAssignedCount = problems.filter(p => p.status === 'Assigned' || p.assignedTo).length;
-  const inProgressCount = problems.filter(p => p.status === 'In Progress' || p.status === 'Currently Working').length;
-  const resolvedCount = problems.filter(p => p.status === 'Resolved').length;
+  const pendingUniversityResponsesCount = routedProblemsCount;
+  const solutionsSubmittedCount = proposalsCount;
+  const problemsAssignedCount = activeProjectsCount;
+  const inProgressCount = activeProjectsCount;
+  const resolvedCount = completedProblemsCount;
   const unreadNotificationsCount = notifications.filter(n => !n.read).length;
   const activeDistrictsCount = new Set(problems.map(p => p.district).filter(Boolean)).size;
+
+  // =========================================================================
+  // PROBLEM LIFECYCLE WORKFLOW ACTION HANDLERS
+  // =========================================================================
+
+  // 1. Open Route Problem Modal
+  const handleOpenRouteModal = (problem) => {
+    setRoutingProblem(problem);
+    setSelectedRouteOrgType('university');
+    setSelectedRouteOrgId(universities[0]?.id || 'UNIV-BIT-MESRA');
+    setSelectedRouteOrgName(universities[0]?.name || 'Birla Institute of Technology, Mesra');
+    setRouteNotes(`Official referral from State Admin for targeted problem research & technical proposal.`);
+    setRouteModalOpen(true);
+  };
+
+  // 2. Confirm Route Problem (Moves from NEW -> ROUTED without deleting)
+  const handleConfirmRoute = async () => {
+    if (!routingProblem) return;
+    setIsRoutingLoading(true);
+    try {
+      const res = await adminService.routeProblem(routingProblem.id, {
+        orgType: selectedRouteOrgType,
+        orgId: selectedRouteOrgId,
+        orgName: selectedRouteOrgName,
+        notes: routeNotes
+      });
+      setIsRoutingLoading(false);
+      if (res && res.success) {
+        setRouteModalOpen(false);
+        // Automatically update local state so it immediately leaves 'new' and appears in 'routed'
+        setProblems(prev => prev.map(p => {
+          if (p.id === routingProblem.id) {
+            return {
+              ...p,
+              status: 'ROUTED',
+              routedAt: new Date().toISOString(),
+              routedToOrgType: selectedRouteOrgType,
+              routedToOrgId: selectedRouteOrgId,
+              routedToOrgName: selectedRouteOrgName,
+              routingNotes: routeNotes
+            };
+          }
+          return p;
+        }));
+        setAssignmentSuccessToast({
+          title: 'Problem Routed Successfully!',
+          message: `Problem "${routingProblem.title}" routed to ${selectedRouteOrgName}. Automatically moved to Routed Problems.`
+        });
+        await loadAdminData();
+        setTimeout(() => setAssignmentSuccessToast(null), 5000);
+      } else {
+        alert(`Routing failed: ${res?.message || 'Server error'}`);
+      }
+    } catch (err) {
+      setIsRoutingLoading(false);
+      alert('Routing error: ' + err.message);
+    }
+  };
+
+  // 3. Open Review Proposal Modal
+  const handleOpenReviewProposalModal = (problem) => {
+    setReviewingProblem(problem);
+    setProposalActionNotes('Approved by State Administration nodal engineering review committee for deployment.');
+    setReviewProposalModalOpen(true);
+  };
+
+  // 4. Approve Proposal (Moves from PROPOSALS -> ACTIVE PROJECTS)
+  const handleApproveProposal = async () => {
+    if (!reviewingProblem) return;
+    setIsReviewingProposalLoading(true);
+    try {
+      const res = await adminService.approveProblemProposal(reviewingProblem.id, {
+        notes: proposalActionNotes,
+        assignedBy: adminOfficerDesignation
+      });
+      setIsReviewingProposalLoading(false);
+      if (res && res.success) {
+        setReviewProposalModalOpen(false);
+        setProblems(prev => prev.map(p => {
+          if (p.id === reviewingProblem.id) {
+            return {
+              ...p,
+              status: 'IN_PROGRESS',
+              approvalStatus: 'APPROVED',
+              projectProgress: 10,
+              approvedAt: new Date().toISOString()
+            };
+          }
+          return p;
+        }));
+        setAssignmentSuccessToast({
+          title: 'Proposal Approved & Moved to Active Projects!',
+          message: `Problem "${reviewingProblem.title}" is now active in Active Projects.`
+        });
+        await loadAdminData();
+        setTimeout(() => setAssignmentSuccessToast(null), 5000);
+      } else {
+        alert(`Approval failed: ${res?.message || 'Server error'}`);
+      }
+    } catch (err) {
+      setIsReviewingProposalLoading(false);
+      alert('Error approving proposal: ' + err.message);
+    }
+  };
+
+  // 5. Reject Proposal (Returns from PROPOSALS -> ROUTED)
+  const handleRejectProposal = async () => {
+    if (!reviewingProblem) return;
+    const reason = prompt('Please specify the reason for rejecting this proposal (problem will return to ROUTED status):', 'Requires revised technical methodology and cost breakdown.');
+    if (!reason) return;
+    setIsReviewingProposalLoading(true);
+    try {
+      const res = await adminService.rejectProblemProposal(reviewingProblem.id, {
+        reason: reason
+      });
+      setIsReviewingProposalLoading(false);
+      if (res && res.success) {
+        setReviewProposalModalOpen(false);
+        setProblems(prev => prev.map(p => {
+          if (p.id === reviewingProblem.id) {
+            return {
+              ...p,
+              status: 'ROUTED',
+              rejectionReason: reason
+            };
+          }
+          return p;
+        }));
+        setAssignmentSuccessToast({
+          title: 'Proposal Rejected',
+          message: `Proposal rejected and problem returned to Routed Problems.`
+        });
+        await loadAdminData();
+        setTimeout(() => setAssignmentSuccessToast(null), 5000);
+      } else {
+        alert(`Rejection failed: ${res?.message || 'Server error'}`);
+      }
+    } catch (err) {
+      setIsReviewingProposalLoading(false);
+      alert('Error rejecting proposal: ' + err.message);
+    }
+  };
+
+  // 6. Open Complete Problem Modal
+  const handleOpenCompleteModal = (problem) => {
+    setCompletingProblem(problem);
+    setCompleteOrgName(problem.completedByOrg || problem.routedToOrgName || problem.assignedTo || 'Partner Engineering Team');
+    setCompleteImplementedSolution(`Full field deployment, testing, and citizen verification completed successfully in ${problem.district || 'Jharkhand'}.`);
+    setCompleteImpactResult('100% operational efficiency restored. Over 2,500 local residents benefited.');
+    setCompleteModalOpen(true);
+  };
+
+  // 7. Confirm Complete Problem (Moves to COMPLETED - Permanently Retained)
+  const handleConfirmComplete = async () => {
+    if (!completingProblem) return;
+    setIsCompletingLoading(true);
+    try {
+      const res = await adminService.completeProblemLifecycle(completingProblem.id, {
+        implementedSolution: completeImplementedSolution,
+        impactResult: completeImpactResult,
+        completedByOrg: completeOrgName,
+        completedBy: adminOfficerDesignation,
+        notes: 'Verified by State Administration & citizen resolution audit.'
+      });
+      setIsCompletingLoading(false);
+      if (res && res.success) {
+        setCompleteModalOpen(false);
+        setProblems(prev => prev.map(p => {
+          if (p.id === completingProblem.id) {
+            return {
+              ...p,
+              status: 'COMPLETED',
+              completedAt: new Date().toISOString(),
+              implementedSolution: completeImplementedSolution,
+              impactResult: completeImpactResult,
+              completedByOrg: completeOrgName,
+              projectProgress: 100
+            };
+          }
+          return p;
+        }));
+        setAssignmentSuccessToast({
+          title: 'Problem Marked as COMPLETED!',
+          message: `Problem "${completingProblem.title}" has been permanently marked as Completed. Preserved in database records.`
+        });
+        await loadAdminData();
+        setTimeout(() => setAssignmentSuccessToast(null), 5000);
+      } else {
+        alert(`Completion failed: ${res?.message || 'Server error'}`);
+      }
+    } catch (err) {
+      setIsCompletingLoading(false);
+      alert('Error completing problem: ' + err.message);
+    }
+  };
+
+  // 8. Open Update Progress Modal
+  const handleOpenUpdateProgress = (problem) => {
+    setProgressProblem(problem);
+    setProgressPercent(problem.projectProgress || 50);
+    setProgressNotes('Milestone deliverables verified on site.');
+    setUpdateProgressModalOpen(true);
+  };
+
+  // 9. Confirm Update Progress
+  const handleConfirmUpdateProgress = async () => {
+    if (!progressProblem) return;
+    setIsUpdatingProgressLoading(true);
+    try {
+      const res = await adminService.updateProblemProgress(progressProblem.id, {
+        progress: progressPercent,
+        notes: progressNotes
+      });
+      setIsUpdatingProgressLoading(false);
+      if (res && res.success) {
+        setUpdateProgressModalOpen(false);
+        setProblems(prev => prev.map(p => {
+          if (p.id === progressProblem.id) {
+            return {
+              ...p,
+              projectProgress: progressPercent
+            };
+          }
+          return p;
+        }));
+        setAssignmentSuccessToast({
+          title: 'Progress Updated',
+          message: `Project progress updated to ${progressPercent}%.`
+        });
+        setTimeout(() => setAssignmentSuccessToast(null), 4000);
+      }
+    } catch (err) {
+      setIsUpdatingProgressLoading(false);
+      alert('Error updating progress: ' + err.message);
+    }
+  };
 
   // Open AI Analysis Modal for a problem
   const handleOpenAIAnalysis = async (problem) => {
@@ -1903,77 +2179,91 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
 
 
 
-              {/* 5 Key Statistics Cards */}
+              {/* 5 Problem Lifecycle Statistics Cards */}
               <div className="admin-stats-grid-5">
-                {/* 1. Total Problems */}
-                <div
-                  className="admin-stat-card-neat accent-green"
-                  onClick={() => setActiveTab('problems')}
-                  title="View Total Problems"
-                >
-                  <div>
-                    <div className="admin-stat-neat-label">{isHindi ? 'कुल समस्याएं' : 'Total Problems'}</div>
-                    <div className="admin-stat-neat-count">{totalProblemsCount}</div>
-                  </div>
-                  <div className="admin-stat-neat-sub">Recorded in Statewide Repository</div>
-                </div>
-
-                {/* 2. Pending Verification */}
+                {/* 1. New Problems */}
                 <div
                   className="admin-stat-card-neat accent-yellow"
                   onClick={() => {
-                    setFilterStatus('Pending Admin Review');
+                    setWorkflowTab('new');
                     setActiveTab('problems');
                   }}
-                  title="View Pending Problems"
+                  style={{ cursor: 'pointer' }}
+                  title="View New Problems (Awaiting Routing)"
                 >
                   <div>
-                    <div className="admin-stat-neat-label">{isHindi ? 'सत्यापन लंबित' : 'Pending Verification'}</div>
+                    <div className="admin-stat-neat-label">{isHindi ? 'नई समस्याएं' : 'New Problems'}</div>
                     <div className="admin-stat-neat-count">{newProblemsCount}</div>
                   </div>
-                  <div className="admin-stat-neat-sub">Awaiting AI / Admin Review</div>
+                  <div className="admin-stat-neat-sub">Awaiting Partner Routing</div>
                 </div>
 
-                {/* 3. Solutions Received */}
+                {/* 2. Routed Problems */}
                 <div
                   className="admin-stat-card-neat accent-blue"
-                  onClick={() => setActiveTab('solutions')}
-                  title="View Solutions Received"
+                  onClick={() => {
+                    setWorkflowTab('routed');
+                    setActiveTab('problems');
+                  }}
+                  style={{ cursor: 'pointer' }}
+                  title="View Routed Problems"
                 >
                   <div>
-                    <div className="admin-stat-neat-label">{isHindi ? 'प्राप्त समाधान' : 'Solutions Received'}</div>
-                    <div className="admin-stat-neat-count">{solutionsSubmittedCount}</div>
+                    <div className="admin-stat-neat-label">{isHindi ? 'प्रेषित समस्याएं' : 'Routed Problems'}</div>
+                    <div className="admin-stat-neat-count">{routedProblemsCount}</div>
                   </div>
-                  <div className="admin-stat-neat-sub">From Universities & Industries</div>
+                  <div className="admin-stat-neat-sub">Awaiting Proposal Submission</div>
+                </div>
+
+                {/* 3. Proposals Received */}
+                <div
+                  className="admin-stat-card-neat accent-purple"
+                  onClick={() => {
+                    setWorkflowTab('proposals');
+                    setActiveTab('problems');
+                  }}
+                  style={{ cursor: 'pointer' }}
+                  title="View Submitted Proposals"
+                >
+                  <div>
+                    <div className="admin-stat-neat-label">{isHindi ? 'प्राप्त प्रस्ताव' : 'Proposals'}</div>
+                    <div className="admin-stat-neat-count">{proposalsCount}</div>
+                  </div>
+                  <div className="admin-stat-neat-sub">Under Admin Decision Review</div>
                 </div>
 
                 {/* 4. Active Projects */}
                 <div
-                  className="admin-stat-card-neat accent-purple"
-                  onClick={() => setActiveTab('projects')}
+                  className="admin-stat-card-neat accent-green"
+                  onClick={() => {
+                    setWorkflowTab('active');
+                    setActiveTab('problems');
+                  }}
+                  style={{ cursor: 'pointer' }}
                   title="View Active Projects"
                 >
                   <div>
                     <div className="admin-stat-neat-label">{isHindi ? 'सक्रिय परियोजनाएं' : 'Active Projects'}</div>
-                    <div className="admin-stat-neat-count">{assignments.length}</div>
+                    <div className="admin-stat-neat-count">{activeProjectsCount}</div>
                   </div>
-                  <div className="admin-stat-neat-sub">Under Implementation</div>
+                  <div className="admin-stat-neat-sub">Under Active Execution</div>
                 </div>
 
-                {/* 5. Resolved Problems */}
+                {/* 5. Completed Problems */}
                 <div
                   className="admin-stat-card-neat accent-teal"
                   onClick={() => {
-                    setFilterStatus('Resolved');
+                    setWorkflowTab('completed');
                     setActiveTab('problems');
                   }}
-                  title="View Resolved Problems"
+                  style={{ cursor: 'pointer' }}
+                  title="View Completed Problems"
                 >
                   <div>
-                    <div className="admin-stat-neat-label">{isHindi ? 'समाधान संपन्न' : 'Resolved Problems'}</div>
-                    <div className="admin-stat-neat-count">{resolvedCount}</div>
+                    <div className="admin-stat-neat-label">{isHindi ? 'समाधान संपन्न' : 'Completed'}</div>
+                    <div className="admin-stat-neat-count">{completedProblemsCount}</div>
                   </div>
-                  <div className="admin-stat-neat-sub">Completed & Verified</div>
+                  <div className="admin-stat-neat-sub">Verified & Permanently Retained</div>
                 </div>
               </div>
 
@@ -2111,55 +2401,128 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   </span>
                 </div>
 
-                {/* 4 Summary Cards Row */}
-                <div className="problems-summary-grid">
-                  {/* 1. Pending Verification */}
+                {/* 5 Problem Lifecycle Summary Cards */}
+                <div className="problems-summary-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' }}>
+                  {/* 1. New Problems */}
                   <div
-                    className="problems-summary-card card-pending"
-                    onClick={() => setFilterStatus('Pending Admin Review')}
+                    className={`problems-summary-card card-pending ${workflowTab === 'new' ? 'active-lifecycle-card' : ''}`}
+                    onClick={() => { setWorkflowTab('new'); setCurrentPage(1); }}
+                    style={{ cursor: 'pointer', border: workflowTab === 'new' ? '2px solid #F59E0B' : '1px solid #E5E7EB' }}
                   >
                     <div className="problems-card-content">
-                      <div className="problems-card-label">Pending Verification</div>
+                      <div className="problems-card-label">1. New Problems</div>
                       <div className="problems-card-count">{newProblemsCount}</div>
-                      <div className="problems-card-sub">Awaiting AI / Admin review</div>
+                      <div className="problems-card-sub">Awaiting Partner Routing</div>
                     </div>
                   </div>
 
-                  {/* 2. Active Problems */}
+                  {/* 2. Routed Problems */}
                   <div
-                    className="problems-summary-card card-active"
-                    onClick={() => setFilterStatus('In Progress')}
+                    className={`problems-summary-card card-solutions ${workflowTab === 'routed' ? 'active-lifecycle-card' : ''}`}
+                    onClick={() => { setWorkflowTab('routed'); setCurrentPage(1); }}
+                    style={{ cursor: 'pointer', border: workflowTab === 'routed' ? '2px solid #0284C7' : '1px solid #E5E7EB' }}
                   >
                     <div className="problems-card-content">
-                      <div className="problems-card-label">Active Problems</div>
-                      <div className="problems-card-count">{inProgressCount}</div>
-                      <div className="problems-card-sub">In progress</div>
+                      <div className="problems-card-label">2. Routed</div>
+                      <div className="problems-card-count">{routedProblemsCount}</div>
+                      <div className="problems-card-sub">Awaiting Proposals</div>
                     </div>
                   </div>
 
-                  {/* 3. Solutions Received */}
+                  {/* 3. Proposals */}
                   <div
-                    className="problems-summary-card card-solutions"
-                    onClick={() => setFilterStatus('Solutions Submitted')}
+                    className={`problems-summary-card card-projects ${workflowTab === 'proposals' ? 'active-lifecycle-card' : ''}`}
+                    onClick={() => { setWorkflowTab('proposals'); setCurrentPage(1); }}
+                    style={{ cursor: 'pointer', border: workflowTab === 'proposals' ? '2px solid #7C3AED' : '1px solid #E5E7EB' }}
                   >
                     <div className="problems-card-content">
-                      <div className="problems-card-label">Solutions Received</div>
-                      <div className="problems-card-count">{solutionsSubmittedCount}</div>
-                      <div className="problems-card-sub">From universities & industries</div>
+                      <div className="problems-card-label">3. Proposals</div>
+                      <div className="problems-card-count">{proposalsCount}</div>
+                      <div className="problems-card-sub">Awaiting Admin Decision</div>
                     </div>
                   </div>
 
-                  {/* 4. Projects in Progress */}
+                  {/* 4. Active Projects */}
                   <div
-                    className="problems-summary-card card-projects"
-                    onClick={() => setFilterStatus('Assigned')}
+                    className={`problems-summary-card card-active ${workflowTab === 'active' ? 'active-lifecycle-card' : ''}`}
+                    onClick={() => { setWorkflowTab('active'); setCurrentPage(1); }}
+                    style={{ cursor: 'pointer', border: workflowTab === 'active' ? '2px solid #059669' : '1px solid #E5E7EB' }}
                   >
                     <div className="problems-card-content">
-                      <div className="problems-card-label">Projects in Progress</div>
-                      <div className="problems-card-count">{assignments.length}</div>
-                      <div className="problems-card-sub">Under implementation</div>
+                      <div className="problems-card-label">4. Active Projects</div>
+                      <div className="problems-card-count">{activeProjectsCount}</div>
+                      <div className="problems-card-sub">Under Execution</div>
                     </div>
                   </div>
+
+                  {/* 5. Completed Problems */}
+                  <div
+                    className={`problems-summary-card card-resolved ${workflowTab === 'completed' ? 'active-lifecycle-card' : ''}`}
+                    onClick={() => { setWorkflowTab('completed'); setCurrentPage(1); }}
+                    style={{ cursor: 'pointer', border: workflowTab === 'completed' ? '2px solid #0D9488' : '1px solid #E5E7EB' }}
+                  >
+                    <div className="problems-card-content">
+                      <div className="problems-card-label">5. Completed</div>
+                      <div className="problems-card-count">{completedProblemsCount}</div>
+                      <div className="problems-card-sub">Historical & Verified</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Lifecycle Navigation Pill Bar */}
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  margin: '14px 0 10px 0',
+                  padding: '4px',
+                  background: '#F3F4F6',
+                  borderRadius: '10px',
+                  overflowX: 'auto',
+                  flexWrap: 'nowrap'
+                }}>
+                  {[
+                    { key: 'all', label: 'All Problems', count: problems.length, color: '#374151' },
+                    { key: 'new', label: '1. New Problems', count: newProblemsCount, color: '#D97706' },
+                    { key: 'routed', label: '2. Routed', count: routedProblemsCount, color: '#0284C7' },
+                    { key: 'proposals', label: '3. Proposals', count: proposalsCount, color: '#7C3AED' },
+                    { key: 'active', label: '4. Active Projects', count: activeProjectsCount, color: '#059669' },
+                    { key: 'completed', label: '5. Completed', count: completedProblemsCount, color: '#0D9488' }
+                  ].map(tab => (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => { setWorkflowTab(tab.key); setCurrentPage(1); }}
+                      style={{
+                        padding: '6px 14px',
+                        borderRadius: '8px',
+                        border: 'none',
+                        background: workflowTab === tab.key ? '#FFFFFF' : 'transparent',
+                        color: workflowTab === tab.key ? '#111827' : '#6B7280',
+                        fontWeight: workflowTab === tab.key ? 800 : 600,
+                        fontSize: '0.82rem',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        boxShadow: workflowTab === tab.key ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                        whiteSpace: 'nowrap',
+                        transition: 'all 0.15s ease'
+                      }}
+                    >
+                      <span>{tab.label}</span>
+                      <span style={{
+                        fontSize: '0.72rem',
+                        background: workflowTab === tab.key ? '#F3F4F6' : '#E5E7EB',
+                        color: tab.color,
+                        padding: '1px 6px',
+                        borderRadius: '10px',
+                        fontWeight: 700
+                      }}>
+                        {tab.count}
+                      </span>
+                    </button>
+                  ))}
                 </div>
 
                 {/* Single-Row Clean Filter & Search Bar */}
@@ -2168,7 +2531,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   <div className="problems-search-wrapper">
                     <input
                       type="text"
-                      placeholder="Search by problem ID, keyword or location..."
+                      placeholder="Search by problem ID, title, keyword or location..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="problems-search-input"
@@ -2221,25 +2584,6 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                     </select>
                   </div>
 
-                  {/* Status select */}
-                  <div className="problems-filter-item-box">
-                    <span className="problems-filter-item-label">Status</span>
-                    <select
-                      value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value)}
-                      className="problems-select-neat"
-                    >
-                      <option value="All">All Statuses</option>
-                      <option value="Pending Admin Review">Pending Verification</option>
-                      <option value="Broadcasted to Universities">Routed</option>
-                      <option value="Under AI Analysis">Under AI Analysis</option>
-                      <option value="Solutions Submitted">Under Review</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Assigned">Assigned</option>
-                      <option value="Resolved">Resolved</option>
-                    </select>
-                  </div>
-
                   {/* Reset button */}
                   <button
                     type="button"
@@ -2249,6 +2593,7 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                       setFilterPriority('All');
                       setFilterStatus('All');
                       setSearchQuery('');
+                      setWorkflowTab('all');
                     }}
                     className="problems-reset-btn"
                     title="Reset all search and dropdown filters"
@@ -2258,150 +2603,544 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                 </div>
               </div>
 
-              {/* Data Table: ONLY THIS CARD & BODY SCROLLS */}
+              {/* Data Table: DYNAMICALLY RENDERED BY LIFECYCLE STAGE */}
               <div className="admin-table-card-scrollable">
                 <div className="admin-table-responsive">
-                  <table className="admin-table">
-                    <thead>
-                      <tr style={{ background: '#F9FAFB' }}>
-                        <th style={{ width: '150px', padding: '12px 16px' }}>Problem ID</th>
-                        <th style={{ minWidth: '240px', padding: '12px 16px' }}>Problem Title</th>
-                        <th style={{ width: '130px', padding: '12px 16px' }}>District</th>
-                        <th style={{ width: '160px', padding: '12px 16px' }}>Category</th>
-                        <th style={{ width: '100px', padding: '12px 16px' }}>Priority</th>
-                        <th style={{ width: '160px', padding: '12px 16px' }}>Status</th>
-                        <th style={{ width: '120px', padding: '12px 16px' }}>AI Status</th>
-                        <th style={{ width: '100px', padding: '12px 16px', textAlign: 'center' }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {problems.length === 0 ? (
-                        <tr>
-                          <td colSpan={8} style={{ textAlign: 'center', padding: '48px 20px', color: '#6B7280' }}>
-                            <strong style={{ fontSize: '1rem', color: '#374151', display: 'block', marginBottom: '4px' }}>No civic problems found</strong>
-                            <span style={{ fontSize: '0.84rem' }}>Try clearing or changing your filters above.</span>
-                          </td>
-                        </tr>
-                      ) : (
-                        problems.slice((currentPage - 1) * pageSize, currentPage * pageSize).map((p, idx) => {
-                          const priority = p.priority || (idx === 0 ? 'Critical' : idx === 1 ? 'High' : idx < 3 ? 'Medium' : 'Low');
-                          const statusLabel = p.status === 'Pending Admin Review' || p.status === 'Pending' || p.status === 'New'
-                            ? 'Pending Verification' 
-                            : p.status === 'Broadcasted to Universities' 
-                              ? 'Routed' 
-                              : p.status === 'Solutions Submitted' 
-                                ? 'Under Review' 
-                                : p.status === 'In Progress' || p.status === 'Currently Working'
-                                  ? 'In Progress'
-                                  : p.status || 'Assigned';
+                  {(() => {
+                    // Compute current active dataset based on workflowTab
+                    let currentDataset = problems;
+                    if (workflowTab === 'new') currentDataset = newProblemsList;
+                    else if (workflowTab === 'routed') currentDataset = routedProblemsList;
+                    else if (workflowTab === 'proposals') currentDataset = proposalsProblemsList;
+                    else if (workflowTab === 'active') currentDataset = activeProjectsList;
+                    else if (workflowTab === 'completed') currentDataset = completedProblemsList;
 
-                          const aiStatus = p.autoRouted || idx % 2 === 0 ? 'AI Verified' : 'AI Analyzed';
+                    // Apply text search & category/district filters locally
+                    const filteredItems = currentDataset.filter(p => {
+                      if (searchQuery) {
+                        const q = searchQuery.toLowerCase();
+                        const idMatch = (p.id || '').toLowerCase().includes(q);
+                        const titleMatch = (p.title || '').toLowerCase().includes(q);
+                        const distMatch = (p.district || '').toLowerCase().includes(q);
+                        const orgMatch = (p.routedToOrgName || p.assignedTo || p.completedByOrg || '').toLowerCase().includes(q);
+                        if (!idMatch && !titleMatch && !distMatch && !orgMatch) return false;
+                      }
+                      if (filterCategory !== 'All' && p.category !== filterCategory) return false;
+                      if (filterDistrict !== 'All' && p.district !== filterDistrict) return false;
+                      if (filterPriority !== 'All' && p.priority !== filterPriority) return false;
+                      return true;
+                    });
 
-                          return (
-                            <tr key={p.id || idx}>
-                              {/* 1. Problem ID */}
-                              <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
-                                {p.id || `JH-CHLG-2026-${1001 + idx}`}
-                              </td>
+                    const pagedItems = filteredItems.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
-                              {/* 2. Problem Title */}
-                              <td style={{ padding: '14px 16px', maxWidth: '320px' }}>
-                                <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem', lineHeight: 1.35 }}>
-                                  {p.title}
-                                </div>
-                              </td>
+                    if (filteredItems.length === 0) {
+                      return (
+                        <div style={{ textAlign: 'center', padding: '48px 20px', color: '#6B7280' }}>
+                          <strong style={{ fontSize: '1rem', color: '#374151', display: 'block', marginBottom: '4px' }}>
+                            {workflowTab === 'new' ? 'No new problems awaiting routing' :
+                             workflowTab === 'routed' ? 'No problems currently waiting for proposals' :
+                             workflowTab === 'proposals' ? 'No submitted proposals requiring review' :
+                             workflowTab === 'active' ? 'No active implementation projects' :
+                             workflowTab === 'completed' ? 'No completed problems in archive' :
+                             'No civic problems found'}
+                          </strong>
+                          <span style={{ fontSize: '0.84rem' }}>Try switching lifecycle views or resetting filters.</span>
+                        </div>
+                      );
+                    }
 
-                              {/* 3. District */}
-                              <td style={{ padding: '14px 16px', color: '#374151', fontSize: '0.84rem' }}>
-                                {p.district || 'Ranchi'}
-                              </td>
-
-                              {/* 4. Category Pill Badge */}
-                              <td style={{ padding: '14px 16px' }}>
-                                <span style={{
-                                  fontSize: '0.74rem',
-                                  fontWeight: 700,
-                                  padding: '3px 10px',
-                                  borderRadius: '12px',
-                                  background: p.category === 'Water Management' || p.category === 'Water Supply' ? '#EFF6FF' :
-                                              p.category === 'Roads & Infrastructure' || p.category === 'Roads' ? '#ECFDF5' :
-                                              p.category === 'Urban Infrastructure' ? '#FAF5FF' :
-                                              p.category === 'Sanitation' || p.category === 'Solid Waste' ? '#F0FDF4' : '#F3F4F6',
-                                  color: p.category === 'Water Management' || p.category === 'Water Supply' ? '#1D4ED8' :
-                                         p.category === 'Roads & Infrastructure' || p.category === 'Roads' ? '#059669' :
-                                         p.category === 'Urban Infrastructure' ? '#7C3AED' :
-                                         p.category === 'Sanitation' || p.category === 'Solid Waste' ? '#0D9488' : '#374151'
-                                }}>
-                                  {p.category || 'Civic'}
-                                </span>
-                              </td>
-
-                              {/* 5. Priority Pill Badge */}
-                              <td style={{ padding: '14px 16px' }}>
-                                <span style={{
-                                  fontSize: '0.72rem',
-                                  fontWeight: 700,
-                                  padding: '3px 8px',
-                                  borderRadius: '12px',
-                                  background: priority === 'Critical' || priority === 'High' ? '#FEE2E2' : priority === 'Medium' ? '#FEF3C7' : '#ECFDF5',
-                                  color: priority === 'Critical' || priority === 'High' ? '#DC2626' : priority === 'Medium' ? '#D97706' : '#059669'
-                                }}>
-                                  {priority}
-                                </span>
-                              </td>
-
-                              {/* 6. Status Pill Badge */}
-                              <td style={{ padding: '14px 16px' }}>
-                                <span style={{
-                                  fontSize: '0.72rem',
-                                  fontWeight: 700,
-                                  padding: '3px 10px',
-                                  borderRadius: '12px',
-                                  background: statusLabel === 'Pending Verification' ? '#FEF3C7' :
-                                              statusLabel === 'In Progress' ? '#EFF6FF' :
-                                              statusLabel === 'Routed' ? '#E0F2FE' :
-                                              statusLabel === 'Under Review' ? '#FAF5FF' : '#F0F9FF',
-                                  color: statusLabel === 'Pending Verification' ? '#D97706' :
-                                         statusLabel === 'In Progress' ? '#1D4ED8' :
-                                         statusLabel === 'Routed' ? '#0369A1' :
-                                         statusLabel === 'Under Review' ? '#7C3AED' : '#0284C7'
-                                }}>
-                                  {statusLabel}
-                                </span>
-                              </td>
-
-                              {/* 7. AI Status Pill Badge */}
-                              <td style={{ padding: '14px 16px' }}>
-                                <span style={{
-                                  fontSize: '0.72rem',
-                                  fontWeight: 700,
-                                  padding: '3px 9px',
-                                  borderRadius: '12px',
-                                  background: aiStatus === 'AI Verified' ? '#DCFCE7' : '#EDE9FE',
-                                  color: aiStatus === 'AI Verified' ? '#166534' : '#6D28D9'
-                                }}>
-                                  {aiStatus}
-                                </span>
-                              </td>
-
-                              {/* 8. Action Button: View -> */}
-                              <td style={{ padding: '14px 16px', textAlign: 'center' }}>
-                                <button
-                                  type="button"
-                                  className="admin-view-arrow-btn"
-                                  onClick={() => handleOpenAIAnalysis(p)}
-                                  title="Inspect full challenge details and AI analysis"
-                                >
-                                  <span>View</span>
-                                  <span>→</span>
-                                </button>
-                              </td>
+                    // 1. VIEW: NEW PROBLEMS
+                    if (workflowTab === 'new') {
+                      return (
+                        <table className="admin-table">
+                          <thead>
+                            <tr style={{ background: '#F9FAFB' }}>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                              <th style={{ minWidth: '240px', padding: '12px 16px' }}>Problem Statement</th>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>District</th>
+                              <th style={{ width: '150px', padding: '12px 16px' }}>Category</th>
+                              <th style={{ width: '100px', padding: '12px 16px' }}>Priority</th>
+                              <th style={{ width: '120px', padding: '12px 16px' }}>Registered Date</th>
+                              <th style={{ width: '180px', padding: '12px 16px', textAlign: 'center' }}>Lifecycle Actions</th>
                             </tr>
-                          );
-                        })
-                      )}
-                    </tbody>
-                  </table>
+                          </thead>
+                          <tbody>
+                            {pagedItems.map((p, idx) => {
+                              const priority = p.priority || 'Medium';
+                              return (
+                                <tr key={p.id || idx}>
+                                  <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                    {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem', lineHeight: 1.35 }}>
+                                      {p.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.76rem', color: '#6B7280', marginTop: '3px' }}>
+                                      {(p.description || '').slice(0, 80)}...
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', color: '#374151', fontSize: '0.84rem' }}>
+                                    {p.district || 'Ranchi'}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <span style={{ fontSize: '0.74rem', fontWeight: 700, padding: '3px 10px', borderRadius: '12px', background: '#EFF6FF', color: '#1D4ED8' }}>
+                                      {p.category || 'Civic'}
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <span style={{
+                                      fontSize: '0.72rem',
+                                      fontWeight: 700,
+                                      padding: '3px 8px',
+                                      borderRadius: '12px',
+                                      background: priority === 'Critical' || priority === 'High' ? '#FEE2E2' : priority === 'Medium' ? '#FEF3C7' : '#ECFDF5',
+                                      color: priority === 'Critical' || priority === 'High' ? '#DC2626' : priority === 'Medium' ? '#D97706' : '#059669'
+                                    }}>
+                                      {priority}
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', color: '#6B7280', fontSize: '0.8rem' }}>
+                                    {p.submissionDate || p.createdAt ? new Date(p.submissionDate || p.createdAt).toLocaleDateString('en-IN') : 'Recent'}
+                                  </td>
+                                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenRouteModal(p)}
+                                        style={{
+                                          background: '#036D33',
+                                          color: '#FFFFFF',
+                                          border: 'none',
+                                          borderRadius: '6px',
+                                          padding: '6px 12px',
+                                          fontSize: '0.78rem',
+                                          fontWeight: 700,
+                                          cursor: 'pointer',
+                                          boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                                        }}
+                                        title="Route problem to university or industry partner"
+                                      >
+                                        Route Problem →
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="admin-view-arrow-btn"
+                                        onClick={() => handleOpenAIAnalysis(p)}
+                                        title="Inspect AI triage analysis"
+                                      >
+                                        AI
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      );
+                    }
+
+                    // 2. VIEW: ROUTED PROBLEMS
+                    if (workflowTab === 'routed') {
+                      return (
+                        <table className="admin-table">
+                          <thead>
+                            <tr style={{ background: '#F9FAFB' }}>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                              <th style={{ minWidth: '240px', padding: '12px 16px' }}>Problem Statement</th>
+                              <th style={{ width: '220px', padding: '12px 16px' }}>Assigned Partner</th>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Routed Date</th>
+                              <th style={{ width: '180px', padding: '12px 16px' }}>Partner Status</th>
+                              <th style={{ width: '130px', padding: '12px 16px', textAlign: 'center' }}>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pagedItems.map((p, idx) => {
+                              const orgName = p.routedToOrgName || p.assignedUniversityId || p.assignedTo || 'Partner Institution';
+                              const orgType = p.routedToOrgType || (orgName.toLowerCase().includes('ltd') || orgName.toLowerCase().includes('corp') ? 'Industry' : 'University');
+                              return (
+                                <tr key={p.id || idx}>
+                                  <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                    {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem' }}>
+                                      {p.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.76rem', color: '#6B7280', marginTop: '2px' }}>
+                                      {p.district || 'Jharkhand'} • {p.category || 'General'}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                      <span style={{
+                                        fontSize: '0.7rem',
+                                        fontWeight: 800,
+                                        padding: '2px 6px',
+                                        borderRadius: '4px',
+                                        background: orgType === 'university' ? '#EFF6FF' : '#FAF5FF',
+                                        color: orgType === 'university' ? '#1D4ED8' : '#7C3AED'
+                                      }}>
+                                        {orgType.toUpperCase()}
+                                      </span>
+                                      <strong style={{ color: '#1F2937', fontSize: '0.82rem' }}>{orgName}</strong>
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', color: '#6B7280', fontSize: '0.8rem' }}>
+                                    {p.routedAt ? new Date(p.routedAt).toLocaleDateString('en-IN') : 'Recent'}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <span style={{
+                                      fontSize: '0.74rem',
+                                      fontWeight: 700,
+                                      padding: '3px 10px',
+                                      borderRadius: '12px',
+                                      background: '#FEF3C7',
+                                      color: '#B45309',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '4px'
+                                    }}>
+                                      Awaiting Proposal Submission
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                    <button
+                                      type="button"
+                                      className="admin-view-arrow-btn"
+                                      onClick={() => handleOpenAIAnalysis(p)}
+                                      title="Inspect challenge details"
+                                    >
+                                      <span>Details</span>
+                                      <span>→</span>
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      );
+                    }
+
+                    // 3. VIEW: PROPOSALS
+                    if (workflowTab === 'proposals') {
+                      return (
+                        <table className="admin-table">
+                          <thead>
+                            <tr style={{ background: '#F9FAFB' }}>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                              <th style={{ minWidth: '220px', padding: '12px 16px' }}>Problem Statement</th>
+                              <th style={{ width: '200px', padding: '12px 16px' }}>Submitted Proposal</th>
+                              <th style={{ width: '160px', padding: '12px 16px' }}>Submitting Partner</th>
+                              <th style={{ width: '120px', padding: '12px 16px' }}>Cost & SLA</th>
+                              <th style={{ width: '160px', padding: '12px 16px', textAlign: 'center' }}>Admin Decision</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pagedItems.map((p, idx) => {
+                              const propTitle = p.proposal?.title || p.solutionTitle || 'Technical Feasibility Proposal';
+                              const submitter = p.proposalSubmittedBy || p.proposal?.submittedBy || p.routedToOrgName || 'Partner Lab';
+                              const cost = p.proposal?.estimatedCost || '₹ 4.5 Lakhs';
+                              const timeline = p.proposal?.timeline || '6 Weeks';
+                              return (
+                                <tr key={p.id || idx}>
+                                  <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                    {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem' }}>
+                                      {p.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.76rem', color: '#6B7280' }}>
+                                      {p.district} • {p.category}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <strong style={{ color: '#0369A1', fontSize: '0.84rem' }}>{propTitle}</strong>
+                                    <div style={{ fontSize: '0.74rem', color: '#4B5563', marginTop: '2px' }}>
+                                      {p.proposal?.summary ? p.proposal.summary.slice(0, 60) + '...' : 'Complete technical methodology submitted.'}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', fontSize: '0.82rem', color: '#1F2937', fontWeight: 600 }}>
+                                    {submitter}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#059669' }}>{cost}</div>
+                                    <div style={{ fontSize: '0.74rem', color: '#6B7280' }}>SLA: {timeline}</div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleOpenReviewProposalModal(p)}
+                                      style={{
+                                        background: '#2563EB',
+                                        color: '#FFFFFF',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        padding: '6px 12px',
+                                        fontSize: '0.78rem',
+                                        fontWeight: 700,
+                                        cursor: 'pointer'
+                                      }}
+                                      title="Review proposal and Approve or Reject"
+                                    >
+                                      Review Proposal →
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      );
+                    }
+
+                    // 4. VIEW: ACTIVE PROJECTS
+                    if (workflowTab === 'active') {
+                      return (
+                        <table className="admin-table">
+                          <thead>
+                            <tr style={{ background: '#F9FAFB' }}>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                              <th style={{ minWidth: '220px', padding: '12px 16px' }}>Project Title</th>
+                              <th style={{ width: '180px', padding: '12px 16px' }}>Assigned Partner</th>
+                              <th style={{ width: '180px', padding: '12px 16px' }}>Progress</th>
+                              <th style={{ width: '120px', padding: '12px 16px' }}>SLA Status</th>
+                              <th style={{ width: '190px', padding: '12px 16px', textAlign: 'center' }}>Project Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pagedItems.map((p, idx) => {
+                              const partner = p.routedToOrgName || p.assignedTo || 'Partner Engineering Team';
+                              const progress = p.projectProgress || (idx === 0 ? 75 : idx === 1 ? 40 : 60);
+                              return (
+                                <tr key={p.id || idx}>
+                                  <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                    {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem' }}>
+                                      {p.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.76rem', color: '#6B7280' }}>
+                                      Approved Solution: {p.approvedProposal?.title || p.proposal?.title || 'State Deployment Plan'}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', fontSize: '0.82rem', fontWeight: 600, color: '#1F2937' }}>
+                                    {partner}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                      <div style={{ flex: 1, background: '#E5E7EB', height: '7px', borderRadius: '4px', overflow: 'hidden' }}>
+                                        <div style={{ width: `${progress}%`, background: '#10B981', height: '100%', borderRadius: '4px' }} />
+                                      </div>
+                                      <span style={{ fontSize: '0.78rem', fontWeight: 800, color: '#065F46' }}>{progress}%</span>
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#047857', background: '#ECFDF5', padding: '3px 8px', borderRadius: '12px' }}>
+                                      On Track
+                                    </span>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenUpdateProgress(p)}
+                                        style={{
+                                          background: '#F3F4F6',
+                                          color: '#374151',
+                                          border: '1px solid #D1D5DB',
+                                          borderRadius: '6px',
+                                          padding: '5px 8px',
+                                          fontSize: '0.74rem',
+                                          fontWeight: 700,
+                                          cursor: 'pointer'
+                                        }}
+                                      >
+                                        Progress
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={() => handleOpenCompleteModal(p)}
+                                        style={{
+                                          background: '#0D9488',
+                                          color: '#FFFFFF',
+                                          border: 'none',
+                                          borderRadius: '6px',
+                                          padding: '5px 10px',
+                                          fontSize: '0.74rem',
+                                          fontWeight: 700,
+                                          cursor: 'pointer'
+                                        }}
+                                        title="Mark problem as successfully completed"
+                                      >
+                                        Mark Completed ✓
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      );
+                    }
+
+                    // 5. VIEW: COMPLETED PROBLEMS
+                    if (workflowTab === 'completed') {
+                      return (
+                        <table className="admin-table">
+                          <thead>
+                            <tr style={{ background: '#F9FAFB' }}>
+                              <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                              <th style={{ minWidth: '220px', padding: '12px 16px' }}>Problem Title</th>
+                              <th style={{ width: '120px', padding: '12px 16px' }}>Completed Date</th>
+                              <th style={{ width: '180px', padding: '12px 16px' }}>Executed By</th>
+                              <th style={{ minWidth: '200px', padding: '12px 16px' }}>Implemented Solution</th>
+                              <th style={{ width: '180px', padding: '12px 16px' }}>Impact & Result</th>
+                              <th style={{ width: '120px', padding: '12px 16px', textAlign: 'center' }}>Record</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {pagedItems.map((p, idx) => {
+                              const completedDate = p.completedAt ? new Date(p.completedAt).toLocaleDateString('en-IN') : 'Verified';
+                              const org = p.completedByOrg || p.routedToOrgName || p.assignedTo || 'State Engineering Partner';
+                              const solution = p.implementedSolution || 'Full deployment, testing, and citizen verification completed successfully.';
+                              const impact = p.impactResult || '100% operational efficiency restored. Citizen satisfaction verified.';
+                              return (
+                                <tr key={p.id || idx}>
+                                  <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                    {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                  </td>
+                                  <td style={{ padding: '14px 16px' }}>
+                                    <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem' }}>
+                                      {p.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.76rem', color: '#6B7280' }}>
+                                      {p.district || 'Jharkhand'} • {p.category || 'Civic'}
+                                    </div>
+                                  </td>
+                                  <td style={{ padding: '14px 16px', color: '#4B5563', fontSize: '0.82rem', fontWeight: 600 }}>
+                                    {completedDate}
+                                  </td>
+                                  <td style={{ padding: '14px 16px', fontSize: '0.82rem', color: '#1F2937', fontWeight: 600 }}>
+                                    {org}
+                                  </td>
+                                  <td style={{ padding: '14px 16px', fontSize: '0.8rem', color: '#374151' }}>
+                                    {solution}
+                                  </td>
+                                  <td style={{ padding: '14px 16px', fontSize: '0.8rem', color: '#047857', fontWeight: 600 }}>
+                                    {impact}
+                                  </td>
+                                  <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                    <span style={{
+                                      fontSize: '0.72rem',
+                                      fontWeight: 800,
+                                      padding: '3px 8px',
+                                      borderRadius: '12px',
+                                      background: '#DCFCE7',
+                                      color: '#166534'
+                                    }}>
+                                      ✓ Archived
+                                    </span>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      );
+                    }
+
+                    // 6. DEFAULT VIEW: ALL PROBLEMS
+                    return (
+                      <table className="admin-table">
+                        <thead>
+                          <tr style={{ background: '#F9FAFB' }}>
+                            <th style={{ width: '130px', padding: '12px 16px' }}>Problem ID</th>
+                            <th style={{ minWidth: '240px', padding: '12px 16px' }}>Problem Title</th>
+                            <th style={{ width: '120px', padding: '12px 16px' }}>District</th>
+                            <th style={{ width: '140px', padding: '12px 16px' }}>Category</th>
+                            <th style={{ width: '90px', padding: '12px 16px' }}>Priority</th>
+                            <th style={{ width: '140px', padding: '12px 16px' }}>Lifecycle Stage</th>
+                            <th style={{ width: '130px', padding: '12px 16px', textAlign: 'center' }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {pagedItems.map((p, idx) => {
+                            const stage = getProblemLifecycleStage(p);
+                            const priority = p.priority || 'Medium';
+                            const stageBadges = {
+                              new: { label: 'NEW', bg: '#FEF3C7', col: '#D97706' },
+                              routed: { label: 'ROUTED', bg: '#EFF6FF', col: '#2563EB' },
+                              proposals: { label: 'PROPOSAL', bg: '#FAF5FF', col: '#7C3AED' },
+                              active: { label: 'ACTIVE', bg: '#ECFDF5', col: '#059669' },
+                              completed: { label: 'COMPLETED', bg: '#DCFCE7', col: '#166534' }
+                            };
+                            const badge = stageBadges[stage] || stageBadges.new;
+                            return (
+                              <tr key={p.id || idx}>
+                                <td style={{ padding: '14px 16px', fontWeight: 600, color: '#4B5563', fontSize: '0.82rem' }}>
+                                  {p.id || `JH-CHLG-2026-${1001 + idx}`}
+                                </td>
+                                <td style={{ padding: '14px 16px' }}>
+                                  <div style={{ fontWeight: 700, color: '#111827', fontSize: '0.88rem' }}>
+                                    {p.title}
+                                  </div>
+                                </td>
+                                <td style={{ padding: '14px 16px', color: '#374151', fontSize: '0.84rem' }}>
+                                  {p.district || 'Ranchi'}
+                                </td>
+                                <td style={{ padding: '14px 16px' }}>
+                                  <span style={{ fontSize: '0.74rem', fontWeight: 700, padding: '3px 10px', borderRadius: '12px', background: '#F3F4F6', color: '#374151' }}>
+                                    {p.category || 'Civic'}
+                                  </span>
+                                </td>
+                                <td style={{ padding: '14px 16px' }}>
+                                  <span style={{
+                                    fontSize: '0.72rem',
+                                    fontWeight: 700,
+                                    padding: '3px 8px',
+                                    borderRadius: '12px',
+                                    background: priority === 'Critical' || priority === 'High' ? '#FEE2E2' : priority === 'Medium' ? '#FEF3C7' : '#ECFDF5',
+                                    color: priority === 'Critical' || priority === 'High' ? '#DC2626' : priority === 'Medium' ? '#D97706' : '#059669'
+                                  }}>
+                                    {priority}
+                                  </span>
+                                </td>
+                                <td style={{ padding: '14px 16px' }}>
+                                  <span style={{
+                                    fontSize: '0.72rem',
+                                    fontWeight: 800,
+                                    padding: '3px 10px',
+                                    borderRadius: '12px',
+                                    background: badge.bg,
+                                    color: badge.col
+                                  }}>
+                                    {badge.label}
+                                  </span>
+                                </td>
+                                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                                  <button
+                                    type="button"
+                                    className="admin-view-arrow-btn"
+                                    onClick={() => handleOpenAIAnalysis(p)}
+                                    title="View problem details"
+                                  >
+                                    <span>View</span>
+                                    <span>→</span>
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -7870,6 +8609,472 @@ export const AdminPortal = ({ lang = 'en', onToggleLang }) => {
                   style={{ padding: '8px 18px', fontSize: '0.84rem' }}
                 >
                   Close Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          LIFECYCLE MODAL 1: ROUTE PROBLEM (NEW -> ROUTED)
+         ========================================================================= */}
+      {routeModalOpen && routingProblem && (
+        <div className="modal-backdrop" onClick={() => setRouteModalOpen(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '560px', width: '92%' }}>
+            <div className="modal-header" style={{ background: '#024D24', padding: '16px 20px', color: '#FFFFFF' }}>
+              <div>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700 }}>
+                  Problem Lifecycle Workflow • Stage 1
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '2px', color: '#FFFFFF' }}>
+                  Route Problem to Partner
+                </h3>
+              </div>
+              <button className="modal-close-btn" onClick={() => setRouteModalOpen(false)}>
+                <CloseIcon size={16} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: '20px' }}>
+              <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px', fontSize: '0.84rem' }}>
+                <div style={{ fontWeight: 800, color: '#111827', fontSize: '0.94rem', marginBottom: '4px' }}>
+                  {routingProblem.title}
+                </div>
+                <div style={{ color: '#4B5563', fontSize: '0.78rem' }}>
+                  ID: <strong>{routingProblem.id}</strong> • District: <strong>{routingProblem.district}</strong> • Category: <strong>{routingProblem.category}</strong>
+                </div>
+              </div>
+
+              {/* Organization Type Selector */}
+              <div className="univ-form-group" style={{ marginBottom: '14px' }}>
+                <label className="univ-form-label">Route Target Organization Type <span className="required">*</span></label>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.86rem', fontWeight: 600 }}>
+                    <input
+                      type="radio"
+                      name="routeOrgType"
+                      value="university"
+                      checked={selectedRouteOrgType === 'university'}
+                      onChange={() => {
+                        setSelectedRouteOrgType('university');
+                        setSelectedRouteOrgId(universities[0]?.id || 'UNIV-BIT-MESRA');
+                        setSelectedRouteOrgName(universities[0]?.name || 'Birla Institute of Technology, Mesra');
+                      }}
+                    />
+                    University / Academic Lab
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.86rem', fontWeight: 600 }}>
+                    <input
+                      type="radio"
+                      name="routeOrgType"
+                      value="industry"
+                      checked={selectedRouteOrgType === 'industry'}
+                      onChange={() => {
+                        setSelectedRouteOrgType('industry');
+                        setSelectedRouteOrgId(industries[0]?.id || 'IND-TATA-STEEL');
+                        setSelectedRouteOrgName(industries[0]?.name || 'Tata Steel Innovation Lab');
+                      }}
+                    />
+                    Industry / Corporate Partner
+                  </label>
+                </div>
+              </div>
+
+              {/* Organization Dropdown */}
+              <div className="univ-form-group" style={{ marginBottom: '14px' }}>
+                <label className="univ-form-label">
+                  Select {selectedRouteOrgType === 'university' ? 'University' : 'Industry Partner'} <span className="required">*</span>
+                </label>
+                <select
+                  value={selectedRouteOrgId}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    setSelectedRouteOrgId(id);
+                    if (selectedRouteOrgType === 'university') {
+                      const u = universities.find(item => item.id === id);
+                      setSelectedRouteOrgName(u?.name || id);
+                    } else {
+                      const ind = industries.find(item => item.id === id);
+                      setSelectedRouteOrgName(ind?.name || id);
+                    }
+                  }}
+                  className="univ-form-select"
+                >
+                  {selectedRouteOrgType === 'university' ? (
+                    universities.length > 0 ? (
+                      universities.map(u => (
+                        <option key={u.id} value={u.id}>{u.name} ({u.location || u.district || 'Jharkhand'})</option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="UNIV-BIT-MESRA">Birla Institute of Technology, Mesra (Ranchi)</option>
+                        <option value="UNIV-IIT-ISM">IIT (ISM) Dhanbad</option>
+                        <option value="UNIV-NIT-JSR">NIT Jamshedpur</option>
+                        <option value="UNIV-RANCHI-UNIV">Ranchi University</option>
+                        <option value="UNIV-VBU-HAZARIBAGH">Vinoba Bhave University, Hazaribagh</option>
+                      </>
+                    )
+                  ) : (
+                    industries.length > 0 ? (
+                      industries.map(ind => (
+                        <option key={ind.id} value={ind.id}>{ind.name} ({ind.sector || 'Technology'})</option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="IND-TATA-STEEL">Tata Steel CSR & Technical Systems (Jamshedpur)</option>
+                        <option value="IND-CCL-RANCHI">Central Coalfields Limited Engineering Division</option>
+                        <option value="IND-JINDAL-STEEL">Jindal Steel & Power Ltd.</option>
+                        <option value="IND-VEDANTA-ESL">ESL Steel Limited (Vedanta)</option>
+                      </>
+                    )
+                  )}
+                </select>
+              </div>
+
+              {/* Administrative Routing Notes */}
+              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                <label className="univ-form-label">Referral Notes & Scope Instructions</label>
+                <textarea
+                  rows={3}
+                  value={routeNotes}
+                  onChange={(e) => setRouteNotes(e.target.value)}
+                  className="univ-form-textarea"
+                  placeholder="Instructions for the partner organization regarding problem research and proposal submission..."
+                />
+              </div>
+
+              <div style={{ background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: '8px', padding: '10px 12px', marginBottom: '16px', fontSize: '0.78rem', color: '#1E40AF' }}>
+                Routing this problem will change its status from <strong>NEW</strong> to <strong>ROUTED</strong>. It will immediately move to <em>Routed Problems</em>. The problem remains permanently in the system database.
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  type="button"
+                  className="univ-btn-secondary"
+                  onClick={() => setRouteModalOpen(false)}
+                  disabled={isRoutingLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn-primary"
+                  onClick={handleConfirmRoute}
+                  disabled={isRoutingLoading}
+                  style={{ background: '#036D33', borderColor: '#024D24', padding: '8px 18px' }}
+                >
+                  {isRoutingLoading ? 'Routing...' : 'Confirm & Route Problem →'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          LIFECYCLE MODAL 2: REVIEW PROPOSAL (PROPOSALS -> ACTIVE PROJECTS or ROUTED)
+         ========================================================================= */}
+      {reviewProposalModalOpen && reviewingProblem && (
+        <div className="modal-backdrop" onClick={() => setReviewProposalModalOpen(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '620px', width: '92%' }}>
+            <div className="modal-header" style={{ background: '#1D4ED8', padding: '16px 20px', color: '#FFFFFF' }}>
+              <div>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700 }}>
+                  Problem Lifecycle Workflow • Stage 3
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '2px', color: '#FFFFFF' }}>
+                  Review Proposal & Admin Decision
+                </h3>
+              </div>
+              <button className="modal-close-btn" onClick={() => setReviewProposalModalOpen(false)}>
+                <CloseIcon size={16} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: '20px' }}>
+              <div style={{ background: '#F8FAF9', border: '1px solid #E5E7EB', borderRadius: '8px', padding: '14px', marginBottom: '16px' }}>
+                <div style={{ fontSize: '0.76rem', color: '#6B7280', fontWeight: 700, textTransform: 'uppercase', marginBottom: '2px' }}>
+                  Problem Statement:
+                </div>
+                <div style={{ fontWeight: 800, color: '#111827', fontSize: '0.96rem' }}>
+                  {reviewingProblem.title}
+                </div>
+                <div style={{ fontSize: '0.78rem', color: '#4B5563', marginTop: '2px' }}>
+                  District: {reviewingProblem.district} • Category: {reviewingProblem.category}
+                </div>
+              </div>
+
+              {/* Submitted Proposal Details Card */}
+              <div style={{ background: '#EFF6FF', border: '1.5px solid #BFDBFE', borderRadius: '10px', padding: '16px', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <h4 style={{ margin: 0, fontSize: '1.02rem', fontWeight: 800, color: '#1E40AF' }}>
+                    {reviewingProblem.proposal?.title || reviewingProblem.solutionTitle || 'Engineering Deployment Proposal'}
+                  </h4>
+                  <span style={{ fontSize: '0.72rem', background: '#DBEAFE', color: '#1D4ED8', padding: '2px 8px', borderRadius: '10px', fontWeight: 700 }}>
+                    PROPOSAL
+                  </span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.82rem', marginBottom: '12px' }}>
+                  <div>
+                    <strong style={{ color: '#4B5563' }}>Submitted By:</strong>
+                    <div style={{ color: '#111827', fontWeight: 700 }}>
+                      {reviewingProblem.proposalSubmittedBy || reviewingProblem.routedToOrgName || 'Partner Lab'}
+                    </div>
+                  </div>
+                  <div>
+                    <strong style={{ color: '#4B5563' }}>Estimated Budget:</strong>
+                    <div style={{ color: '#059669', fontWeight: 800 }}>
+                      {reviewingProblem.proposal?.estimatedCost || '₹ 4.5 Lakhs'}
+                    </div>
+                  </div>
+                  <div>
+                    <strong style={{ color: '#4B5563' }}>Execution SLA:</strong>
+                    <div style={{ color: '#111827', fontWeight: 700 }}>
+                      {reviewingProblem.proposal?.timeline || '6 Weeks'}
+                    </div>
+                  </div>
+                  <div>
+                    <strong style={{ color: '#4B5563' }}>Submission Date:</strong>
+                    <div style={{ color: '#111827' }}>
+                      {reviewingProblem.proposalSubmittedAt ? new Date(reviewingProblem.proposalSubmittedAt).toLocaleDateString('en-IN') : 'Recent'}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ borderTop: '1px solid #BFDBFE', paddingTop: '10px', fontSize: '0.82rem', color: '#374151', lineHeight: 1.45 }}>
+                  <strong style={{ color: '#1E40AF', display: 'block', marginBottom: '4px' }}>Technical Methodology:</strong>
+                  {reviewingProblem.proposal?.summary || reviewingProblem.proposal?.description || reviewingProblem.description || 'Comprehensive technical design, prototype assembly, field installation, and sensor-based telemetry validation.'}
+                </div>
+              </div>
+
+              {/* Admin Decision Notes */}
+              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                <label className="univ-form-label">Administrative Decision & Sanction Notes</label>
+                <textarea
+                  rows={2}
+                  value={proposalActionNotes}
+                  onChange={(e) => setProposalActionNotes(e.target.value)}
+                  className="univ-form-textarea"
+                  placeholder="Notes accompanying approval or rejection decision..."
+                />
+              </div>
+
+              {/* Action Buttons: Reject vs Approve */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={handleRejectProposal}
+                  disabled={isReviewingProposalLoading}
+                  style={{
+                    background: '#FEE2E2',
+                    color: '#DC2626',
+                    border: '1px solid #FCA5A5',
+                    borderRadius: '8px',
+                    padding: '8px 16px',
+                    fontSize: '0.84rem',
+                    fontWeight: 700,
+                    cursor: 'pointer'
+                  }}
+                  title="Reject proposal and return problem to Routed Problems"
+                >
+                  ✕ Reject Proposal (Return to Routed)
+                </button>
+
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    type="button"
+                    className="univ-btn-secondary"
+                    onClick={() => setReviewProposalModalOpen(false)}
+                    disabled={isReviewingProposalLoading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-btn-primary"
+                    onClick={handleApproveProposal}
+                    disabled={isReviewingProposalLoading}
+                    style={{ background: '#059669', borderColor: '#047857', padding: '8px 18px' }}
+                  >
+                    {isReviewingProposalLoading ? 'Approving...' : '✓ Approve & Move to Active Projects'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          LIFECYCLE MODAL 3: MARK AS COMPLETED (ACTIVE -> COMPLETED)
+         ========================================================================= */}
+      {completeModalOpen && completingProblem && (
+        <div className="modal-backdrop" onClick={() => setCompleteModalOpen(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '580px', width: '92%' }}>
+            <div className="modal-header" style={{ background: '#0D9488', padding: '16px 20px', color: '#FFFFFF' }}>
+              <div>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700 }}>
+                  Problem Lifecycle Workflow • Final Resolution
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '2px', color: '#FFFFFF' }}>
+                  Mark Problem as Completed
+                </h3>
+              </div>
+              <button className="modal-close-btn" onClick={() => setCompleteModalOpen(false)}>
+                <CloseIcon size={16} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: '20px' }}>
+              <div style={{ background: '#F0FDFA', border: '1px solid #CCFBF1', borderRadius: '8px', padding: '12px 14px', marginBottom: '16px', fontSize: '0.84rem' }}>
+                <div style={{ fontWeight: 800, color: '#134E4A', fontSize: '0.94rem', marginBottom: '2px' }}>
+                  {completingProblem.title}
+                </div>
+                <div style={{ color: '#0F766E', fontSize: '0.78rem' }}>
+                  ID: <strong>{completingProblem.id}</strong> • District: <strong>{completingProblem.district}</strong>
+                </div>
+              </div>
+
+              {/* Organization Involved */}
+              <div className="univ-form-group" style={{ marginBottom: '12px' }}>
+                <label className="univ-form-label">Executing Organization / Partner Involved <span className="required">*</span></label>
+                <input
+                  type="text"
+                  value={completeOrgName}
+                  onChange={(e) => setCompleteOrgName(e.target.value)}
+                  className="univ-form-input"
+                  placeholder="e.g. BIT Mesra Innovation Lab & Tata Steel"
+                  required
+                />
+              </div>
+
+              {/* Implemented Solution Summary */}
+              <div className="univ-form-group" style={{ marginBottom: '12px' }}>
+                <label className="univ-form-label">Implemented Solution Summary <span className="required">*</span></label>
+                <textarea
+                  rows={3}
+                  value={completeImplementedSolution}
+                  onChange={(e) => setCompleteImplementedSolution(e.target.value)}
+                  className="univ-form-textarea"
+                  placeholder="Describe the deployed engineering solution, physical infrastructure, or software created..."
+                  required
+                />
+              </div>
+
+              {/* Impact and Result Metrics */}
+              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                <label className="univ-form-label">Impact & Result Metrics <span className="required">*</span></label>
+                <textarea
+                  rows={2}
+                  value={completeImpactResult}
+                  onChange={(e) => setCompleteImpactResult(e.target.value)}
+                  className="univ-form-textarea"
+                  placeholder="e.g. 100% operational restoration, 2,500 citizen beneficiaries, zero complaints..."
+                  required
+                />
+              </div>
+
+              <div style={{ background: '#F0FDF4', border: '1px solid #BBF7D0', borderRadius: '8px', padding: '10px 12px', marginBottom: '16px', fontSize: '0.78rem', color: '#166534' }}>
+                This action transitions the problem to <strong>COMPLETED</strong>. Completed problems remain permanently in the database for citizen verification and historical records.
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  type="button"
+                  className="univ-btn-secondary"
+                  onClick={() => setCompleteModalOpen(false)}
+                  disabled={isCompletingLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn-primary"
+                  onClick={handleConfirmComplete}
+                  disabled={isCompletingLoading}
+                  style={{ background: '#0D9488', borderColor: '#0F766E', padding: '8px 18px' }}
+                >
+                  {isCompletingLoading ? 'Saving...' : '✓ Confirm & Mark Completed'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          LIFECYCLE MODAL 4: UPDATE PROJECT PROGRESS
+         ========================================================================= */}
+      {updateProgressModalOpen && progressProblem && (
+        <div className="modal-backdrop" onClick={() => setUpdateProgressModalOpen(false)}>
+          <div className="modal-dialog" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '480px', width: '92%' }}>
+            <div className="modal-header" style={{ background: '#059669', padding: '16px 20px', color: '#FFFFFF' }}>
+              <div>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.9, fontWeight: 700 }}>
+                  Active Project Tracking
+                </span>
+                <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginTop: '2px', color: '#FFFFFF' }}>
+                  Update Implementation Progress
+                </h3>
+              </div>
+              <button className="modal-close-btn" onClick={() => setUpdateProgressModalOpen(false)}>
+                <CloseIcon size={16} />
+              </button>
+            </div>
+
+            <div className="modal-body" style={{ padding: '20px' }}>
+              <div style={{ marginBottom: '16px', fontSize: '0.86rem' }}>
+                <strong>Project:</strong> {progressProblem.title}
+              </div>
+
+              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                  <label className="univ-form-label" style={{ margin: 0 }}>Progress Percentage</label>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#059669' }}>{progressPercent}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="5"
+                  value={progressPercent}
+                  onChange={(e) => setProgressPercent(Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#059669', cursor: 'pointer' }}
+                />
+              </div>
+
+              <div className="univ-form-group" style={{ marginBottom: '16px' }}>
+                <label className="univ-form-label">Milestone / Progress Notes</label>
+                <textarea
+                  rows={2}
+                  value={progressNotes}
+                  onChange={(e) => setProgressNotes(e.target.value)}
+                  className="univ-form-textarea"
+                  placeholder="Notes regarding recent milestone completion..."
+                />
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                <button
+                  type="button"
+                  className="univ-btn-secondary"
+                  onClick={() => setUpdateProgressModalOpen(false)}
+                  disabled={isUpdatingProgressLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn-primary"
+                  onClick={handleConfirmUpdateProgress}
+                  disabled={isUpdatingProgressLoading}
+                  style={{ background: '#059669', borderColor: '#047857', padding: '8px 18px' }}
+                >
+                  {isUpdatingProgressLoading ? 'Saving...' : 'Save Progress'}
                 </button>
               </div>
             </div>

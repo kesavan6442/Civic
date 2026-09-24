@@ -874,7 +874,7 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
         submissionDate: formData.submissionDate || new Date().toISOString().split('T')[0],
         mediaType: selectedFile ? 'image' : 'none',
         mediaUrl: uploadedUrl || '',
-        status: 'Pending Admin Review'
+        status: 'NEW'
       };
 
       const result = await problemsService.submitChallenge(payload);
@@ -924,20 +924,49 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
 
   const renderAiStatus = (item) => {
     if (item.aiStatus === 'AI_COMPLETED' || item.aiAnalysisResult || item.aiAnalysis) {
-      return <span style={{ color: '#059669', fontWeight: 700 }}> AI Analyzed</span>;
+      return <span style={{ color: '#059669', fontWeight: 700 }}>AI Analyzed</span>;
     }
-    return <span style={{ color: '#036D33', fontWeight: 600 }}> AI Triage Ready</span>;
+    return <span style={{ color: '#036D33', fontWeight: 600 }}>AI Triage Ready</span>;
   };
 
   const renderUnivStatus = (item) => {
-    if (item.adoptedByUniversity || item.assignedUniversityId || item.universityName) {
+    const st = (item.status || '').toUpperCase();
+    if (st === 'COMPLETED' || st === 'RESOLVED') {
       return (
-        <span style={{ color: '#0284C7', fontWeight: 700 }}>
-           {item.universityName || item.adoptedByUniversity || 'University Assigned'}
+        <span style={{ color: '#0D9488', fontWeight: 800 }}>
+          ✓ Resolved & Implemented ({item.completedByOrg || item.routedToOrgName || 'State Partner'})
         </span>
       );
     }
-    return <span style={{ color: '#D97706', fontWeight: 600 }}>⏳ Open for Academic Proposals</span>;
+    if (st === 'IN_PROGRESS' || st === 'APPROVED' || st === 'CURRENTLY WORKING') {
+      return (
+        <span style={{ color: '#059669', fontWeight: 700 }}>
+          In Progress ({item.projectProgress || 50}%) • {item.routedToOrgName || item.assignedTo || 'Partner'}
+        </span>
+      );
+    }
+    if (st === 'PROPOSAL_SUBMITTED' || st === 'SOLUTIONS SUBMITTED') {
+      return (
+        <span style={{ color: '#7C3AED', fontWeight: 700 }}>
+          Proposal Submitted • Under Review
+        </span>
+      );
+    }
+    if (st === 'ROUTED' || item.routedToOrgName) {
+      return (
+        <span style={{ color: '#0284C7', fontWeight: 700 }}>
+          Routed to {item.routedToOrgName || 'Partner'} • Awaiting Proposal
+        </span>
+      );
+    }
+    if (item.adoptedByUniversity || item.assignedUniversityId || item.universityName) {
+      return (
+        <span style={{ color: '#0284C7', fontWeight: 700 }}>
+          {item.universityName || item.adoptedByUniversity || 'University Assigned'}
+        </span>
+      );
+    }
+    return <span style={{ color: '#D97706', fontWeight: 600 }}>New • Pending Admin Review</span>;
   };
 
   return (
@@ -1921,13 +1950,34 @@ export const CitizenPortal = ({ lang, onToggleLang }) => {
                       </div>
                     )}
 
+                    {/* Completed Resolution Details Banner */}
+                    {(item.status === 'COMPLETED' || item.status === 'Resolved' || item.implementedSolution) && (
+                      <div style={{ background: '#F0FDF4', border: '1.5px solid #BBF7D0', borderRadius: '8px', padding: '12px 14px', margin: '10px 0', fontSize: '0.82rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#065F46', fontWeight: 800, marginBottom: '4px' }}>
+                          <span>✓ Verified Resolution Deployed</span>
+                          {item.completedAt && <span style={{ fontSize: '0.74rem', color: '#047857' }}>• {new Date(item.completedAt).toLocaleDateString('en-IN')}</span>}
+                        </div>
+                        <div style={{ color: '#166534', marginBottom: '4px', lineHeight: 1.4 }}>
+                          <strong>Implemented Solution:</strong> {item.implementedSolution || 'Engineering prototype deployed and validated on site.'}
+                        </div>
+                        {item.impactResult && (
+                          <div style={{ color: '#047857', fontSize: '0.78rem' }}>
+                            <strong>Impact & Results:</strong> {item.impactResult}
+                          </div>
+                        )}
+                        <div style={{ color: '#4B5563', fontSize: '0.74rem', marginTop: '4px' }}>
+                          Executed by: <strong>{item.completedByOrg || item.routedToOrgName || 'State Innovation Partner'}</strong>
+                        </div>
+                      </div>
+                    )}
+
                     <div className="citizen-problem-item-meta">
                       <div>{item.district || 'Ranchi'} ({item.locationAddress || 'Jharkhand'})</div>
-                      <div> {item.category || item.domain}</div>
-                      <div> {item.urgency || 'Medium'}</div>
+                      <div>{item.category || item.domain}</div>
+                      <div>{item.urgency || 'Medium'}</div>
                       <div>{renderAiStatus(item)}</div>
-                      <div> {renderUnivStatus(item)}</div>
-                      <div> {item.submissionDate || 'Recent'}</div>
+                      <div>{renderUnivStatus(item)}</div>
+                      <div>{item.submissionDate || 'Recent'}</div>
                     </div>
                   </div>
                 ))}

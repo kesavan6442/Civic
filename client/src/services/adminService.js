@@ -1434,6 +1434,56 @@ export const adminService = {
       body: JSON.stringify(payload)
     });
     return await res.json();
+  },
+
+  // 31. Problem Lifecycle: Route Problem to University / Industry
+  async routeProblem(problemId, payload = {}) {
+    const res = await this.adminFetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/route`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  },
+
+  // 32. Problem Lifecycle: Approve Submitted Proposal
+  async approveProblemProposal(problemId, payload = {}) {
+    const res = await this.adminFetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/approve-proposal`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  },
+
+  // 33. Problem Lifecycle: Reject Submitted Proposal
+  async rejectProblemProposal(problemId, payload = {}) {
+    const res = await this.adminFetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/reject-proposal`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  },
+
+  // 34. Problem Lifecycle: Mark Problem as Completed
+  async completeProblemLifecycle(problemId, payload = {}) {
+    const res = await this.adminFetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/complete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  },
+
+  // 35. Problem Lifecycle: Update Project Progress
+  async updateProblemProgress(problemId, payload = {}) {
+    const res = await this.adminFetch(`${API_BASE_URL}/admin/problems/${encodeURIComponent(problemId)}/update-progress`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
   }
 };
 

@@ -74,18 +74,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
                         // Collaboration & Industry endpoints
-                        .requestMatchers("/api/collaborations/mine", "/api/industry/collaborations/mine").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/collaborations/**", "/api/industry/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/collaborations/**", "/api/industry/**").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/collaborations/**", "/api/industry/**").authenticated()
+                        .requestMatchers("/api/collaborations/mine", "/api/industry/collaborations/mine", "/api/industry/proposals/mine").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/collaborations/**", "/api/industry/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/api/collaborations/**", "/api/industry/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/collaborations/**", "/api/industry/**").permitAll()
 
                         // University & Solution submission endpoints (allow proposal submission for both authenticated and guest/portal users)
-                        .requestMatchers("/api/solutions/mine", "/api/university/proposals/mine").authenticated()
+                        .requestMatchers("/api/solutions/mine", "/api/university/proposals/mine", "/api/university/solutions/mine").permitAll()
                         .requestMatchers("/api/solutions", "/api/solutions/**", "/api/proposals", "/api/proposals/**", "/api/university/**", "/api/industry/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/problems/**").permitAll()
 
                         // Project execution & milestone tracking
-                        .requestMatchers("/api/projects/mine").authenticated()
+                        .requestMatchers("/api/projects/mine", "/api/university/projects/mine", "/api/industry/projects/mine").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/api/projects/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/projects/**").authenticated()

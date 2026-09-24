@@ -280,4 +280,46 @@ public class Problem {
     public void setLatestCollaborationReport(Map<String, Object> latestCollaborationReport) { this.latestCollaborationReport = latestCollaborationReport; }
     public String getResolvedAt() { return resolvedAt; }
     public void setResolvedAt(String resolvedAt) { this.resolvedAt = resolvedAt; }
+
+    // Explicit Lifecycle Fields (NEW -> ROUTED -> PROPOSAL_SUBMITTED -> APPROVED -> IN_PROGRESS -> COMPLETED)
+    private String routedAt;
+    private String routedToOrgId;
+    private String routedToOrgName;
+    private String routedToOrgType;
+    private String proposalSubmittedAt;
+    private String proposalSubmittedBy;
+    private Integer projectProgress;
+    private String completedAt;
+    private String implementedSolution;
+    private String impactResult;
+    private String completedByOrg;
+    private Map<String, Object> proposal;
+    private Map<String, Object> approvedProposal;
+
+    public String getRoutedAt() { return routedAt; }
+    public void setRoutedAt(String routedAt) { this.routedAt = routedAt; }
+    public String getRoutedToOrgId() { return routedToOrgId; }
+    public void setRoutedToOrgId(String routedToOrgId) { this.routedToOrgId = routedToOrgId; }
+    public String getRoutedToOrgName() { return routedToOrgName; }
+    public void setRoutedToOrgName(String routedToOrgName) { this.routedToOrgName = routedToOrgName; }
+    public String getRoutedToOrgType() { return routedToOrgType; }
+    public void setRoutedToOrgType(String routedToOrgType) { this.routedToOrgType = routedToOrgType; }
+    public String getProposalSubmittedAt() { return proposalSubmittedAt; }
+    public void setProposalSubmittedAt(String proposalSubmittedAt) { this.proposalSubmittedAt = proposalSubmittedAt; }
+    public String getProposalSubmittedBy() { return proposalSubmittedBy; }
+    public void setProposalSubmittedBy(String proposalSubmittedBy) { this.proposalSubmittedBy = proposalSubmittedBy; }
+    public Integer getProjectProgress() { return projectProgress; }
+    public void setProjectProgress(Integer projectProgress) { this.projectProgress = projectProgress; }
+    public String getCompletedAt() { return completedAt; }
+    public void setCompletedAt(String completedAt) { this.completedAt = completedAt; }
+    public String getImplementedSolution() { return implementedSolution; }
+    public void setImplementedSolution(String implementedSolution) { this.implementedSolution = implementedSolution; }
+    public String getImpactResult() { return impactResult; }
+    public void setImpactResult(String impactResult) { this.impactResult = impactResult; }
+    public String getCompletedByOrg() { return completedByOrg; }
+    public void setCompletedByOrg(String completedByOrg) { this.completedByOrg = completedByOrg; }
+    public Map<String, Object> getProposal() { return proposal; }
+    public void setProposal(Map<String, Object> proposal) { this.proposal = proposal; }
+    public Map<String, Object> getApprovedProposal() { return approvedProposal; }
+    public void setApprovedProposal(Map<String, Object> approvedProposal) { this.approvedProposal = approvedProposal; }
 }
