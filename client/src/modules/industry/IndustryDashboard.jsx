@@ -346,11 +346,14 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
 
       {/* 1. TOPBAR HEADER */}
       <header className="admin-topbar">
-        <div className="admin-topbar-left" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="admin-topbar-left">
           <button
             type="button"
             className="admin-sidebar-toggle-btn"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            onClick={() => {
+              setSidebarCollapsed(!sidebarCollapsed);
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
             title={sidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             aria-label="Toggle Navigation Sidebar"
           >
@@ -361,42 +364,43 @@ export const IndustryDashboard = ({ user, onLogout, onBackToLanding }) => {
             </svg>
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <JharkhandCrest size={32} />
+          {/* Crest & Title */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <JharkhandCrest size={28} />
             <div>
-              <div style={{ fontSize: '1.05rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.2px', lineHeight: 1.1 }}>
+              <div style={{ fontSize: '1.02rem', fontWeight: 900, color: '#FFFFFF', letterSpacing: '-0.2px', lineHeight: 1.1 }}>
                 CivicConnect
               </div>
-              <div style={{ fontSize: '0.68rem', color: '#D1FAE5', fontWeight: 600 }}>
+              <div style={{ fontSize: '0.66rem', color: '#D1FAE5', fontWeight: 600 }}>
                 Govt. of Jharkhand
               </div>
             </div>
           </div>
 
-          <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.25)', margin: '0 4px' }} />
+          <div className="header-divider" style={{ width: '1px', height: '22px', background: 'rgba(255, 255, 255, 0.25)', margin: '0 4px' }} />
 
-          <div>
-            <div style={{ fontSize: '0.96rem', fontWeight: 800, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="header-entity-info">
+            <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>{displayName}</span>
-              <span style={{ fontSize: '0.74rem', background: 'rgba(255, 255, 255, 0.2)', color: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.35)', padding: '2px 8px', borderRadius: '6px', fontWeight: 800 }}>
+              <span style={{ fontSize: '0.72rem', background: 'rgba(255, 255, 255, 0.2)', color: '#FFFFFF', border: '1px solid rgba(255, 255, 255, 0.35)', padding: '2px 8px', borderRadius: '6px', fontWeight: 800 }}>
                 CSR Command Center
               </span>
             </div>
-            <div style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.82)' }}>
+            <div className="header-sub-text" style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.82)' }}>
               Industries & CSR Dept • Government of Jharkhand
             </div>
           </div>
         </div>
 
         <div className="admin-topbar-right">
-          <span className="admin-topbar-badge">
+          <span className="admin-topbar-badge desktop-only">
             🇮🇳 Industry Partner Portal
           </span>
 
           <button
             type="button"
             onClick={() => navigate('/industry/problems')}
-            className="admin-topbar-btn"
+            className="admin-topbar-btn overview-btn"
           >
             View Problems
           </button>
