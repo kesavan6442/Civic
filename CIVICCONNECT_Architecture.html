@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; }
+  body {
+    width: 1920px;
+    height: 1080px;
+    background: #F1F5F9;
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  
+  /* Top Banner */
+  .header-banner {
+    background: linear-gradient(135deg, #0A192F 0%, #1E3A8A 100%);
+    border-radius: 14px;
+    padding: 16px 24px;
+    text-align: center;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    margin-bottom: 16px;
+  }
+  .header-title {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .header-subtitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #93C5FD;
+    margin-bottom: 4px;
+  }
+  .header-tags {
+    font-size: 13.5px;
+    color: #E2E8F0;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Grid Rows */
+  .row-3-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+  
+  .row-wide {
+    margin-bottom: 14px;
+  }
+  
+  /* Card Styling */
+  .card {
+    border-radius: 12px;
+    border-width: 1.5px;
+    border-style: solid;
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  
+  .badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    font-weight: 900;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  
+  .card-title {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  
+  .card-body {
+    padding: 12px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .bullet-item {
+    font-size: 13.5px;
+    color: #1E293B;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+  .bullet-dot {
+    color: #64748B;
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  
+  /* Colors */
+  /* 1. Yellow/Amber */
+  .card-1 { border-color: #FCD34D; background: #FFFBEB; }
+  .card-1 .card-header { background: #FEF3C7; }
+  .card-1 .badge { background: #D97706; }
+  .card-1 .card-title { color: #92400E; }
+  
+  /* 2. Green */
+  .card-2 { border-color: #A7F3D0; background: #ECFDF5; }
+  .card-2 .card-header { background: #D1FAE5; }
+  .card-2 .badge { background: #059669; }
+  .card-2 .card-title { color: #065F46; }
+  
+  /* 3. Orange */
+  .card-3 { border-color: #FDBA74; background: #FFF7ED; }
+  .card-3 .card-header { background: #FFEDD5; }
+  .card-3 .badge { background: #EA580C; }
+  .card-3 .card-title { color: #9A3412; }
+  
+  /* 4. Blue Wide */
+  .card-4 { border-color: #93C5FD; background: #EFF6FF; }
+  .card-4 .card-header { background: #DBEAFE; }
+  .card-4 .badge { background: #2563EB; }
+  .card-4 .card-title { color: #1E40AF; }
+  
+  .wide-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .sub-box {
+    background: #FFFFFF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .sub-box-title {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #1E3A8A;
+    margin-bottom: 4px;
+  }
+  .sub-box-desc {
+    font-size: 11.5px;
+    color: #475569;
+    line-height: 1.3;
+  }
+  
+  /* 5. Pink */
+  .card-5 { border-color: #FBCFE8; background: #FDF2F8; }
+  .card-5 .card-header { background: #FCE7F3; }
+  .card-5 .badge { background: #DB2777; }
+  .card-5 .card-title { color: #9D174D; }
+  
+  /* 6. Gold/Warm Amber */
+  .card-6 { border-color: #FDE68A; background: #FFFBEB; }
+  .card-6 .card-header { background: #FEF3C7; }
+  .card-6 .badge { background: #D97706; }
+  .card-6 .card-title { color: #92400E; }
+  
+  /* 7. Purple */
+  .card-7 { border-color: #DDD6FE; background: #F5F3FF; }
+  .card-7 .card-header { background: #EDE9FE; }
+  .card-7 .badge { background: #7C3AED; }
+  .card-7 .card-title { color: #5B21B6; }
+  
+  /* 8. Light Blue */
+  .card-8 { border-color: #BAE6FD; background: #F0F9FF; }
+  .card-8 .card-header { background: #E0F2FE; }
+  .card-8 .badge { background: #0284C7; }
+  .card-8 .card-title { color: #075985; }
+  
+  /* 9. Coral / Red */
+  .card-9 { border-color: #FECACA; background: #FEF2F2; }
+  .card-9 .card-header { background: #FEE2E2; }
+  .card-9 .badge { background: #DC2626; }
+  .card-9 .card-title { color: #991B1B; }
+  
+  /* 10. Emerald Teal */
+  .card-10 { border-color: #A7F3D0; background: #ECFDF5; }
+  .card-10 .card-header { background: #D1FAE5; }
+  .card-10 .badge { background: #059669; }
+  .card-10 .card-title { color: #065F46; }
+
+  .connector-arrow {
+    display: inline-block;
+    color: #64748B;
+    font-size: 18px;
+    font-weight: 900;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Header Banner -->
+  <div class="header-banner">
+    <div class="header-title">CIVICCONNECT / JH-INNOVATE</div>
+    <div class="header-subtitle">AI & MCP-Powered Civic Grievance Triage, R&D Matchmaking & Resolution Platform</div>
+    <div class="header-tags">Multi-Layer AI Forensics &bull; Model Context Protocol (MCP) Decision Tools &bull; Smart Matchmaking &bull; Continuous SLA Audit</div>
+  </div>
+
+  <!-- Row 1 (Steps 1, 2, 3) -->
+  <div class="row-3-col">
+    <!-- Card 1 -->
+    <div class="card card-1">
+      <div class="card-header">
+        <div class="badge">1</div>
+        <div class="card-title">Civic Problem Input</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Live Citizen Report:</strong> Web & Mobile Portal</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>GPS Geolocation:</strong> Locked Lat/Long (&plusmn;5m)</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>On-Site Camera Evidence:</strong> Live capture</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Multilingual Text:</strong> Hindi & English inputs</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Zero Login Barrier:</strong> Frictionless access</span></div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card card-2">
+      <div class="card-header">
+        <div class="badge">2</div>
+        <div class="card-title">Preprocessing & Validation</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Geofence Validation:</strong> Boundary geocoding</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>EXIF & Resolution Check:</strong> Metadata verification</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Scene Lighting Check:</strong> Underexposure/blur filter</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Text Normalization:</strong> Strips noise & cleans input</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Proximity Clustering:</strong> 200m spatial group</span></div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card card-3">
+      <div class="card-header">
+        <div class="badge">3</div>
+        <div class="card-title">Real-Time AI Forensics</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>ELA Tamper Check:</strong> Error Level Analysis</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Deepfake & Screen Check:</strong> Rejects photo of screen</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Noise Variance:</strong> Pixel artifact analysis</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Inconsistency Scoring:</strong> Compression ratio</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Authenticity Score:</strong> 0&ndash;100% integrity index</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2 (Step 4: Wide Span) -->
+  <div class="row-wide">
+    <div class="card card-4">
+      <div class="card-header">
+        <div class="badge">4</div>
+        <div class="card-title">Multi-Layer AI & MCP Forensic Analysis</div>
+      </div>
+      <div class="wide-grid">
+        <div class="sub-box">
+          <div class="sub-box-title">Semantic Duplicate</div>
+          <div class="sub-box-desc">Sentence-Transformers cluster recurring neighborhood complaints into Master Problems.</div>
+        </div>
+        <div class="sub-box">
+          <div class="sub-box-title">Domain NLP</div>
+          <div class="sub-box-desc">Classifies into 11 civic sectors: Water, Roads, Health, Agri, Sanitation, Energy, etc.</div>
+        </div>
+        <div class="sub-box">
+          <div class="sub-box-title">Urgency & Priority</div>
+          <div class="sub-box-desc">Auto-prioritizes hazards: Critical (Safety Risk), High (Disruption), Medium, Low.</div>
+        </div>
+        <div class="sub-box">
+          <div class="sub-box-title">MCP Decision Tools</div>
+          <div class="sub-box-desc">Model Context Protocol tools for automated triage, SLA audit & dispatch recommendations.</div>
+        </div>
+        <div class="sub-box">
+          <div class="sub-box-title">Synergy & Feasibility</div>
+          <div class="sub-box-desc">Evaluates cross-domain collaboration viability between university and industry proposals.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3 (Steps 5, 6, 7) -->
+  <div class="row-3-col">
+    <!-- Card 5 -->
+    <div class="card card-5">
+      <div class="card-header">
+        <div class="badge">5</div>
+        <div class="card-title">Partner Matchmaking</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Academic Lab Matching:</strong> Department capability</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Domain Expertise:</strong> Faculty & student teams</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Proximity Ranking:</strong> Prioritizes district colleges</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>CSR Synergy:</strong> Aligns with industry focus</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Compatibility Score:</strong> Multi-factor ranking</span></div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card card-6">
+      <div class="card-header">
+        <div class="badge">6</div>
+        <div class="card-title">Proposals & CSR Co-Funding</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>University Proposals:</strong> Engineering R&D plans</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Technical Milestones:</strong> Timeline & budget breakdown</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Industry CSR Grants:</strong> Private co-funding pledges</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>MCP Multi-Proposal:</strong> Automated comparison</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Admin Gateways:</strong> Gate 1 & 2 review & approval</span></div>
+      </div>
+    </div>
+
+    <!-- Card 7 -->
+    <div class="card card-7">
+      <div class="card-header">
+        <div class="badge">7</div>
+        <div class="card-title">Lifecycle & Work Order Engine</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Spring Boot 3.4:</strong> Robust REST API & Gateway</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>State Machine:</strong> NEW &rarr; ROUTED &rarr; COMPLETED</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Role-Based Access:</strong> Stateless JWT security</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Task Allocation:</strong> Real-time work assignments</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Milestone Ledger:</strong> Document & progress store</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4 (Steps 8, 9, 10) -->
+  <div class="row-3-col">
+    <!-- Card 8 -->
+    <div class="card card-8">
+      <div class="card-header">
+        <div class="badge">8</div>
+        <div class="card-title">Dynamic SLA Delay Radar</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Milestone Velocity:</strong> Real-time progress tracker</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Delay Risk Score (0&ndash;100):</strong> Predictive index</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>SLA Breach Forecast:</strong> Early risk detection</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Trajectory Health:</strong> Green / Yellow / Red status</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Explainable Alerts:</strong> Root-cause risk factors</span></div>
+      </div>
+    </div>
+
+    <!-- Card 9 -->
+    <div class="card card-9">
+      <div class="card-header">
+        <div class="badge">9</div>
+        <div class="card-title">AI & Admin Decision Engine</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Decision Gateways:</strong> Gate 1 (Triage) & Gate 2 (Collab)</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>APPROVE (0&ndash;30):</strong> Low risk, direct execution</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>REVIEW (31&ndash;70):</strong> Request info / revision</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>ESCALATE (71&ndash;100):</strong> Warning & admin directive</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Escrow Release:</strong> Authorizes CSR fund tranches</span></div>
+      </div>
+    </div>
+
+    <!-- Card 10 -->
+    <div class="card card-10">
+      <div class="card-header">
+        <div class="badge">10</div>
+        <div class="card-title">Resolution & Field Audit</div>
+      </div>
+      <div class="card-body">
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Verified Resolution:</strong> Completed physical works</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Photo Evidence Audit:</strong> Before/After verification</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Citizen Redressal:</strong> Live tracking update</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>MongoDB Record:</strong> Permanent immutable impact log</span></div>
+        <div class="bullet-item"><span class="bullet-dot">&bull;</span><span><strong>Public Dashboards:</strong> Open state governance SLA</span></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
