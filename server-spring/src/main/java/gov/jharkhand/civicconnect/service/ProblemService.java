@@ -131,8 +131,8 @@ public class ProblemService {
             ).collect(Collectors.toList());
         }
 
-        // Enrich with solutions, 90-day SLA deadline, collaborations
-        return list.stream().map(this::enrichProblem).collect(Collectors.toList());
+        // Enrich with solutions, 90-day SLA deadline, collaborations in a single batch
+        return enrichProblemsBatch(list);
     }
 
     public Problem getProblemById(String id) {
@@ -364,6 +364,52 @@ public class ProblemService {
         }
 
         return info;
+    }
+
+    public List<Problem> enrichProblemsBatch(List<Problem> list) {
+        if (list == null || list.isEmpty()) return Collections.emptyList();
+
+        List<Solution> allSolutions = solutionRepository.findAll();
+        Map<String, List<Solution>> solutionsByProblem = allSolutions.stream()
+                .filter(s -> s.getProblemId() != null)
+                .collect(Collectors.groupingBy(Solution::getProblemId));
+
+        List<Collaboration> allCollabs = collaborationRepository.findAll();
+        Map<String, List<Collaboration>> collabsByProblem = allCollabs.stream()
+                .filter(c -> c.getProblemId() != null)
+                .collect(Collectors.groupingBy(Collaboration::getProblemId));
+
+        List<Assignment> allAssignments = assignmentRepository.findAll();
+        Map<String, Assignment> assignmentsByProblem = allAssignments.stream()
+                .filter(a -> a.getProblemId() != null)
+                .collect(Collectors.toMap(Assignment::getProblemId, a -> a, (a1, a2) -> a1));
+
+        for (Problem p : list) {
+            String pid = p.getId();
+            List<Solution> pSolutions = solutionsByProblem.getOrDefault(pid, Collections.emptyList());
+            List<Collaboration> pCollabs = collabsByProblem.getOrDefault(pid, Collections.emptyList());
+            Assignment asgn = assignmentsByProblem.get(pid);
+
+            p.setSolutionsCount(pSolutions.size());
+            p.setSolutions(pSolutions);
+            p.setIndustryCollaborations(pCollabs);
+
+            if (asgn != null) {
+                DeadlineInfo dInfo = calculateDeadlineInfo(asgn.getDeadlineDate(), asgn.getSlaTimelineDays() != null ? asgn.getSlaTimelineDays() : 90);
+                p.setDeadlineInfo(dInfo);
+                p.setAssignedTo(Map.of(
+                        "universityId", asgn.getUniversityId() != null ? asgn.getUniversityId() : "",
+                        "universityName", asgn.getUniversityName() != null ? asgn.getUniversityName() : "",
+                        "assignedDate", asgn.getAssignedDate() != null ? asgn.getAssignedDate() : "",
+                        "deadlineDate", asgn.getDeadlineDate() != null ? asgn.getDeadlineDate() : "",
+                        "slaTimelineDays", asgn.getSlaTimelineDays() != null ? asgn.getSlaTimelineDays() : 90,
+                        "solutionTitle", asgn.getSolutionTitle() != null ? asgn.getSolutionTitle() : "",
+                        "status", asgn.getStatus() != null ? asgn.getStatus() : ""
+                ));
+            }
+        }
+
+        return list;
     }
 
     public Problem enrichProblem(Problem p) {

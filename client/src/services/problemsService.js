@@ -1260,11 +1260,15 @@ export const problemsService = {
     return fallbackSol;
   },
 
-  // Get all submitted solutions (both university & industry) for a problem
-  async getSolutions(problemId) {
+  // Get all submitted solutions (both university & industry) for a problem or current user
+  async getSolutions(param = null, user = null) {
+    let problemId = typeof param === 'string' ? param : null;
     try {
       const headers = authService.getAuthHeaders();
-      const url = problemId ? `${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}` : `${API_BASE_URL}/solutions`;
+      let url = `${API_BASE_URL}/solutions`;
+      if (problemId) {
+        url = `${API_BASE_URL}/solutions/problem/${encodeURIComponent(problemId)}`;
+      }
       const res = await fetchWithTimeout(url, { headers });
       if (res.ok) {
         const data = await res.json();
@@ -1272,13 +1276,20 @@ export const problemsService = {
           return data.data;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.warn('Backend getSolutions notice:', e.message);
+    }
 
     const localProposals = getStoredProposals();
     if (problemId) {
       return localProposals.filter(p => p.problemId === problemId);
     }
     return localProposals;
+  },
+
+  // Alias for getSolutions used by university and industry modules
+  async getProposals(filter = {}, user = null) {
+    return this.getSolutions(filter, user);
   },
 
   // Admin combines university with industry
